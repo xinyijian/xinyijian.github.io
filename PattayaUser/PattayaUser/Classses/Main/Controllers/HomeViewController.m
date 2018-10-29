@@ -29,7 +29,7 @@
 //#import "UpdateObject.h"
 //#import "ProtocolKit.h"
 //#import "NSMutableDictionary+SetModelRequest.h"
-
+#import "PattAmapLocationManager.h"
 #import "YDCycleScrollView.h"
 @interface HomeViewController ()  <UIScrollViewDelegate,XLCardSwitchDelegate>
 
@@ -72,7 +72,7 @@
 
 #pragma mark - 初始化UI
 - (void)setupUI{
-    
+    WS(weakSelf);
     [super setupUI];
     
     [self.view addSubview:self.scrollView];
@@ -109,6 +109,11 @@
         NSLog(@"刷新");
         [self netRequestData];
     }];
+    [PattAmapLocationManager singleton].locationBlock = ^(CLLocation *location, NSString *address) {
+        weakSelf.locationLabel.text = address;
+        [weakSelf netRequestData];
+
+    };
 //
 //    [self setupRequest];
 }
