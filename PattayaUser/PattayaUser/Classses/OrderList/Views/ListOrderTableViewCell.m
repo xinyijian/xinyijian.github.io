@@ -94,7 +94,7 @@
     //商品图片。最多五个
     for (int i = 0; i < 5; i++) {
         UIImageView * image = [[UIImageView alloc]init];
-        image.image = [UIImage imageNamed:@"orderlist_cell_bg"];
+//        image.image = [UIImage imageNamed:@"orderlist_cell_bg"];
        // image.frame = CGRectMake(13 + (15+34)*i , _lineView.YD_bottom + 10, 34, 34);
         [bgView addSubview:image];
         [image activateConstraints:^{
@@ -103,7 +103,7 @@
             image.height_attr.constant = 34;
             image.width_attr.constant = 34;
         }];
-       // [_arrayLaber addObject:image];
+        [_arrayLaber addObject:image];
     }
     
     //arrow
@@ -184,7 +184,25 @@
 
 - (void)setArrayImage:(NSMutableArray *)arrayImage
 {
-
+    _arrayImage = arrayImage;
+    if (arrayImage.count > 0) {
+        for (int i = 0; i < arrayImage.count; i ++) {
+            if (i == _arrayLaber.count) {
+                break;
+            }
+            UIImageView * image = _arrayLaber[i];
+            [image sd_setImageWithURL:[NSURL URLWithString:arrayImage[i]] placeholderImage:[UIImage imageNamed:@"orderlist_cell_bg"]];
+            image.hidden = NO;
+        }
+        
+    } else
+    {
+        for (UIImageView * image in _arrayLaber) {
+            image.hidden = YES;
+        }
+        
+        
+    }
 }
 
 - (void)setModel:(ListOrderModel *)model
@@ -206,14 +224,14 @@
         NSString * st2 = NSLocalizedString(@"件商品",nil);
         NSString * st3 = NSLocalizedString(@"实付",nil);
         NSString * st4 = NSLocalizedString(@"元",nil);
+        _countLabel.text = [NSString stringWithFormat:@"共%ld件商品",_model.detailList.count];
         _picesLabel.text = [NSString stringWithFormat:@"%@%ld%@，%@%.2f%@",st1,
                             _model.detailList.count,st2,st3,
                             _model.orderTotal.doubleValue,st4];
-        for (UIImageView * imageTyp in _arrayLaber) {
-            [imageTyp removeFromSuperview];
-        }
-        _arrayLaber = [NSMutableArray array];
-        
+//        for (UIImageView * imageTyp in _arrayLaber) {
+//            [imageTyp removeFromSuperview];
+//        }
+//
         self.arrayImage = model.gseImgUrl;
     }
 }

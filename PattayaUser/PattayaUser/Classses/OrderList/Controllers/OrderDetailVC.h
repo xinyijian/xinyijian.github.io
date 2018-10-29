@@ -7,10 +7,13 @@
 //
 
 #import "YDBaseTBController.h"
+#import "OrderListModel.h"
 
 @interface OrderDetailVC : YDBaseTBController
 
 @property (nonatomic,assign) NSInteger enterType;
+@property (nonatomic,strong) ListOrderModel * list;
+//@property (nonatomic,strong) NSString * list;
 
 
 @end

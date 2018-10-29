@@ -33,11 +33,13 @@
 
 -(void)setupUI{
     [super setupUI];
+    _pageSize = 1;
     self.navigationItem.title = @"我的订单";
-    self.tableView.frame = CGRectMake(0, IPhone_7_Scale_Height(50), KScreenWidth, KScreenHeight - IPhone_7_Scale_Height(50) - TopBarHeight - SafeAreaBottomHeight);
+    self.tableView.frame = CGRectMake(0, IPhone_7_Scale_Height(50), KScreenWidth, KScreenHeight - IPhone_7_Scale_Height(50) - TopBarHeight - SafeAreaBottomHeight - IPhone_7_Scale_Height(50));
     [self.tableView setSeparatorColor:App_TotalGrayWhite];
     //创建顶部菜单视图
     [self createTopMenuView];
+    [self ConsumeOrderHttp];
 }
 #pragma mark - 创建顶部菜单视图
 //创建顶部菜单视图
@@ -188,7 +190,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return _listModel.list.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -239,8 +241,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OrderDetailVC * vc = [[OrderDetailVC alloc]init];
-    vc.enterType = indexPath.row;
-    //vc.model =_listModel.list[indexPath.row];
+    ListOrderModel * detail =_listModel.list[indexPath.row];
+    if (detail.detailList.count < 0 || detail.detailList.count == 0) {
+        vc.enterType = 1;
+    } else{
+        vc.enterType = 0;
+    }
+        
+    
+//    vc.enterType = indexPath.row;
+    vc.list =_listModel.list[indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
