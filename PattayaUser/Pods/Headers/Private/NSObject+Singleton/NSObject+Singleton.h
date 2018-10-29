@@ -1,1 +1,0 @@
-../../../NSObject+Singleton/NSObject+Singleton.h
