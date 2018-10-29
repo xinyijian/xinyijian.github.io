@@ -115,6 +115,23 @@
     
 }
 
+- (void)setItem:(detailListModel *)item{
+    _item = item;
+    _productNameLabel.text =  item.productName;
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:item.productPrice];
+    [attrString addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:[item.productPrice rangeOfString:@"things"]];
+    [attrString addAttribute:NSStrikethroughColorAttributeName value:UIColorFromRGB(0x979797) range:[item.productPrice rangeOfString:@"things"]];
+    
+    _originalPriceLabel.attributedText = attrString;
+    [_originalPriceLabel sizeToFit];
+    [_productImgView sd_setImageWithURL:[NSURL URLWithString:item.gdsImagePath] placeholderImage:[UIImage imageNamed:@"orderlist_cell_bg"]];
+    _priceLabel.text = item.retailPriceShow;
+    _countLab.text =[NSString stringWithFormat:@"x%@ %@",item.number,item.productUnit];
+
+    NSLog(@"item = %@",item);
+}
+
 -(void)hiddenSomeViews{
     self.countLab.hidden = YES;
     self.originalPriceLabel.hidden = YES;

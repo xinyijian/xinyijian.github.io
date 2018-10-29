@@ -21,10 +21,9 @@
 {
     _gseImgUrl = [NSMutableArray array];
     for (detailListModel * mode in self.detailList) {
-        if ([PattayaTool isNull:mode.gdsImagePath]) {
-            mode.gdsImagePath = @"AD";
+        if (![PattayaTool isNull:mode.gdsImagePath]) {
+            [_gseImgUrl addObject:mode.gdsImagePath];
             }
-        [_gseImgUrl addObject:mode.gdsImagePath];
 
     }
 }

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OrderListModel.h"
 
 @interface PaymentOrderCell : UITableViewCell
 
@@ -21,6 +22,7 @@
 @property (nonatomic,strong) UILabel *originalPriceLabel;
 /// 数量
 @property (nonatomic,strong) UILabel *countLab;
+@property (nonatomic,strong) detailListModel *item;
 
 
 //隐藏部分视图

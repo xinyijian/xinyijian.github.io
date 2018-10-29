@@ -59,7 +59,23 @@
         _detailLabel.centerY_attr = bgView.centerY_attr;
     }];
     
-    
 }
+
+- (void)setTitle:(NSString *)title{
+    _title = title;
+    if (_title) {
+        _titleLabel.text = title;
+        
+    }
+}
+
+- (void)setDetailTitle:(NSString *)DetailTitle{
+    _DetailTitle = DetailTitle;
+    if (_DetailTitle) {
+        _detailLabel.text = _DetailTitle;
+
+    }
+}
+
 
 @end
