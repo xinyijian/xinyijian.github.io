@@ -9,7 +9,12 @@
 #import "ShopActionSheetView.h"
 #import "ShopActionSheetCell.h"
 
-@interface ShopActionSheetView()<UITableViewDelegate,UITableViewDataSource>
+@interface ShopActionSheetView()<UITableViewDelegate,UITableViewDataSource,ShopActionSheetCellDelegate>
+{
+    int totalCount;
+}
+
+@property (nonatomic , strong)NSMutableArray *dataArray;//显示数据
 
 @end
 
@@ -20,6 +25,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+        _dataArray = [NSMutableArray arrayWithCapacity:0];
         [self initViews];
        
     }
@@ -52,14 +58,25 @@
 }
 
 //展示视图
--(void)showView{
+-(void)showViewWith:(ShopModel*)shopModel{
+    _shopModel = shopModel;
+    [_dataArray removeAllObjects];
+    for (ProductModel *model in shopModel.goodsList) {
+        if ([model.selectCount intValue] > 0) {
+            [_dataArray addObject:model];
+        }
+    }
+    
+    if (_dataArray.count==0) {
+        return;
+    }
     
     [UIView animateWithDuration:0.3 animations:^{
         self.hidden = NO;
-        self.tableView.frame = CGRectMake(0, self.height - (60*3 + 37 + 21) ,self.width, 60*3 + 37 + 21);
+        self.tableView.frame = CGRectMake(0, self.height - (60*(_dataArray.count > 6 ? 6 :_dataArray.count) + 37 + 21) ,self.width, 60*(_dataArray.count > 6 ? 6 :_dataArray.count) + 37 + 21);
         
     } completion:^(BOOL finished) {
-        
+        [self.tableView reloadData];
     }];
 }
 
@@ -71,7 +88,7 @@
 #pragma mark - UITableViewDelegate,UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return _dataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -117,8 +134,19 @@
     return bgView;
     
 }
+
+#pragma mark - 清空
 -(void)clearAllClick:(UIButton *)btn{
-    NSLog(@"清除");
+    NSLog(@"清空");
+    for (ProductModel *model in _dataArray) {
+        model.selectCount = [NSString stringWithFormat:@"%d",0];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeselectcount" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadRightTableView" object:nil];
+
+    [self hiddenView];
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,6 +159,8 @@
         cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0 );
     }
 
+    cell.delegate = self;
+    cell.productModel = _dataArray[indexPath.row];
     return cell;
     
 }
@@ -140,5 +170,26 @@
    
     
 }
+
+
+#pragma mark - ShopActionSheetCellDelegate
+-(void)ShopActionSheet:(ShopActionSheetCell *)ShopActionSheet showShopCount:(NSInteger)count{
+    
+    if (count == 0) {
+        
+        totalCount = 0;
+        for (ProductModel *model in _shopModel.goodsList) {
+            totalCount = [model.selectCount intValue] + totalCount;
+        }
+        if (totalCount==0) {
+            [self hiddenView];
+        }else{
+            [self showViewWith:_shopModel];
+        }
+        
+        
+    }
+}
+
 
 @end

@@ -12,7 +12,6 @@
 #import "ShopMainVC.h"
 #import "SearchVC.h"
 #import "ScanVC.h"
-#import "MainModel.h"
 //#import "HomeViewHead.h"
 //#import "HomeTableViewCell.h"
 #import "SeacherViewController.h"
@@ -72,7 +71,7 @@
 
 #pragma mark - 初始化UI
 - (void)setupUI{
-    WS(weakSelf);
+    
     [super setupUI];
     
     [self.view addSubview:self.scrollView];
@@ -108,22 +107,23 @@
     [YDRefresh yd_headerRefresh:_scrollView headerBlock:^{
         NSLog(@"刷新");
         [self netRequestData];
+        [YDRefresh yd_endHeaderRefresh:_scrollView];
+        
     }];
-    [PattAmapLocationManager singleton].locationBlock = ^(CLLocation *location, NSString *address) {
-        weakSelf.locationLabel.text = address;
-        [weakSelf netRequestData];
-
-    };
+    
+  
 //
 //    [self setupRequest];
 }
 
 -(void)netRequestData{
     
-    NSLog(@"===%@",[PattAmapLocationManager singleton].address);
-    [[PattAmapLocationManager singleton] requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
-        NSLog(@"===%@",location);
-    }];
+    WS(weakSelf);
+    [PattAmapLocationManager singleton].locationBlock = ^(CLLocation *location, NSString *address) {
+        weakSelf.locationLabel.text = address;
+        //[weakSelf netRequestData];
+        
+    };
     
    
     [[PattayaUserServer singleton]  SeachStoreCodeRequest:nil success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
@@ -136,9 +136,7 @@
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
           [self handleNetReslut:YDNetResultFaiure];
     }];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    
-//    });
+
 }
 
 
@@ -320,20 +318,5 @@
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

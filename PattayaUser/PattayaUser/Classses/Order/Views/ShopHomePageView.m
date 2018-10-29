@@ -60,11 +60,20 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gestureStateBegan:) name:@"GestureRecognizerStateBegan" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gestureStateEnd:) name:@"GestureRecognizerStateEnded" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bottomShoppingCartMethod:) name:@"bottomShopCartOffsetY" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRightTableView) name:@"reloadRightTableView" object:nil];
+
     }
     return self;
 }
 
 #pragma mark ---通知方法
+//清空刷新
+-(void)reloadRightTableView{
+    [self.rightTabView reloadData];
+    
+}
+
 - (void)gestureStateBegan:(NSNotification *)not{
     
     BOOL isMore = _currentSubView.contentOffset.y >= (_currentSubView.contentSize.height - _currentSubView.height);
@@ -102,7 +111,7 @@
 //}
 
 #pragma mark - get/set方法
-- (void)setShopModel:(NewShopModel *)shopModel{
+- (void)setShopModel:(ShopModel *)shopModel{
     _shopModel = shopModel;
 //    _titlesAry = _shopModel.sortInfo;
 //    NSArray *activityList = _shopModel.activityList;
@@ -186,15 +195,15 @@
     if (tableView == self.leftTabView) {
         return 1;
     }
-    return 10;//_titlesAry.count
+    return 1;//_titlesAry.count
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.leftTabView) {
-        return 10;//_titlesAry.count
+        return 1;//_titlesAry.count
     }
-    return 10;
+    return _shopModel.goodsList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -280,7 +289,7 @@
         }
         UILabel *titleLab = [cell.contentView viewWithTag:10];
         NSDictionary *dic = _titlesAry[indexPath.row];
-        titleLab.text = @"蔬菜";//dic[@"name"]
+        titleLab.text = @"全部";//dic[@"name"]
         if (indexPath.row == _leftIndex) {
             [_leftTabView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
         }
@@ -297,8 +306,8 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0 );
         }
-        //            NewShopListModel *model = _dataArray[indexPath.row];
-        //            cell.listModel = model;
+         ProductModel *model = _shopModel.goodsList[indexPath.row];
+         cell.productModel = model;
         return cell;
         
     }

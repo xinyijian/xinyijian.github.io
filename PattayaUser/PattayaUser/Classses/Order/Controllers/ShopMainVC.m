@@ -26,8 +26,7 @@
 -(void)setupUI{
     
     //在请求中携带店铺ID
-    TakeawayShopView *shopView = [[TakeawayShopView alloc]initWithFrame:self.view.bounds withGroupID:_GroupID];
-    shopView.model = _model;
+    TakeawayShopView *shopView = [[TakeawayShopView alloc]initWithFrame:self.view.bounds withGroupID:_GroupID withModel:_model];
     [self.view addSubview:shopView];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     

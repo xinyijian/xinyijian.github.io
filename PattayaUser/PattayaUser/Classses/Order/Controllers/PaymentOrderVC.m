@@ -18,6 +18,7 @@
 //头部视图
 @property (nonatomic, strong) UIButton *reachStoreBT;//到店取
 @property (nonatomic, strong) UIButton *callStoreBT;//打个店
+@property (nonatomic, strong) UILabel *canUseLabel;//是否可以使用
 @property (nonatomic, strong) UILabel *label1;//label1
 @property (nonatomic, strong) UILabel *label2;//label2
 @property (nonatomic, strong) UILabel *textlabe;//打电话  预计到达时间
@@ -38,6 +39,7 @@
 
 
 
+
 @end
 
 @implementation PaymentOrderVC
@@ -45,30 +47,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"支付订单";
-    [self setupUI];
     
+    [self netRequestData];
+    [self setupUI];
+
+}
+
+-(void)netRequestData{
+    for (ProductModel *model in _shopModel.goodsList) {
+        if ([model.selectCount intValue]>0) {
+            [self.dataArray addObject:model];
+        }
+    }
 }
 
 -(void)setupUI{
     [super setupUI];
     
     [self.tableView setSeparatorColor:UIColorWhite];
+    self.tableView.frame = CGRectMake(0, 8, SCREEN_Width, SCREEN_Height - 8*2 - TopBarHeight - BottomH - SafeAreaBottomHeight);
+
     [self.view addSubview:self.bottomView];
     [self.view addSubview:self.paymentActionSheetView];
-    
     [self.view addSubview:self.paymentSuccessView];
-
+    
 }
 
 #pragma mark - tableView datasource && delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return  self.dataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return IPhone_7_Scale_Height(71);
+    return IgnoreHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -76,20 +89,20 @@
     return IPhone_7_Scale_Height(250);
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *footView = [[UIView alloc]init];
-    
-    //模式1--------------------------
-    [self createFooterBgviewMode1];
-    [footView addSubview:_footerBgViewMode1];
-    
-    //模式1--------------------------
-    [self createFooterBgviewMode2];
-    [footView addSubview:_footerBgViewMode2];
-
-    return footView;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    UIView *footView = [[UIView alloc]init];
+//
+//    //模式1--------------------------
+//    [self createFooterBgviewMode1];
+//    [footView addSubview:_footerBgViewMode1];
+//
+//    //模式1--------------------------
+//    [self createFooterBgviewMode2];
+//    [footView addSubview:_footerBgViewMode2];
+//
+//    return footView;
+//}
 
 
 //footerBgView模式1
@@ -232,10 +245,7 @@
     [_callStoreBT setImage:[UIImage imageNamed:@"icon_callstore"] forState:UIControlStateNormal];
     [_callStoreBT setImage:[UIImage imageNamed:@"icon_callstore"] forState:UIControlStateHighlighted];
     [_callStoreBT setTitle:@"打个店" forState:UIControlStateNormal];
-    //    //button图片的偏移量，距上左下右分别(10, 10, 10, 60)像素点
-    //    button.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 60);
-    //    //button标题的偏移量，这个偏移量是相对于图片的
-    //    button.titleEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+    //_callStoreBT.enabled = NO;
     [bgView addSubview:_callStoreBT];
     _callStoreBT.tag = 2;
     [_callStoreBT activateConstraints:^{
@@ -245,14 +255,29 @@
         _callStoreBT.width_attr.constant = bgView.width/2;
     }];
     
+    if (_shopModel.canBeCalling ) {
+        
+        _canUseLabel = [[UILabel alloc] init];
+        _canUseLabel.text = @"*当前时段无法使用";
+        _canUseLabel.font = UIBoldFont(10);
+        _canUseLabel.textColor = UIColorFromRGB(0x56AAFA);
+        [_canUseLabel sizeToFit];
+        [bgView addSubview: _canUseLabel];
+        [_canUseLabel activateConstraints:^{
+            [_canUseLabel.bottom_attr equalTo:_callStoreBT.bottom_attr constant:0];
+            _canUseLabel.centerX_attr = _callStoreBT.centerX_attr;
+            _canUseLabel.height_attr.constant = 14;
+        }];
+    }
+    
     _label1 = [[UILabel alloc] init];
     _label1.text = @"商家当前位置：长宁区1488弄99号113房";
     _label1.font = UIBoldFont(14);
     _label1.textColor = TextColor;
-    [_label1 sizeToFit];
     [bgView addSubview: _label1];
     [_label1 activateConstraints:^{
         [_label1.left_attr equalTo:bgView.left_attr constant:IPhone_7_Scale_Width(12)];
+        [_label1.right_attr equalTo:bgView.right_attr constant:0];
         [_label1.top_attr equalTo:_reachStoreBT.bottom_attr constant:IPhone_7_Scale_Height(17)];
         _label1.height_attr.constant = IPhone_7_Scale_Height(20);
     }];
@@ -272,10 +297,10 @@
     _label2.text = @"步行约10分钟 距离530米";
     _label2.font = K_LABEL_SMALL_FONT_14;
     _label2.textColor = TextColor;
-    [_label2 sizeToFit];
     [bgView addSubview: _label2];
     [_label2 activateConstraints:^{
         [_label2.left_attr equalTo:bgView.left_attr constant:IPhone_7_Scale_Width(12)];
+        [_label2.right_attr equalTo:bgView.right_attr constant:0];
         [_label2.top_attr equalTo:_label1.bottom_attr constant:IPhone_7_Scale_Height(10)];
         _label2.height_attr.constant = IPhone_7_Scale_Height(20);
     }];
@@ -289,6 +314,23 @@
         lineView.height_attr.constant = 1;
         [lineView.top_attr equalTo:_label2.bottom_attr constant:IPhone_7_Scale_Height(12)];
     }];
+    
+    
+    //添加跳转事件
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToShopAddress:)];
+    UIView *tapView = [[UIView alloc]init];
+    [bgView addSubview:tapView];
+    [tapView activateConstraints:^{
+        [tapView.left_attr equalTo:bgView.left_attr constant:0];
+        [tapView.right_attr equalTo:bgView.right_attr constant:0];
+        [tapView.top_attr equalTo:_callStoreBT.bottom_attr constant:0];
+        [tapView.bottom_attr equalTo:lineView.top_attr constant:0];
+
+    }];
+
+     [tapView addGestureRecognizer:tap];
+
+
     
     _textlabe = [[UILabel alloc] init];
     [bgView addSubview:_textlabe];
@@ -334,7 +376,7 @@
     UILabel *countLab =  [[UILabel alloc]init];
     countLab.font = K_LABEL_SMALL_FONT_14;
     countLab.textColor = TextGrayColor;
-    countLab.text = @"（4项商品）";
+    countLab.text = [NSString stringWithFormat:@"（%lu项商品）",self.dataArray.count];
     [countLab sizeToFit];
     [bgView2 addSubview:countLab];
     [countLab activateConstraints:^{
@@ -367,20 +409,20 @@
         _footerBgViewMode2.hidden = YES;
     }else{
         
-        _reachStoreBT.selected = NO;
-        
-         //修改文案
-        _label1.text = @"目的地：长宁区1488弄99号113房";
-        _label2.text = @"杨先生 15098767890";
-        _textlabe.textColor = TextColor;
-        NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:@"大约 16: 00 到达"];
-        [aString addAttribute:NSForegroundColorAttributeName value:App_Nav_BarDefalutColor range:NSMakeRange(3,6)];
-        _textlabe.attributedText = aString;
-        _tap.enabled = NO;
-        
-        //切换footerview
-        _footerBgViewMode1.hidden = YES;
-        _footerBgViewMode2.hidden = NO;
+//        _reachStoreBT.selected = NO;
+//
+//         //修改文案
+//        _label1.text = @"目的地：长宁区1488弄99号113房";
+//        _label2.text = @"杨先生 15098767890";
+//        _textlabe.textColor = TextColor;
+//        NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:@"大约 16: 00 到达"];
+//        [aString addAttribute:NSForegroundColorAttributeName value:App_Nav_BarDefalutColor range:NSMakeRange(3,6)];
+//        _textlabe.attributedText = aString;
+//        _tap.enabled = NO;
+//
+//        //切换footerview
+//        _footerBgViewMode1.hidden = YES;
+//        _footerBgViewMode2.hidden = NO;
 
     }
     
@@ -409,7 +451,7 @@
         cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0 );
         
     }
-    
+    cell.productModel = self.dataArray[indexPath.row];
     return cell;
     
 }
@@ -458,6 +500,11 @@
 
     }
     return _paymentSuccessView;
+}
+
+#pragma mark - 导航跳转
+-(void)goToShopAddress:(UITapGestureRecognizer *)tap{
+    [PattayaTool goNavtionMap:_shopModel.lat log:_shopModel.lon];
 }
 
 //支付完成

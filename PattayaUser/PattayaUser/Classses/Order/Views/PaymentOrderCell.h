@@ -26,4 +26,9 @@
 //隐藏部分视图
 -(void)hiddenSomeViews;
 
+/**
+ 设置数据源
+ */
+@property (nonatomic, strong) ProductModel *productModel;
+
 @end

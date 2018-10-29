@@ -12,10 +12,12 @@
 
 @property (nonatomic , strong)UITableView *tableView;
 
+@property (nonatomic , strong)ShopModel *shopModel;
+
 //隐藏视图
 -(void)hiddenView;
 
 //展示视图
--(void)showView;
+-(void)showViewWith:(ShopModel*)shopModel;
 
 @end

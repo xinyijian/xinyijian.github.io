@@ -9,6 +9,11 @@
 #import "ShoppingBottomView.h"
 
 @interface ShoppingBottomView()
+{
+    
+    int count;
+    float totalAmount;
+}
 
 @end
 
@@ -45,11 +50,11 @@
     _countLabel = [[UILabel alloc] init];
     _countLabel.font = [UIFont systemFontOfSize:11];
     _countLabel.textColor = UIColorWhite;
-    _countLabel.text = @"3";
     _countLabel.backgroundColor = UIColorFromRGB(0xFF3B30);
     _countLabel.textAlignment = NSTextAlignmentCenter;
     _countLabel.layer.cornerRadius = 10;
     _countLabel.layer.masksToBounds = 10;
+    _countLabel.hidden = YES;
     [_shopCarBT addSubview: _countLabel];
     [_countLabel activateConstraints:^{
         [_countLabel.left_attr equalTo:_shopCarBT.right_attr constant:-15];
@@ -65,12 +70,11 @@
     _totalAmountLabel.font = K_LABEL_SMALL_FONT_16;
     _totalAmountLabel.textColor = UIColorWhite;
     _totalAmountLabel.text = @"￥0";
-    _totalAmountLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview: _totalAmountLabel];
     [_totalAmountLabel activateConstraints:^{
         [_totalAmountLabel.left_attr equalTo:_shopCarBT.right_attr constant:0];
         _totalAmountLabel.height_attr.constant = BottomH;
-        _totalAmountLabel.width_attr.constant = 26;
+        _totalAmountLabel.width_attr.constant = 200;
         [_totalAmountLabel.bottom_attr equalTo:self.bottom_attr constant:-SafeAreaBottomHeight];
 
     }];
@@ -78,8 +82,9 @@
     //去结算
     _settleAccountsBT = [UIButton buttonWithType:UIButtonTypeCustom];
     [_settleAccountsBT setTitle:@"去结算" forState:UIControlStateNormal];
-    [_settleAccountsBT setTitleColor:UIColorFromRGB(0xB5B5B5) forState:UIControlStateNormal];
+    [_settleAccountsBT setTitleColor:UIColorWhite forState:UIControlStateNormal];
     _settleAccountsBT.backgroundColor = UIColorFromRGB(0x707070);
+
     [self addSubview:_settleAccountsBT];
     [_settleAccountsBT activateConstraints:^{
         [_settleAccountsBT.right_attr equalTo:self.right_attr constant:0];
@@ -91,5 +96,41 @@
     
     
 }
+
+-(void)setShopModel:(ShopModel *)shopModel{
+    
+    count = 0;
+    for (ProductModel *model in shopModel.goodsList) {
+        count = [model.selectCount intValue] + count;
+    }
+    _settleAccountsBT.enabled = count > 0 ? YES : NO;
+    self.settleAccountsBT.backgroundColor = (count == 0 ? UIColorFromRGB(0x707070) : App_Nav_BarDefalutColor);
+}
+
+-(void)changeBottomUIWith:(ShopModel *)shopModel{
+       NSLog(@"选择商品");
+    count = 0;
+    totalAmount = 0;
+    for (ProductModel *model in shopModel.goodsList) {
+        count = [model.selectCount intValue] + count;
+        totalAmount = [model.selectCount intValue]*[model.salePrice floatValue]+totalAmount;
+        
+    }
+    self.countLabel.hidden = (count == 0 ? YES : NO);
+    self.countLabel.text = [NSString stringWithFormat:@"%d",count];
+    
+    
+    NSString * stringNumber =   [NSString stringWithFormat:@"%f",totalAmount];
+    NSNumber * nsNumber = @(stringNumber.floatValue);
+    self.totalAmountLabel.text = [NSString stringWithFormat:@"%@",nsNumber];
+    
+    
+    self.settleAccountsBT.backgroundColor = (count == 0 ? UIColorFromRGB(0x707070) : App_Nav_BarDefalutColor);
+    self.settleAccountsBT.enabled = (count == 0 ? NO : YES);
+
+
+    
+}
+
 
 @end

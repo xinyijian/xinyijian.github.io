@@ -10,4 +10,9 @@
 
 @interface PaymentOrderVC : YDBaseTBController
 
+/**
+ 设置数据源
+ */
+@property (nonatomic, strong) ShopModel *shopModel;
+
 @end

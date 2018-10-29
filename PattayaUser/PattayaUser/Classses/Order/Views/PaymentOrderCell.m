@@ -120,6 +120,12 @@
     self.originalPriceLabel.hidden = YES;
 }
 
+
+-(void)setProductModel:(ProductModel *)productModel{
+    _productNameLabel.text = productModel.name;
+    _priceLabel.text = [NSString stringWithFormat:@"%@.00", productModel.salePrice];
+    _countLab.text = [NSString stringWithFormat:@"x%@",productModel.selectCount];
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

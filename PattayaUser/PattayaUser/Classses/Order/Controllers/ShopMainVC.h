@@ -7,7 +7,6 @@
 //
 
 #import "YDBaseController.h"
-#import "MainModel.h"
 @interface ShopMainVC : YDBaseController
 
 //店铺id

@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString <Optional>* sku;
 @property (nonatomic, strong) NSString <Optional>* unit;
 @property (nonatomic, strong) NSString <Optional>* weight;
+@property (nonatomic, assign) NSString <Optional>*selectCount;
 
 @end
 
@@ -43,10 +44,11 @@
 @property (nonatomic, strong) NSString <Optional>*geoDistance;
 @property (nonatomic, strong) NSString <Optional>*saleAmountMonth;
 
-
-
 @property (nonatomic, strong) NSMutableArray <Optional,ProductModel>*goodsList;
+
 @end
+
+
 @protocol ShopModel
 @end
 @interface MainModel : JSONModel

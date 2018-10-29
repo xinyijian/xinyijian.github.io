@@ -138,6 +138,8 @@
                 _reduceBT.hidden        = NO;
             }
             _countLab.text = [NSString stringWithFormat:@"%ld",_count];
+            _productModel.selectCount = [NSString stringWithFormat:@"%ld",_count];
+
             if ([self.delegate respondsToSelector:@selector(ShopActionSheet:showShopCount:)]) {
                 [self.delegate ShopActionSheet:self showShopCount:_count];
             }
@@ -153,19 +155,34 @@
                 _reduceBT.hidden        = YES;
             }
             _countLab.text = [NSString stringWithFormat:@"%ld",_count];
+            _productModel.selectCount = [NSString stringWithFormat:@"%ld",_count];
+
             if ([self.delegate respondsToSelector:@selector(ShopActionSheet:showShopCount:)]) {
                 [self.delegate ShopActionSheet:self showShopCount:_count];
             }
         }
             break;
-        case 3:
-        {//选规格
-            //DMLog(@"选规格---------");
-        }
-            break;
-            
+     
         default:
             break;
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadRightTableView" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeselectcount" object:nil];
+
+}
+
+
+-(void)setProductModel:(ProductModel *)productModel{
+    _productModel = productModel;
+    
+    _productNameLabel.text = productModel.name;
+    _priceLabel.text = productModel.salePrice;
+    _countLab.text = productModel.selectCount;
+    _count = [productModel.selectCount intValue];
+    _reduceBT.hidden = _count > 0 ? NO : YES;
+    _countLab.hidden = _count > 0 ? NO : YES;
+
+    
 }
 @end

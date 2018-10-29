@@ -219,8 +219,9 @@
 
 -(void)searchAllBtnClick:(UIButton*)btn{
     
-    
-    [[self getController].navigationController pushViewController:[[ShopMainVC alloc]init] animated:YES];
+    ShopMainVC *vc = [[ShopMainVC alloc]init];
+    vc.model = _item;
+    [[self getController].navigationController pushViewController:vc animated:YES];
 }
 
 - (UIImageView *)arrowImg {
@@ -307,9 +308,9 @@
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UICollectionViewCell * cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-//    cell.backgroundColor = [UIColor whiteColor];
-    [[self getController].navigationController pushViewController:[[ShopMainVC alloc]init] animated:YES];
+    ShopMainVC *vc = [[ShopMainVC alloc]init];
+    vc.model = _item;
+    [[self getController].navigationController pushViewController:vc animated:YES];
 
 }
 //返回这个UICollectionView是否可以被选择

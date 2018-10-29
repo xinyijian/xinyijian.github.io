@@ -7,7 +7,6 @@
 
 #import <UIKit/UIKit.h>
 #import "NewShopModel.h"
-
 @protocol ShopScrollViewDelegate;
 
 /**
@@ -24,7 +23,7 @@
 //当前视图控制器
 @property (nonatomic , strong) UIViewController *currentVC;
 //初始化店铺主页方法
-- (id)initWithFrame:(CGRect)frame  withShopModel:(NewShopModel *)model  withGroupID:(NSString *)groupId currentVC:(UIViewController *)currentVC;
+- (id)initWithFrame:(CGRect)frame  withShopModel:(ShopModel *)model  withGroupID:(NSString *)groupId currentVC:(UIViewController *)currentVC;
 
 //移除手势
 - (void)removeBehaviors;

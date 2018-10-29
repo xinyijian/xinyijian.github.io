@@ -112,7 +112,7 @@
     [self.contentView addSubview:lineView];
     [lineView activateConstraints:^{
         lineView.centerX_attr = _originalPriceLabel.centerX_attr;
-        lineView.height_attr.constant = 2;
+        lineView.height_attr.constant = 1;
         lineView.width_attr.constant = 35;
         lineView.centerY_attr = _originalPriceLabel.centerY_attr;
     }];
@@ -214,6 +214,8 @@
 
 - (void)btnClick:(UIButton *)button
 {
+   
+
     switch (button.tag) {
         case 1:
             {//增加
@@ -224,6 +226,7 @@
                     _reduceBT.hidden        = NO;
                 }
                 _countLab.text = [NSString stringWithFormat:@"%ld",_count];
+                _productModel.selectCount = [NSString stringWithFormat:@"%ld",_count];
             }
             break;
             case 2:
@@ -235,18 +238,32 @@
                     _reduceBT.hidden        = YES;
                 }
                 _countLab.text = [NSString stringWithFormat:@"%ld",_count];
+                _productModel.selectCount = [NSString stringWithFormat:@"%ld",_count];
+                
             }
                 break;
-            case 3:
-            {//选规格
-                //DMLog(@"选规格---------");
-            }
-                break;
+        
             
         default:
             break;
     }
+    //
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeselectcount" object:nil];
 }
+
+
+-(void)setProductModel:(ProductModel *)productModel{
+    
+    _productModel = productModel;
+    _productNameLabel.text = productModel.name;
+    _priceLabel.text = productModel.salePrice;
+    _countLab.text = productModel.selectCount;
+    _count = [productModel.selectCount intValue];
+    _countLab.hidden = _count >0 ? NO : YES;
+    _reduceBT.hidden = _count >0 ? NO : YES;
+
+}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

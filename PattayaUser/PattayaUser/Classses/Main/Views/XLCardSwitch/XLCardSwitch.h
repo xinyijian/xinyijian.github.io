@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainModel.h"
 
 @protocol XLCardSwitchDelegate <NSObject>
 

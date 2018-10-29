@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainModel.h"
 @interface TakeawayShopView : UIView
 
 //店铺ID
@@ -16,8 +15,8 @@
 /**
  设置数据源
  */
-@property (nonatomic, strong) ShopModel *model;
+@property (nonatomic, strong) ShopModel *shopModel;
 
-- (id)initWithFrame:(CGRect)frame  withGroupID:(NSString *)groupId;
+- (id)initWithFrame:(CGRect)frame  withGroupID:(NSString *)groupId withModel:(ShopModel*)model;
 
 @end

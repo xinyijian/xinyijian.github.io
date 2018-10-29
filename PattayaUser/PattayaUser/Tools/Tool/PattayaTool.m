@@ -125,8 +125,9 @@
 
 + (void)goNavtionMap:(NSString *)lat log:(NSString *)ln
 {
-    
-    NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&poiname=%@&lat=%@&lon=%@&dev=1&style=2",@"pattaya",@"测试", @"31.217028",@"121.421308" ] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+
+    NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&poiname=%@&lat=%@&lon=%@&dev=1&style=2",@"pattaya",@"测试", @"31.217028",@"121.421308" ]
+                           stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
     UIApplication *application = [UIApplication sharedApplication];
     NSURL *URL = [NSURL URLWithString:urlString];

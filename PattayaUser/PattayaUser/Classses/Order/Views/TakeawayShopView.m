@@ -13,6 +13,11 @@
 #import "PaymentOrderVC.h"
 
 @interface TakeawayShopView()<ShopScrollViewDelegate,CAAnimationDelegate>
+{
+    
+    int count;
+    float totalAmount;
+}
 
 @property (nonatomic , strong) ShopScrollView *productListView;///<商品列表
 @property (nonatomic , strong) ShopActionSheetView *shopActionSheetView;///收缩视图
@@ -37,20 +42,34 @@
 @property (nonatomic, strong) UIImageView *shakeImg;//摇摆视图
 @property (nonatomic, assign) NSInteger *count;//摇摆次数
 
-
-
 @end
 
 @implementation TakeawayShopView
 
-- (id)initWithFrame:(CGRect)frame  withGroupID:(NSString *)groupId
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (id)initWithFrame:(CGRect)frame  withGroupID:(NSString *)groupId withModel:(ShopModel*)model
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
+        _shopModel = model;
+        [self requestGetProductGroupInfo_new];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeselectcount) name:@"changeselectcount" object:nil];
 
-       [self requestGetProductGroupInfo_new];
     }
     return self;
+}
+
+#pragma mark - 选择商品
+-(void)changeselectcount{
+    //改变底部视图UI
+    [self.bottomView changeBottomUIWith:_shopModel];
+   
+  
 }
 
 #pragma mark -  [店铺详情]
@@ -59,7 +78,7 @@
     
     NSDictionary *dataDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"shop.json" ofType:nil]];
     [self analysisData:dataDict];
-    
+
 }
 
 - (void)analysisData:(NSDictionary *)dic{
@@ -67,7 +86,7 @@
      [self setHeaderView];
     //创建滚动视图
     [self addSubview:self.productListView];
-    //创建滚动视图
+    //创建shopActionSheetView
     [self addSubview:self.shopActionSheetView];
     //创建bottomview
     [self addSubview:self.bottomView];
@@ -135,8 +154,8 @@
 #pragma mark - 商品
 - (ShopScrollView *)productListView
 {
-    if (!_productListView) {
-        _productListView = [[ShopScrollView alloc]initWithFrame:CGRectMake(0, 0, self.width, self.height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT) withShopModel:nil withGroupID:nil currentVC:[self viewController]];
+    if (!_productListView) {   
+        _productListView = [[ShopScrollView alloc]initWithFrame:CGRectMake(0, 0, self.width, self.height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT) withShopModel:_shopModel withGroupID:nil currentVC:[self viewController]];
         _productListView.showsVerticalScrollIndicator = NO;
         _productListView.backgroundColor = [UIColor clearColor];
         _productListView.scrollDelegate = self;
@@ -161,22 +180,26 @@
 {
     if (!_bottomView) {
         _bottomView = [[ShoppingBottomView alloc]initWithFrame:CGRectMake(0, self.height - BottomH - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT, self.width, BottomH + IPHONE_SAFEBOTTOMAREA_HEIGHT)];
+        _bottomView.shopModel = _shopModel;
         [_bottomView.shopCarBT addTarget:self action:@selector(shopCarClick:) forControlEvents:UIControlEventTouchUpInside];
         [_bottomView.settleAccountsBT addTarget:self action:@selector(settleAccountsClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _bottomView;
 }
 
-//购物车按钮
+#pragma mark -购物车按钮
 -(void)shopCarClick:(UIButton *)btn{
     NSLog(@"购物车");
-    [self.shopActionSheetView showView];
+  
+    [self.shopActionSheetView showViewWith:_shopModel];
 }
 
-//去结算
+#pragma mark -去结算
 -(void)settleAccountsClick:(UIButton *)btn{
     NSLog(@"去结算");
-    [[self getController].navigationController pushViewController:[[PaymentOrderVC alloc]init] animated:YES];
+    PaymentOrderVC *vc = [[PaymentOrderVC alloc]init];
+    vc.shopModel = _shopModel;
+    [[self getController].navigationController pushViewController:vc animated:YES];
     
 }
 
@@ -209,7 +232,7 @@
 - (UIImageView *)headImage {
     if (!_headImage) {
         _headImage = [[UIImageView alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(18), IPhone_7_Scale_Height(12), IPhone_7_Scale_Width(60), IPhone_7_Scale_Width(60))];
-        [_headImage sd_setImageWithURL:[NSURL URLWithString:_model.avatarURL] placeholderImage:[UIImage imageNamed:@"main_cell_headImg_bg"]];
+        [_headImage sd_setImageWithURL:[NSURL URLWithString:_shopModel.avatarURL] placeholderImage:[UIImage imageNamed:@"main_cell_headImg_bg"]];
     }
     return _headImage;
 }
@@ -219,7 +242,7 @@
         _nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.headImage.YD_right+IPhone_7_Scale_Width(14), IPhone_7_Scale_Height(22), 0, 22)];
         _nameLabel.textColor = TextColor;
         _nameLabel.font = K_LABEL_SMALL_FONT_16;
-        _nameLabel.text = _model.name;
+        _nameLabel.text = _shopModel.name;
         [_nameLabel sizeToFit];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
     }
@@ -266,7 +289,7 @@
         _licenseTag = [[UILabel alloc]initWithFrame:CGRectMake(self.hotImg.YD_right + IPhone_7_Scale_Width(10) ,self.nameLabel.YD_bottom+ IPhone_7_Scale_Height(10), 0, IPhone_7_Scale_Height(17))];
         _licenseTag.textColor = TextGrayColor;
         _licenseTag.font = K_LABEL_SMALL_FONT_12;
-        _licenseTag.text = _model.deviceNo;
+        _licenseTag.text = _shopModel.deviceNo;
         [_licenseTag sizeToFit];
     }
     return _licenseTag;
@@ -296,7 +319,7 @@
         _locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.locationImg.YD_right + IPhone_7_Scale_Width(12) ,self.headImage.YD_bottom+ IPhone_7_Scale_Height(6), 0, IPhone_7_Scale_Height(20))];
         _locationLabel.textColor = TextColor;
         _locationLabel.font = K_LABEL_SMALL_FONT_14;
-        _locationLabel.text = _model.storeAddress;
+        _locationLabel.text = [_shopModel.storeAddress isEqualToString:@""] ? @"定位失败" : _shopModel.storeAddress;
         [_locationLabel sizeToFit];
     }
     return _locationLabel;

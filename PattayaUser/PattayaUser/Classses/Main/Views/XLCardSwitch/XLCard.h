@@ -7,7 +7,6 @@
 //  被切换的卡片
 
 #import <UIKit/UIKit.h>
-#import "MainModel.h"
 
 @interface XLCard : UICollectionViewCell
 

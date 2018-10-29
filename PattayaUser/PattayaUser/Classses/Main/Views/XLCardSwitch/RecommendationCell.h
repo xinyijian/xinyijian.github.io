@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "RecommendationModel.h"
-#import "MainModel.h"
 
 @interface RecommendationCell : UICollectionViewCell
 
