@@ -7,7 +7,7 @@
 //
 
 #import "YDBaseTBController.h"
-
+#import "AddressModel.h"
 @interface SelcetAddressVC : YDBaseTBController
-
+@property (nonatomic, strong) AddressModel * model;
 @end

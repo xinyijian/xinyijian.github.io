@@ -127,6 +127,7 @@
             [btn setTitleColor:TextColor forState:UIControlStateNormal];
             btn.titleLabel.font = K_LABEL_SMALL_FONT_14;
             [cell.contentView addSubview:btn];
+            btn.tag = i + 98000;
         }
        
     }
@@ -196,15 +197,45 @@
    
 }
 
+- (void)saveAddress{
+    
+    //DOTO
+    //没有跳转地图->需要连接一下
+    //areaid == 是地图返回的 adcode
+    //其他就是address 跟 lat lon
+    
+    NSDictionary * dic = @{@"areaId":@"310100",@"contactGender":[NSString stringWithFormat:@"%ld",_currentSexBT.tag - 98000],@"contactMobile":_phoneTF.text,@"contactName":_nameTF.text,@"formattedAddress":_addressLabel.text,@"latitude":[PattAmapLocationManager singleton].lat,@"longitude":[PattAmapLocationManager singleton].lng,@"tagAlias":_currentTypeBT.titleLabel.text,@"houseNumber":_houseNumberLabel.text};
+//
+    [[PattayaUserServer singleton] AddRessRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        NSLog(@"%@,=====",ret);
+        if ([ResponseModel isData:ret]) {
+            [YDProgressHUD showMessage:@"添加成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
+}
+
 #pragma 选择性别
 -(void)selectSex:(UIButton *)btn{
-    btn.selected = YES;
-    [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
-    if (_currentSexBT) {
+    if (_currentSexBT == nil){
+        btn.selected = YES;
+        [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
+        _currentSexBT = btn;
+    }
+    else if (_currentSexBT !=nil && _currentSexBT == btn){
+        btn.selected = YES;
+        [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
+    }else if (_currentSexBT!= btn && _currentSexBT!=nil){
         _currentSexBT.selected = NO;
         [_currentSexBT setTitleColor:TextColor forState:UIControlStateNormal];
+        btn.selected = YES;
+        [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
+        _currentSexBT = btn;
     }
-    _currentSexBT = btn;
+    
 }
 
 #pragma 选择地址类型
@@ -221,7 +252,7 @@
 
 #pragma 保存
 -(void)saveClick{
-    
+    [self saveAddress];
 }
 
 @end

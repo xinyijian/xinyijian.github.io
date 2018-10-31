@@ -13,7 +13,7 @@
 @property (nonatomic, strong) UILabel * addressLabel;
 @property (nonatomic, strong) UILabel * subAddressLabel;
 @property (nonatomic, strong) UILabel * userNameMobl;
-@property (nonatomic, strong) UIButton * editBT;//编辑按钮
+@property (nonatomic, strong) UIImageView * editBT;//编辑按钮
 @property (nonatomic, strong) UIImageView * addressTypeImg;//地址类型
 
 

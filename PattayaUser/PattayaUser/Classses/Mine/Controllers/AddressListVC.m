@@ -10,6 +10,7 @@
 #import "AddressListCell.h"
 #import "AddNewAddressVC.h"
 #import "AddressModel.h"
+#import "SelcetAddressVC.h"
 @interface AddressListVC ()
 
 //导航栏pop按钮
@@ -75,7 +76,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.model = _addresslist.data[indexPath.row];
-    [cell.editBT addTarget:self action:@selector(addNewAddress) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.editBT addTarget:self action:@selector(editAddress:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -86,6 +87,8 @@
 //    vc.enterType = indexPath.row;
 //    //vc.model =_listModel.list[indexPath.row];
 //    [self.navigationController pushViewController:vc animated:YES];
+    AddressModel * mode = _addresslist.data[indexPath.row];
+    [self editAddress:mode];
 }
 
 #pragma mark - 新增地址
@@ -93,6 +96,12 @@
     AddNewAddressVC *vc = [[AddNewAddressVC alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
     
+}
+
+- (void)editAddress:(AddressModel *)mode{
+    SelcetAddressVC * vc = [[SelcetAddressVC alloc] init];
+    vc.model = mode;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

@@ -1758,21 +1758,21 @@
 			isa = PBXGroup;
 			children = (
 				95140E6721708B46007380B6 /* PTLAlertView.h */,
+				95140E7021708B46007380B6 /* PTLAlertView.m */,
+				95140E6E21708B46007380B6 /* DD_Alertview.h */,
+				95140E7521708B46007380B6 /* DD_Alertview.m */,
+				95140E6F21708B46007380B6 /* DD_Button.h */,
 				95140E6821708B46007380B6 /* DD_Button.m */,
 				95140E6921708B46007380B6 /* DD_SpeechSynthesizer.h */,
-				95140E6A21708B46007380B6 /* PattayaTool.m */,
-				95140E6B21708B46007380B6 /* SystemAuthority.m */,
-				95140E6C21708B46007380B6 /* DD_PageControl.m */,
-				95140E6D21708B46007380B6 /* DD_HandlerEnterBackground.m */,
-				95140E6E21708B46007380B6 /* DD_Alertview.h */,
-				95140E6F21708B46007380B6 /* DD_Button.h */,
-				95140E7021708B46007380B6 /* PTLAlertView.m */,
-				95140E7121708B46007380B6 /* DD_PageControl.h */,
-				95140E7221708B46007380B6 /* SystemAuthority.h */,
-				95140E7321708B46007380B6 /* PattayaTool.h */,
 				95140E7421708B46007380B6 /* DD_SpeechSynthesizer.m */,
-				95140E7521708B46007380B6 /* DD_Alertview.m */,
+				95140E7221708B46007380B6 /* SystemAuthority.h */,
+				95140E6B21708B46007380B6 /* SystemAuthority.m */,
+				95140E7121708B46007380B6 /* DD_PageControl.h */,
+				95140E6C21708B46007380B6 /* DD_PageControl.m */,
+				95140E7321708B46007380B6 /* PattayaTool.h */,
+				95140E6A21708B46007380B6 /* PattayaTool.m */,
 				95140E7621708B46007380B6 /* DD_HandlerEnterBackground.h */,
+				95140E6D21708B46007380B6 /* DD_HandlerEnterBackground.m */,
 				95140E7721708B46007380B6 /* JMButton */,
 			);
 			path = Tool;
@@ -1885,10 +1885,10 @@
 		95140EA221708B46007380B6 /* YDProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				95140EA321708B46007380B6 /* ReplicatorView.m */,
 				95140EA421708B46007380B6 /* YDProgressHUD.h */,
 				95140EA521708B46007380B6 /* YDProgressHUD.m */,
 				95140EA621708B46007380B6 /* ReplicatorView.h */,
+				95140EA321708B46007380B6 /* ReplicatorView.m */,
 			);
 			path = YDProgressHUD;
 			sourceTree = "<group>";

@@ -171,6 +171,7 @@ static char buttonActionBlockKey;
 - (void)rightBarButtonWithTitle:(NSString *)title barImage:(UIImage *)image action:(void (^)(void))actionBlock{
     
     UIButton *button = [self buttonWithTitle:title buttonImage:image];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.rightBtn=button;
     objc_setAssociatedObject(button, &buttonActionBlockKey, actionBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
