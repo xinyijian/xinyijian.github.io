@@ -9,11 +9,12 @@
 #import "AddressListVC.h"
 #import "AddressListCell.h"
 #import "AddNewAddressVC.h"
+#import "AddressModel.h"
 @interface AddressListVC ()
 
 //导航栏pop按钮
 @property (nonatomic, strong) UIButton *rightPopBT;
-
+@property (nonatomic, strong) AddressListModel * addresslist;
 @end
 
 @implementation AddressListVC
@@ -33,13 +34,23 @@
     UIBarButtonItem *rightitem=[[UIBarButtonItem alloc]initWithTitle:@"新增地址" style:UIBarButtonItemStylePlain target:self action:@selector(addNewAddress)];
     self.navigationItem.rightBarButtonItem=rightitem;
      self.navigationItem.title = @"常用地址";
+    [self netRequestData];
+}
+- (void)netRequestData{
+    [[PattayaUserServer singleton] GetAddRessRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        _addresslist = [[AddressListModel alloc] initWithDictionary:ret error:nil];
+        NSLog(@"%@====",_addresslist);
+        [self.tableView reloadData];
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
 }
 
 #pragma <UITableViewDataSource, UITableViewDelegate>
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return _addresslist.data.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -63,6 +74,7 @@
         cell = [[AddressListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AddressListCell"];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.model = _addresslist.data[indexPath.row];
     [cell.editBT addTarget:self action:@selector(addNewAddress) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;

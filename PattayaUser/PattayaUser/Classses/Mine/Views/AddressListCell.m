@@ -91,9 +91,9 @@
     _model = model;
     if (model) {
 //        _addName.text = model.tagAlias;
-//        _address.text = model.formattedAddress;
-//        _userNameMobl.text = [NSString stringWithFormat:@"%@ %@",model.contactName,model.contactMobile];
-
+        _subAddressLabel.text = model.formattedAddress;
+        _userNameMobl.text = [NSString stringWithFormat:@"%@ %@",model.contactName,model.contactMobile];
+        
     }
 }
 
