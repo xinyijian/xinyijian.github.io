@@ -7,6 +7,8 @@
 //
 
 #import "AddNewAddressVC.h"
+#import "AMapAddressViewController.h"
+
 #define TITLES @[@"联系人",@"",@"电话",@"地址",@"门牌号",@"标签"]
 #define SEXTITLES @[@"先生",@"女士"]
 #define TYPETITLES @[@"家",@"公司",@"学校"]
@@ -191,7 +193,8 @@
    // [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.row == 3) {
         NSLog(@"选择地址");
-        
+        AMapAddressViewController * amap = [[AMapAddressViewController alloc] init];
+        [self.navigationController pushViewController:amap animated:YES];
         
     }
    

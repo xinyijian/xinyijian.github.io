@@ -7,7 +7,7 @@
 //
 
 #import "YDBaseController.h"
-
+#import "UIViewController+util.h"
 @interface YDBaseController () <UIGestureRecognizerDelegate>
 
 @end
@@ -201,5 +201,12 @@ static char buttonActionBlockKey;
     
     void (^actionBlock) (void) = objc_getAssociatedObject(sender, &buttonActionBlockKey);
     actionBlock();
+}
+
+//设置字体颜色
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    
+    return  [self StatusBarStyle];
+    
 }
 @end

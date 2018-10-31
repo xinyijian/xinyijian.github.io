@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		922E58082189C3A600DBF84B /* AMapAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 922E58062189C3A500DBF84B /* AMapAddressViewController.m */; };
 		92BA5672201F0C2C0090BB2D /* PattayaUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BA5671201F0C2C0090BB2D /* PattayaUserTests.m */; };
 		92BA567D201F0C2C0090BB2D /* PattayaUserUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BA567C201F0C2C0090BB2D /* PattayaUserUITests.m */; };
 		92BE478920552B8200391F33 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BE478820552B8200391F33 /* SystemConfiguration.framework */; };
@@ -342,6 +343,8 @@
 		002C8545726D94BAEC4BE0A1 /* Pods-PattayaUser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PattayaUser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PattayaUser/Pods-PattayaUser.debug.xcconfig"; sourceTree = "<group>"; };
 		6DE452D868C9028FD60BF95F /* libPods-PattayaUser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PattayaUser.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7253B8CA75FE2DEA1FAF59FD /* Pods-PattayaUser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PattayaUser.release.xcconfig"; path = "Pods/Target Support Files/Pods-PattayaUser/Pods-PattayaUser.release.xcconfig"; sourceTree = "<group>"; };
+		922E58062189C3A500DBF84B /* AMapAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMapAddressViewController.m; sourceTree = "<group>"; };
+		922E58072189C3A500DBF84B /* AMapAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMapAddressViewController.h; sourceTree = "<group>"; };
 		92BA5655201F0C2C0090BB2D /* PattayaUser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PattayaUser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BA566D201F0C2C0090BB2D /* PattayaUserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PattayaUserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BA5671201F0C2C0090BB2D /* PattayaUserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PattayaUserTests.m; sourceTree = "<group>"; };
@@ -1144,6 +1147,8 @@
 		95140D5121708B46007380B6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				922E58072189C3A500DBF84B /* AMapAddressViewController.h */,
+				922E58062189C3A500DBF84B /* AMapAddressViewController.m */,
 				952105D82175D4D100C7EFD0 /* MineVC.h */,
 				952105D92175D4D100C7EFD0 /* MineVC.m */,
 				9539FDCA2182CA1900E55941 /* MessageVC.h */,
@@ -2587,6 +2592,7 @@
 				95140F8B21708B46007380B6 /* CarStoreMAPointAnntation.m in Sources */,
 				95140FA021708B47007380B6 /* UIImage+CircleCorner.m in Sources */,
 				95140F3621708B46007380B6 /* NewShopModel.m in Sources */,
+				922E58082189C3A600DBF84B /* AMapAddressViewController.m in Sources */,
 				95140F8821708B46007380B6 /* RouterObject.m in Sources */,
 				95183A4C2181D5570052F59F /* AboutVC.m in Sources */,
 				95140F9021708B47007380B6 /* WSDatePickerView.m in Sources */,
