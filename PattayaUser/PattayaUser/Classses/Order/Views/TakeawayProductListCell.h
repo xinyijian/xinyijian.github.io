@@ -33,7 +33,7 @@
 /// 减少按钮
 @property (nonatomic,strong) UIButton *reduceBT;
 
-@property (nonatomic,strong) ProductModel *productModel;
+@property (nonatomic,strong) NewShopListModel *productModel;
 
 
 @end

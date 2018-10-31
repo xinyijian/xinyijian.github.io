@@ -23,7 +23,7 @@ static CGFloat rubberBandDistance(CGFloat offset, CGFloat dimension) {
 }
 @property (nonatomic , strong) ShopHomePageView         *shopHomePageView;//商家列表主页,二级联动
 @property (nonatomic , strong) UIScrollView             *subTableView;//获取当前页面的子tableView.
-@property (nonatomic , strong) ShopModel             *shopModel;//数据模型
+@property (nonatomic , strong) NewShopModel             *shopModel;//数据模型
 
 //弹性和惯性动画
 @property (nonatomic, strong) UIDynamicAnimator *animator;
@@ -38,7 +38,7 @@ static CGFloat rubberBandDistance(CGFloat offset, CGFloat dimension) {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (id)initWithFrame:(CGRect)frame  withShopModel:(ShopModel *)model  withGroupID:(NSString *)groupId currentVC:(UIViewController *)currentVC
+- (id)initWithFrame:(CGRect)frame  withShopModel:(NewShopModel *)model  withGroupID:(NSString *)groupId currentVC:(UIViewController *)currentVC
 {
     self = [super initWithFrame:frame];
     if (self) {

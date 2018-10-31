@@ -83,6 +83,8 @@
 #import "YDBaseWebController.h"
 #import "YBPopupMenu.h"
 #import "MainModel.h"
+#import "NewShopModel.h"
+#import "NewShopListModel.h"
 //***************************************
 
 static NSString* APP_DEV_URL  = @"http://192.168.210.37:4000/";

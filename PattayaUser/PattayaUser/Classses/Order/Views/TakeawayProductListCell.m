@@ -252,10 +252,10 @@
 }
 
 
--(void)setProductModel:(ProductModel *)productModel{
+-(void)setProductModel:(NewShopListModel *)productModel{
     
     _productModel = productModel;
-    _productNameLabel.text = productModel.name;
+    _productNameLabel.text = productModel.gdsName;
     _priceLabel.text = productModel.salePrice;
     _countLab.text = productModel.selectCount;
     _count = [productModel.selectCount intValue];

@@ -35,7 +35,7 @@
 @property (nonatomic, weak) id<ShopActionSheetCellDelegate>delegate;
 
 
-@property (nonatomic,strong) ProductModel *productModel;
+@property (nonatomic,strong) NewShopListModel *productModel;
 
 
 @end

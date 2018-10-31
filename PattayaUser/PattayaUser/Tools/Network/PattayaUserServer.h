@@ -84,6 +84,12 @@
 - (void)submitOrderRequest:(NSDictionary *)dic success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
 
 #pragma mark --- post /order/order/orderPayment 生成支付订单
-- (void)orderPaymentRequest:(NSDictionary *)dic success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
+- (void)orderPaymentRequest:(NSString *)orderNo payType:(int)payType success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
+
+#pragma mark ---GET /gse/pub/category/findGdsByStoreId{id} 获取单个商店商品的分类
+- (void)findGdsByStoreIdRequest:(NSDictionary *)storeId Success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
+
+#pragma mark ---GET /gse/pub/category/findGdsBygdsType 获取分类商品
+- (void)findGdsBygdsTypeRequest:(NSDictionary *)dic Success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
 
 @end

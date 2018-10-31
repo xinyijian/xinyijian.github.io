@@ -1005,11 +1005,11 @@
 			isa = PBXGroup;
 			children = (
 				95140D1F21708B46007380B6 /* ShoppingCartOrderListInfo.h */,
+				95140D2221708B46007380B6 /* ShoppingCartOrderListInfo.m */,
+				95140D2421708B46007380B6 /* NewShopModel.h */,
 				95140D2021708B46007380B6 /* NewShopModel.m */,
 				95140D2121708B46007380B6 /* NewShopListModel.h */,
-				95140D2221708B46007380B6 /* ShoppingCartOrderListInfo.m */,
 				95140D2321708B46007380B6 /* NewShopListModel.m */,
-				95140D2421708B46007380B6 /* NewShopModel.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";

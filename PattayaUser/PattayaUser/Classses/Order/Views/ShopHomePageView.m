@@ -111,7 +111,7 @@
 //}
 
 #pragma mark - get/set方法
-- (void)setShopModel:(ShopModel *)shopModel{
+- (void)setShopModel:(NewShopModel *)shopModel{
     _shopModel = shopModel;
 //    _titlesAry = _shopModel.sortInfo;
 //    NSArray *activityList = _shopModel.activityList;
@@ -195,15 +195,16 @@
     if (tableView == self.leftTabView) {
         return 1;
     }
-    return 1;//_titlesAry.count
+    return _shopModel.titleArray.count;//_titlesAry.count
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.leftTabView) {
-        return 1;//_titlesAry.count
+        return _shopModel.titleArray.count;//_titlesAry.count
     }
-    return _shopModel.goodsList.count;
+    NSArray *arr = _shopModel.productArray[section];
+    return arr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -289,7 +290,7 @@
         }
         UILabel *titleLab = [cell.contentView viewWithTag:10];
         NSDictionary *dic = _titlesAry[indexPath.row];
-        titleLab.text = @"全部";//dic[@"name"]
+        titleLab.text = _shopModel.titleArray[indexPath.row];//dic[@"name"]
         if (indexPath.row == _leftIndex) {
             [_leftTabView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
         }
@@ -306,7 +307,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0 );
         }
-         ProductModel *model = _shopModel.goodsList[indexPath.row];
+         NewShopListModel *model = _shopModel.productArray[indexPath.section][indexPath.row];
          cell.productModel = model;
         return cell;
         

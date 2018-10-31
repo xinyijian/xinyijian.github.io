@@ -58,12 +58,15 @@
 }
 
 //展示视图
--(void)showViewWith:(ShopModel*)shopModel{
+-(void)showViewWith:(NewShopModel*)shopModel{
     _shopModel = shopModel;
+    
     [_dataArray removeAllObjects];
-    for (ProductModel *model in shopModel.goodsList) {
-        if ([model.selectCount intValue] > 0) {
-            [_dataArray addObject:model];
+       for (NSArray *array in shopModel.productArray) {
+        for (NewShopListModel *model in array) {
+            if ([model.selectCount intValue] > 0) {
+                [_dataArray addObject:model];
+            }
         }
     }
     
@@ -138,7 +141,7 @@
 #pragma mark - 清空
 -(void)clearAllClick:(UIButton *)btn{
     NSLog(@"清空");
-    for (ProductModel *model in _dataArray) {
+    for (NewShopListModel *model in _dataArray) {
         model.selectCount = [NSString stringWithFormat:@"%d",0];
     }
     
@@ -178,8 +181,11 @@
     if (count == 0) {
         
         totalCount = 0;
-        for (ProductModel *model in _shopModel.goodsList) {
-            totalCount = [model.selectCount intValue] + totalCount;
+     
+        for (NSArray *array in _shopModel.productArray) {
+            for (NewShopListModel *model in array) {
+                totalCount = [model.selectCount intValue] + totalCount;
+            }
         }
         if (totalCount==0) {
             [self hiddenView];

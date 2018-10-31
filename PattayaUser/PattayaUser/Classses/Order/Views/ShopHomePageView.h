@@ -25,7 +25,7 @@
 //店铺ID
 @property (nonatomic , copy) NSString *groupId;
 //数据模型
-@property (nonatomic ,strong) ShopModel *shopModel;
+@property (nonatomic ,strong) NewShopModel *shopModel;
 //该视图的父视图
 //@property (nonatomic ,strong) ShopScrollView *shopSuperView;
 

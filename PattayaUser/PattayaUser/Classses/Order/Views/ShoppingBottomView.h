@@ -22,8 +22,8 @@
 /// 去结算
 @property (nonatomic,strong) UIButton *settleAccountsBT;
 
-@property (nonatomic,strong) ShopModel *shopModel;
+@property (nonatomic,strong) NewShopModel *shopModel;
 
--(void)changeBottomUIWith:(ShopModel *)shopModel;
+-(void)changeBottomUIWith:(NewShopModel *)shopModel;
 
 @end

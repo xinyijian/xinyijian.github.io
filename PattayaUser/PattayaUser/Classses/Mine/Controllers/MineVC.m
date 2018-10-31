@@ -37,6 +37,9 @@
 
 ///底部
 @property (nonatomic,strong) UIView *bottomBgView;
+
+
+@property (nonatomic,strong) UserModel * userModel;
 @end
 
 @implementation MineVC
@@ -73,6 +76,8 @@
         _headBgView.height_attr.constant = IPhone_7_Scale_Height(90);
     }];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(pushToCountSafe:)];
+    [_headBgView addGestureRecognizer:tap];
     //头像
     _headImg = [[UIImageView alloc]init];
     _headImg.image = [UIImage imageNamed:@"main_cell_headImg_bg"];
@@ -192,13 +197,15 @@
     [[PattayaUserServer singleton] UserInfoRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         NSLog(@"%@",ret);
         if ([ResponseModel isData:ret]) {
-            UserModel * mode = [[UserModel alloc] initWithDictionary:ret[@"data"] error:nil];
-            self.nameLabel.text = mode.userName;
-            self.numberLabel.text = mode.maskMobile;
+            _userModel = [[UserModel alloc] initWithDictionary:ret[@"data"] error:nil];
+            self.nameLabel.text = _userModel.userName;
+            self.numberLabel.text = _userModel.maskMobile;
+            NSString *url = (_userModel.headImgUrl) ? (_userModel.headImgUrl) : (_userModel.userSocialLinks.count > 0 ? _userModel.userSocialLinks[0][@"headImgUrl"] : @"");
+            [self.headImg sd_setImageWithURL:[NSURL URLWithString:url]  placeholderImage:[UIImage imageNamed:@"main_cell_headImg_bg"]];
 //            _socialArray = [NSMutableArray array];
 //            _socialArray = mode.userSocialLinks;
 //            [_headview.userImg sd_setImageWithURL:[NSURL URLWithString:mode.headImgUrl] placeholderImage:[UIImage imageNamed:@"boy"]];
-//            [PattayaTool loginSavename:mode.userName mobile:mode.mobile];
+            [PattayaTool loginSavename:_userModel.userName mobile:_userModel.mobile];
         } else
         {
             [YDProgressHUD showMessage:ret[@"message"]];
@@ -228,6 +235,13 @@
         [self.navigationController pushViewController:vc animated:YES];
         
     }
+}
+
+-(void)pushToCountSafe:(UITapGestureRecognizer *)tap{
+    AccountSafeVC *vc = [[AccountSafeVC alloc]init];
+    vc.userModel = _userModel;
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 #pragma mark - 导航栏按钮

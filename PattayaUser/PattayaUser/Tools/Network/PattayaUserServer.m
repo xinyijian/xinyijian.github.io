@@ -295,12 +295,34 @@
 }
 
 #pragma mark --- post /order/order/orderPayment 生成支付订单
-- (void)orderPaymentRequest:(NSDictionary *)dic success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
+- (void)orderPaymentRequest:(NSString *)orderNo payType:(int)payType success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
 {
-    [[PattayaHttpRequest sharedHttpManager]postWithUrlPath:[NSString stringWithFormat:@"/order/order/orderPayment"] parameter:dic isNeedIndicator:NO success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
+    [[PattayaHttpRequest sharedHttpManager]postWithUrlPath:[NSString stringWithFormat:@"/order/order/orderPayment/%@/%d",orderNo,payType] parameter:nil isNeedIndicator:NO success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
         successResult(operation,responesObject);
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         failureResult(operation,error);
     }];
+}
+
+#pragma mark ---GET /gse/pub/category/findGdsByStoreId{id} 获取单个商店商品的分类
+- (void)findGdsByStoreIdRequest:(NSDictionary *)storeId Success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
+{
+    [[PattayaHttpRequest sharedHttpManager] getWithUrlPath:[NSString stringWithFormat:@"/gse/pub/category/findGdsByStoreId"] parameter:storeId isNeedIndicator:YES success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
+        successResult(operation,responesObject);
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        failureResult(operation,error);
+    }];
+  
+}
+
+#pragma mark ---GET /gse/pub/category/findGdsBygdsType 获取分类商品
+- (void)findGdsBygdsTypeRequest:(NSDictionary *)dic Success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
+{
+    [[PattayaHttpRequest sharedHttpManager] getWithUrlPath:[NSString stringWithFormat:@"/gse/pub/category/findGdsBygdsType"] parameter:dic isNeedIndicator:YES success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
+        successResult(operation,responesObject);
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        failureResult(operation,error);
+    }];
+    
 }
 @end

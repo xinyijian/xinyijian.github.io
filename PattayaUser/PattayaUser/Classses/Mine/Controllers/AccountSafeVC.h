@@ -7,7 +7,10 @@
 //
 
 #import "YDBaseController.h"
-
+#import "UserModel.h"
 @interface AccountSafeVC : YDBaseTBController
+
+@property (nonatomic,strong) UserModel * userModel;
+
 
 @end

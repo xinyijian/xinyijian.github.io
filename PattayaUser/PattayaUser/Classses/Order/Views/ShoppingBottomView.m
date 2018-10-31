@@ -107,14 +107,15 @@
     self.settleAccountsBT.backgroundColor = (count == 0 ? UIColorFromRGB(0x707070) : App_Nav_BarDefalutColor);
 }
 
--(void)changeBottomUIWith:(ShopModel *)shopModel{
+-(void)changeBottomUIWith:(NewShopModel *)shopModel{
        NSLog(@"选择商品");
     count = 0;
     totalAmount = 0;
-    for (ProductModel *model in shopModel.goodsList) {
-        count = [model.selectCount intValue] + count;
-        totalAmount = [model.selectCount intValue]*[model.salePrice floatValue]+totalAmount;
-        
+    for (NSArray *array in shopModel.productArray) {
+        for (NewShopListModel *model in array) {
+            count = [model.selectCount intValue] + count;
+            totalAmount = [model.selectCount intValue]*[model.salePrice floatValue]+totalAmount;
+        }
     }
     self.countLabel.hidden = (count == 0 ? YES : NO);
     self.countLabel.text = [NSString stringWithFormat:@"%d",count];

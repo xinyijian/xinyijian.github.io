@@ -10,4 +10,10 @@
 
 @interface NewShopModel : JSONModel
 
+@property (nonatomic, strong) NSMutableArray <Optional>*titleArray;
+
+@property (nonatomic, strong) NSMutableArray <Optional>*productArray;
+
+
+
 @end

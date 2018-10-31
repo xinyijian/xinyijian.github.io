@@ -391,8 +391,9 @@
 
 //到店取。打个店
 -(void)btnClick:(UIButton *)btn{
-     btn.selected = YES;
+    
     if (btn == _reachStoreBT) {
+        btn.selected = YES;
         _callStoreBT.selected = NO;
         
         //修改文案
@@ -487,9 +488,9 @@
     return _paymentActionSheetView;
 }
 //支付
--(void)goToPay{
-    self.paymentSuccessView.hidden = NO;
-}
+//-(void)goToPay{
+//    self.paymentSuccessView.hidden = NO;
+//}
 
 #pragma mark - 支付成功视图
 - (PaymentSuccessView *)paymentSuccessView

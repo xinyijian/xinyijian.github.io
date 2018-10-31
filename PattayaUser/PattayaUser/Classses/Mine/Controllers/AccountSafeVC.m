@@ -18,13 +18,22 @@
 @property(nonatomic, strong)UITextField *name;
 @property(nonatomic, strong)UIButton *layoutBT;
 
+@property (nonatomic, strong) NSMutableArray * nameText;
 
 @end
 
 @implementation AccountSafeVC
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"KdthirdBindSuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"KdthirdQQ" object:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdBindSuccess:) name:@"KdthirdBindSuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(QQsuccess:) name:@"KdthirdQQ" object:nil];
     
     [self setupUI];
     
@@ -32,10 +41,47 @@
     
 }
 
+
+
 -(void)setupUI{
     [super setupUI];
+    [self loadDataCell];
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 0);
     self.navigationItem.title = @"账户安全";
+}
+
+- (void)loadDataCell
+{
+    NSString * str1 = @"解除绑定";
+    NSString * str2 = @"点击绑定";
+    
+    _nameText = [NSMutableArray array];
+    if (_userModel.userSocialLinks.count > 0) {
+        
+        if (_userModel.userSocialLinks.count == 1) {
+            NSDictionary * dicwecht = _userModel.userSocialLinks[0];
+            if ([dicwecht[@"socialType"] isEqualToString:@"WECHAT"]) {
+                [_nameText addObject:str1];
+                [_nameText addObject:str2];
+            } else
+            {
+                [_nameText addObject:str2];
+                [_nameText addObject:str1];
+            }
+        } else
+        {
+            //        NSDictionary * dicwecht = _listUserSocial[0];
+            //        NSDictionary * dicQQ = _listUserSocial[1];
+            [_nameText addObject:str1];
+            [_nameText addObject:str1];
+            
+        }
+    } else
+    {
+        [_nameText addObject:str2];
+        [_nameText addObject:str2];
+        
+    }
 }
 
 -(void)netRequestData{
@@ -131,16 +177,10 @@
             self.headImg.layer.masksToBounds = YES;
             self.headImg.contentMode = UIViewContentModeScaleAspectFill;
             self.headImg.tag = 1001;
-            //        self.headImg.layer.borderColor = [[UIColor whiteColor]CGColor];
-            //        self.headImg.layer.borderWidth = 2.0f;
-            self.headImg.backgroundColor = [UIColor blackColor];
-            
-            //        if (self.uploadImage) {
-            //            self.headImg.image = self.uploadImage;
-            //        }else{
-            //            [self.headImg sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"contacts.png"]];
-            //        }
-            
+            NSString *url = (_userModel.headImgUrl) ? (_userModel.headImgUrl) : (_userModel.userSocialLinks.count > 0 ? _userModel.userSocialLinks[0][@"headImgUrl"] : @"123");
+            self.headImg.image = nil;
+            [self.headImg sd_setImageWithURL:[NSURL URLWithString:url]  placeholderImage:[UIImage imageNamed:@"main_cell_headImg_bg"]];
+          
             [cell.contentView addSubview:self.headImg];
             //cell.accessoryView = self.headImg;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -149,7 +189,7 @@
         if (indexPath.row == 1) {
             //手机
             //cell.detailTextLabel.text = [self.personInfoDic objectForKey:@"phone"];
-            cell.detailTextLabel.text = @"15071047088";
+            cell.detailTextLabel.text = _userModel.mobile;
             cell.detailTextLabel.textColor = UIColorFromRGB(0x4A4A4A);
         }
         
@@ -162,7 +202,7 @@
             self.name.font = [UIFont systemFontOfSize:14];
             self.name.textAlignment = 2;
             self.name.delegate = self;
-            self.name.text = @"Yvonne";
+            self.name.text = _userModel.mobile;
             [cell.contentView addSubview:self.name];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
@@ -178,10 +218,25 @@
         [cell.imageView.image drawInRect:imageRect];
         cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-     
-        cell.detailTextLabel.text = @"点击绑定";
-        cell.detailTextLabel.textColor = App_Nav_BarDefalutColor;
-        cell.detailTextLabel.font = fontStely(@"PingFangSC-Regular", 14);
+    
+        cell.detailTextLabel.text = _nameText[indexPath.row];
+        if (_userModel.userSocialLinks.count > 0) {
+            NSDictionary * dicwecht = _userModel.userSocialLinks[0];
+            if (_userModel.userSocialLinks.count == 1) {
+                if ([dicwecht[@"socialType"] isEqualToString:@"WECHAT"] && indexPath.row == 0){
+                    cell.detailTextLabel.textColor = UIColorFromRGB(0xE4344A);
+                }else{
+                    cell.detailTextLabel.textColor = App_Nav_BarDefalutColor;
+                }
+            }else{
+                 cell.detailTextLabel.textColor = UIColorFromRGB(0xE4344A);
+            }
+            
+        }else{
+            cell.detailTextLabel.textColor = App_Nav_BarDefalutColor;
+        }
+        
+    cell.detailTextLabel.font = fontStely(@"PingFangSC-Regular", 14);
     }
     
     return cell;
@@ -198,10 +253,95 @@
     }else if (indexPath.section == 1){
         // NSLog(@"点击绑定");
       UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-      cell.detailTextLabel.text = @"解锁绑定";
-      cell.detailTextLabel.textColor = UIColorFromRGB(0xE4344A);
+//      cell.detailTextLabel.text = @"解除绑定";
+//      cell.detailTextLabel.textColor = UIColorFromRGB(0xE4344A);
+       
+        
+        NSString * str = _nameText[indexPath.row];
+        if (indexPath.row == 0) {
+            if ([str isEqualToString:@"解除绑定"]) {
+                
+                for (NSDictionary * dic in _userModel.userSocialLinks) {
+                    if ([dic[@"socialType"] isEqualToString:@"WECHAT"]) {
+                        [self deletedUnBind:@{@"openId":dic[@"openId"],@"socialType":@"WECHAT"}];
+                    }
+                }
+                
+                
+            } else{
+                //绑定
+                [self weChatLogin];
+            }
+            
+        } else if (indexPath.row == 1)
+        {
+            if ([str isEqualToString:@"解除绑定"]) {
+                for (NSDictionary * dic in _userModel.userSocialLinks) {
+                    if ([dic[@"socialType"] isEqualToString:@"QQ"]) {
+                        [self deletedUnBind:@{@"openId":dic[@"openId"],@"socialType":@"QQ"}];
+                    }
+                }
+                
+            } else
+            {
+                ///绑定
+                [self QQLogin];
+                
+            }
+        }
+        
     }
     
+}
+
+- (void)QQLogin
+{
+    NSArray* permissions = [NSArray arrayWithObjects:
+                            kOPEN_PERMISSION_GET_USER_INFO,
+                            kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
+                            kOPEN_PERMISSION_ADD_ALBUM,
+                            kOPEN_PERMISSION_ADD_ONE_BLOG,
+                            kOPEN_PERMISSION_ADD_SHARE,
+                            kOPEN_PERMISSION_ADD_TOPIC,
+                            kOPEN_PERMISSION_CHECK_PAGE_FANS,
+                            kOPEN_PERMISSION_GET_INFO,
+                            kOPEN_PERMISSION_GET_OTHER_INFO,
+                            kOPEN_PERMISSION_LIST_ALBUM,
+                            kOPEN_PERMISSION_UPLOAD_PIC,
+                            kOPEN_PERMISSION_GET_VIP_INFO,
+                            kOPEN_PERMISSION_GET_VIP_RICH_INFO,
+                            nil];
+    
+    [GetAppDelegate.tencentOAuth setAuthShareType:AuthShareType_QQ];
+    [GetAppDelegate.tencentOAuth authorize:permissions inSafari:NO];
+    
+}
+
+-(void)bindOrNot{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定退出吗？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [[PattayaUserServer singleton] logOutUserRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+            if ([ResponseModel isData:ret]) {
+                [PattayaTool INVALID_ACCESS_TOKEN];
+                [GetAppDelegate getTabbarVC];
+                [PattayaTool chenkLogin:@""];
+            } else
+            {
+                [YDProgressHUD showMessage:ret[@"message"]];
+            }
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        }];
+        
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alertController addAction:sureAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma  退出登录
@@ -282,10 +422,100 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
+//
 - (void)hideKeyBoard{
    
     [self.name endEditing:YES];
+}
+
+- (void)deletedUnBind:(NSDictionary *)dic
+{
+    [[PattayaUserServer singleton] deleteDunBindOrderRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        
+        if ([ResponseModel isData:ret]) {
+            [self userInfoHttp];
+        } else
+        {
+             [YDProgressHUD showHUD:@"message"];
+        }
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
+}
+
+- (void)thirdBindHttp:(NSDictionary *)dic
+{
+    [[PattayaUserServer singleton]thirdBinOrderRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        if ([ResponseModel isData:ret]) {
+            
+            [self userInfoHttp];
+            
+        } else
+        {
+            [YDProgressHUD showHUD:@"message"];
+        }
+        //        [_tableview reloadData];
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
+}
+- (void)weChatLogin
+{
+    SendAuthReq * reques = [[SendAuthReq alloc]init];
+    reques.scope = @"snsapi_userinfo";
+    reques.state = @"iOSPattaya-user";
+    if ([WXApi isWXAppInstalled]) {
+        //第三方向微信终端发送一个SendAuthReq消息结构
+        [WXApi sendReq:reques];
+    } else
+    {
+        [GetAppDelegate sendAuthReq:reques viewController:self];
+    }
+}
+- (void)thirdBindSuccess:(NSNotification *)info
+{
+    //
+    WS(weakSelf);
+    [[PattayaUserServer singleton] WeChatCodeRequest:info.object[@"code"] success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        NSLog(@"%@",ret);
+        if ([ResponseModel isData:ret]) {
+            [weakSelf thirdBindHttp:@{@"openId":ret[@"data"][@"openId"],@"socialType":@"WECHAT",@"nickName":ret[@"data"][@"nickname"],@"headImgUrl":ret[@"data"][@"headImgUrl"]}];
+        }
+        
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
+
+- (void)QQsuccess:(NSNotification *)info
+{
+    
+    NSDictionary * dic = info.object[@"QQ"];
+    [self thirdBindHttp:@{@"openId":GetAppDelegate.tencentOAuth.openId,@"socialType":@"QQ",@"nickName":dic[@"nickname"],@"headImgUrl":dic[@"figureurl_qq_2"]}];
+    
+}
+
+
+- (void)userInfoHttp
+{
+    [[PattayaUserServer singleton] UserInfoRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        NSLog(@"%@",ret);
+        if ([ResponseModel isData:ret]) {
+            _userModel = [[UserModel alloc] initWithDictionary:ret[@"data"] error:nil];
+//            _listUserSocial = [NSMutableArray array];
+//            _listUserSocial = mode.userSocialLinks;
+            [self loadDataCell];
+            
+        } else
+        {
+            [YDProgressHUD showHUD:@"message"];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
 }
 
 @end

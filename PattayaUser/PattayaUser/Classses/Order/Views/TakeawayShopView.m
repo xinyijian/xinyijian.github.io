@@ -11,7 +11,8 @@
 #import "ShoppingBottomView.h"
 #import "ShopActionSheetView.h"
 #import "PaymentOrderVC.h"
-
+#import "NewShopModel.h"
+#import "NewShopListModel.h"
 @interface TakeawayShopView()<ShopScrollViewDelegate,CAAnimationDelegate>
 {
     
@@ -42,7 +43,11 @@
 @property (nonatomic, strong) UIImageView *shakeImg;//摇摆视图
 @property (nonatomic, assign) NSInteger *count;//摇摆次数
 
-@property (nonatomic, assign) NSMutableArray *uploadArray;//上传商品的数组
+@property (nonatomic, strong) NSMutableArray *titleArray;//商品分类
+@property (nonatomic, strong) NSMutableArray *productArray;//商品
+@property (nonatomic, strong) NSMutableArray *uploadArray;//上传商品的数组
+
+@property (nonatomic, strong) NewShopModel *model;//商品分类
 
 
 @end
@@ -70,7 +75,7 @@
 #pragma mark - 选择商品
 -(void)changeselectcount{
     //改变底部视图UI
-    [self.bottomView changeBottomUIWith:_shopModel];
+    [self.bottomView changeBottomUIWith:_model];
    
   
 }
@@ -79,12 +84,90 @@
 //根据容器ID,获取对应的源ID
 -(void)requestGetProductGroupInfo_new {
     
-    NSDictionary *dataDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"shop.json" ofType:nil]];
-    [self analysisData:dataDict];
-
+    NSDictionary *dic = @{
+                          @"deviceNo":@"AA20170606"
+                          };
+    //获取分类
+    [[PattayaUserServer singleton] findGdsByStoreIdRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        
+        NSLog(@"%@",ret);
+        if ([ResponseModel isData:ret]){
+            _titleArray = ret[@"data"];
+            
+            [self getGoodsListWithTitleArray:_titleArray];
+        }
+       
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
+    
 }
 
-- (void)analysisData:(NSDictionary *)dic{
+
+-(void)getGoodsListWithTitleArray:(NSMutableArray *)titleArray{
+    
+//    NSDictionary *dic = @{
+//                          @"deviceNo":@"AA20170606",
+//                          @"gdsType":titleArray[i]
+//                          };
+//    [[PattayaUserServer singleton] findGdsBygdsTypeRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+//
+//        NSArray *array = ret[@"data"];
+//        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+//        for (NSDictionary *dic in array) {
+//            NewShopListModel *listModel  = [[NewShopListModel alloc]initWithDictionary:dic error:nil];
+//            [_productArray addObject:listModel];
+//
+//        }
+//        // [_productArray addObject:arr];
+//
+//
+//    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+//
+//    }];
+    
+    WEAK_SELF;
+    dispatch_group_t group = dispatch_group_create();
+    
+    for (int i = 0; i < titleArray.count; i++){
+        
+        dispatch_group_enter(group);
+        NSDictionary *dic = @{
+                              @"deviceNo":@"AA20170606",
+                              @"gdsType":titleArray[i]
+                              };
+        [[PattayaUserServer singleton] findGdsBygdsTypeRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+     
+            NSArray *array = ret[@"data"];
+            NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+            for (NSDictionary *dic in array) {
+                NewShopListModel *listModel  = [[NewShopListModel alloc]initWithDictionary:dic error:nil];
+                [arr addObject:listModel];
+    
+            }
+             [weakSelf.productArray addObject:arr];
+           dispatch_group_leave(group);
+    
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+    
+        }];
+
+    }
+
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        _model = [[NewShopModel alloc]init];
+        _model.titleArray = _titleArray;
+        _model.productArray = _productArray;
+        //NSDictionary *dataDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"shop.json" ofType:nil]];
+        [weakSelf analysisData];
+    });
+    
+    
+}
+
+- (void)analysisData{
+    NSLog(@"%@=== %d",_titleArray,_productArray.count);
+
     //顶部视图
      [self setHeaderView];
     //创建滚动视图
@@ -158,7 +241,7 @@
 - (ShopScrollView *)productListView
 {
     if (!_productListView) {   
-        _productListView = [[ShopScrollView alloc]initWithFrame:CGRectMake(0, 0, self.width, self.height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT) withShopModel:_shopModel withGroupID:nil currentVC:[self viewController]];
+        _productListView = [[ShopScrollView alloc]initWithFrame:CGRectMake(0, 0, self.width, self.height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT) withShopModel:_model withGroupID:nil currentVC:[self viewController]];
         _productListView.showsVerticalScrollIndicator = NO;
         _productListView.backgroundColor = [UIColor clearColor];
         _productListView.scrollDelegate = self;
@@ -194,37 +277,42 @@
 -(void)shopCarClick:(UIButton *)btn{
     NSLog(@"购物车");
   
-    [self.shopActionSheetView showViewWith:_shopModel];
+    [self.shopActionSheetView showViewWith:_model];
 }
 
 #pragma mark -去结算
 -(void)settleAccountsClick:(UIButton *)btn{
     NSLog(@"去结算");
     [_uploadArray removeAllObjects];
-    for (ProductModel *model in _shopModel.goodsList) {
-        if (model.selectCount.intValue>0) {
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"6921168509256",@"product_barcode",model.selectCount,@"num", nil];
-            [_uploadArray addObject:dic];
-        }
-       
-    }
-//    NSDictionary *dic = @{
-//        @"deviceNo":_shopModel.deviceNo,
-//        @"barcodeInfos":_uploadArray
-//    };
-    
-   NSDictionary *dic  = @{
-        @"deviceNo":@"WHH20170815001H",
-        @"barcodeInfos":@[
-                @{
-            @"product_barcode":@"6921168509256",
-            @"num":@1
+    for (NSArray *array in _model.productArray) {
+        for (NewShopListModel *model in array) {
+            if (model.selectCount.intValue>0) {
+                NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.productBarcode,@"product_barcode",model.selectCount,@"num", nil];
+                [self.uploadArray addObject:dic];
             }
-        ]
-        };
+            
+        }
+    }
+   
+    NSDictionary *dic = @{
+                          
+        @"deviceNo":@"AA20170606",
+        @"barcodeInfos":_uploadArray
+        
+    };
+    
+//   NSDictionary *dic  = @{
+//        @"deviceNo":@"WHH20170815001H",
+//        @"barcodeInfos":@[
+//                @{
+//            @"product_barcode":@"6921168509256",
+//            @"num":@1
+//            }
+//        ]
+//        };
     [[PattayaUserServer singleton] submitOrderRequest:dic success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         if ([ResponseModel isData:ret]){
-         NSString *str = ret[@"data"][@"payBusinessCode"];
+         NSString *str = ret[@"data"][@"id"];
             if (str) {
                 PaymentOrderVC *vc = [[PaymentOrderVC alloc]init];
                 vc.shopModel = _shopModel;
@@ -422,6 +510,23 @@
     }
     return _shakeImg;
 }
+
+-(NSMutableArray*)titleArray{
+    if (!_titleArray) {
+        _titleArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    return _titleArray;
+}
+
+-(NSMutableArray*)productArray{
+    if (!_productArray) {
+        _productArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    return _productArray;
+}
+
 
 -(NSMutableArray*)uploadArray{
     if (!_uploadArray) {

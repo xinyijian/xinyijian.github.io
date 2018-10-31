@@ -11,11 +11,11 @@
 #import "DD_Alertview.h"
 #import "ConfirmationOrderViewController.h"
 #import<CoreLocation/CoreLocation.h>
-#import "ThirdPartyViewController.h"
 #import "UpdateObject.h"
 #import "ProtocolKit.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
+#import "AccountSafeVC.h"
 
 //#import "DD_SpeechSynthesizer.h"
 NSString* APP_BASE_URL;
@@ -298,7 +298,7 @@ extern CFAbsoluteTime StartTime;
         if (rp.errCode == 0) {
             UIViewController * vcs = [PattayaTool findBestViewController:self.window.rootViewController];
 
-            if ([vcs isKindOfClass:[ThirdPartyViewController class]]) {
+            if ([vcs isKindOfClass:[AccountSafeVC class]]) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"KdthirdBindSuccess" object:@{@"code":rp.code}];
             } else
             {
@@ -419,7 +419,7 @@ extern CFAbsoluteTime StartTime;
         
         UIViewController * vcs = [PattayaTool findBestViewController:self.window.rootViewController];
         
-        if ([vcs isKindOfClass:[ThirdPartyViewController class]]) {
+        if ([vcs isKindOfClass:[AccountSafeVC class]]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"KdthirdQQ" object:@{@"QQ":userInfo}];
         } else
         {
