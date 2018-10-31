@@ -60,9 +60,9 @@
     _userNameMobl.text = @"闻（女士）15083958903";
     
     //编辑按钮
-    _editBT = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_editBT setBackgroundImage:[UIImage imageNamed:@"btn_edit"] forState:UIControlStateNormal];
-    [_editBT setBackgroundImage:[UIImage imageNamed:@"btn_edit"] forState:UIControlStateSelected];
+    _editBT = [[UIImageView alloc]init];
+    _editBT.image = [UIImage imageNamed:@"btn_edit"];
+    _editBT.userInteractionEnabled = YES;
     [self.contentView addSubview:_editBT];
     [_editBT activateConstraints:^{
         [_editBT.right_attr equalTo:self.contentView.right_attr constant:-12];
@@ -90,10 +90,10 @@
 {
     _model = model;
     if (model) {
-//        _addName.text = model.tagAlias;
-//        _address.text = model.formattedAddress;
-//        _userNameMobl.text = [NSString stringWithFormat:@"%@ %@",model.contactName,model.contactMobile];
-
+        _addressLabel.text = model.formattedAddress;
+        _subAddressLabel.text = model.houseNumber;
+        _userNameMobl.text = [NSString stringWithFormat:@"%@ %@",model.contactName,model.contactMobile];
+        
     }
 }
 

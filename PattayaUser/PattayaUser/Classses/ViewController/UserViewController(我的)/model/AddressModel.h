@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSString <Optional>* longitude;
 @property (nonatomic, strong) NSString <Optional>* latitude;
 @property (nonatomic, strong) NSString <Optional>* areaId;
+@property (nonatomic, strong) NSString <Optional>* houseNumber;
 @end
 @protocol AddressModel
 @end

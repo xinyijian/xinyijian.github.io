@@ -68,7 +68,7 @@
     
 }
 - (PTLAlertView *)AlerCallOrderDir{
-    PTLAlertView * aler = [[PTLAlertView alloc] initWithTitle:NSLocalizedString(@"提示",nil) message:NSLocalizedString(@"有正在召唤订单是否查看?点击'进行中'查看",nil) cancelButtonTitle:NSLocalizedString(@"取消",nil) otherButtonTitles:NSLocalizedString(@"确定",nil), nil];
+    PTLAlertView * aler = [[PTLAlertView alloc] initWithTitle:NSLocalizedString(@"提示",nil) message:@"是否确定删除地址" cancelButtonTitle:NSLocalizedString(@"取消",nil) otherButtonTitles:NSLocalizedString(@"确定",nil), nil];
     aler.titleBackgroundColor = BlueColor;
     aler.titleTextColor = [UIColor whiteColor];
     aler.cancelBtnTextColor = BlueColor;

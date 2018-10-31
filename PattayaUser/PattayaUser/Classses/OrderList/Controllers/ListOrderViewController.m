@@ -41,6 +41,16 @@
     [self createTopMenuView];
     [self ConsumeOrderHttp];
 }
+- (void)netRequestData{
+    [[PattayaUserServer singleton] getProcessingOrderRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        NSLog(@"detailListModel = %@",ret);
+        detailListModel * model = [[detailListModel alloc] initWithDictionary:ret error:nil];
+        NSLog(@"model = = %@",model);
+        
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
+}
 #pragma mark - 创建顶部菜单视图
 //创建顶部菜单视图
 - (void)createTopMenuView{
@@ -56,6 +66,7 @@
         titleBtn.frame = CGRectMake(i*btn_width, 0, btn_width, btn_height);
         [titleBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [titleBtn setTitle:TITLES[i] forState:UIControlStateNormal];
+        titleBtn.tag = i;
         [self.view addSubview:titleBtn];
         
         if (i==0) {
@@ -82,7 +93,7 @@
     [_currentBT setTitleColor: UIColorFromRGB(0x5A5A5A) forState:UIControlStateNormal];
     _currentBT = btn;
     [btn setTitleColor:App_Nav_BarDefalutColor forState:UIControlStateNormal];
-
+    [self selectButton:btn.tag];
     [UIView animateWithDuration:0.3 animations:^{
         _scrollLab.frame = CGRectMake(btn.YD_x + (btn.YD_width - IPhone_7_Scale_Width(65))/2, btn.YD_bottom, IPhone_7_Scale_Width(65), 2);
 
@@ -90,6 +101,14 @@
         
     }];
     
+}
+- (void)selectButton:(NSInteger)tags{
+    if (tags == 1) {
+        [self netRequestData];
+
+    } else{
+        
+    }
 }
 
 - (void)ConsumeOrderHttp

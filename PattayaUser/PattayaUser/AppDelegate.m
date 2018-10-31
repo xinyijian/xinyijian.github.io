@@ -42,6 +42,7 @@ extern CFAbsoluteTime StartTime;
     [JPUSHService setBadge:0];
 //    APP_BASE_URL = APP_TEST_URL;
     APP_BASE_URL = TANGNA;
+//    APP_BASE_URL = APP_PROD_URL;
 //    APP_BASE_URL = APP_DEV_URL;
     _isAppOptons = YES;
     _isblureHeight = NO;

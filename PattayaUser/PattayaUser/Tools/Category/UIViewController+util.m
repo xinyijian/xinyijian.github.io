@@ -89,23 +89,12 @@
     
 }
 - (UIStatusBarStyle)StatusBarStyle{
-    if ([self isKindOfClass:[NSClassFromString(@"LocationViewController") class]])
+    if ([self isKindOfClass:[NSClassFromString(@"HomeViewController") class]])
     {
-        return UIStatusBarStyleLightContent;//白色
-        
-    }else if ([self isKindOfClass:[NSClassFromString(@"SeacherViewController") class]])
-    {
-        return UIStatusBarStyleLightContent;//白色
-        
-    }else if ([self isKindOfClass:[NSClassFromString(@"HomeViewController") class]])
-    {        return UIStatusBarStyleLightContent;//白色
-        
-        
-    }else if ([self isKindOfClass:[NSClassFromString(@"SeachAddressViewController") class]])
-    {        return UIStatusBarStyleLightContent;//白色
+        return UIStatusBarStyleDefault;//
         
     }else {
-        return UIStatusBarStyleDefault;//
+        return UIStatusBarStyleLightContent;//
     }
 }
 

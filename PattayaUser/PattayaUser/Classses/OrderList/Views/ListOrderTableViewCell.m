@@ -156,23 +156,23 @@
         shifu.centerY_attr = _picesLabel.centerY_attr;
     }];
     
-    //评价订单
-    _evaluateOrderBT = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_evaluateOrderBT setTitle:@"评价订单" forState:UIControlStateNormal];
-    [_evaluateOrderBT setTitleColor:UIColorWhite forState:UIControlStateNormal];
-    _evaluateOrderBT.titleLabel.font = K_LABEL_SMALL_FONT_10;
-    _evaluateOrderBT.backgroundColor = App_Nav_BarDefalutColor;
-    _evaluateOrderBT.layer.cornerRadius = 3;
-    _evaluateOrderBT.layer.masksToBounds = YES;
-    [_evaluateOrderBT addTarget:self action:@selector(evaluateOrder) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:_evaluateOrderBT];
-    [_evaluateOrderBT activateConstraints:^{
-        [_evaluateOrderBT.right_attr equalTo:self.contentView.right_attr constant:-20];
-        _evaluateOrderBT.height_attr.constant = 24;
-        _evaluateOrderBT.width_attr.constant = 46;
-        [_evaluateOrderBT.top_attr equalTo:bgView.bottom_attr constant:10];
-
-    }];
+//    //评价订单
+//    _evaluateOrderBT = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [_evaluateOrderBT setTitle:@"评价订单" forState:UIControlStateNormal];
+//    [_evaluateOrderBT setTitleColor:UIColorWhite forState:UIControlStateNormal];
+//    _evaluateOrderBT.titleLabel.font = K_LABEL_SMALL_FONT_10;
+//    _evaluateOrderBT.backgroundColor = App_Nav_BarDefalutColor;
+//    _evaluateOrderBT.layer.cornerRadius = 3;
+//    _evaluateOrderBT.layer.masksToBounds = YES;
+//    [_evaluateOrderBT addTarget:self action:@selector(evaluateOrder) forControlEvents:UIControlEventTouchUpInside];
+//    [self.contentView addSubview:_evaluateOrderBT];
+//    [_evaluateOrderBT activateConstraints:^{
+//        [_evaluateOrderBT.right_attr equalTo:self.contentView.right_attr constant:-20];
+//        _evaluateOrderBT.height_attr.constant = 24;
+//        _evaluateOrderBT.width_attr.constant = 46;
+//        [_evaluateOrderBT.top_attr equalTo:bgView.bottom_attr constant:10];
+//
+//    }];
    
 
 }
