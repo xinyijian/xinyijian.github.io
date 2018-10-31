@@ -43,7 +43,7 @@
         [_discountLabel.bottom_attr equalTo:self.bottom_attr constant:-(SafeAreaBottomHeight)];
     }];
     
-    //去结算
+    //去支付
     _paymentBT = [UIButton buttonWithType:UIButtonTypeCustom];
     [_paymentBT setTitle:@"去支付" forState:UIControlStateNormal];
     [_paymentBT setTitleColor:UIColorWhite forState:UIControlStateNormal];

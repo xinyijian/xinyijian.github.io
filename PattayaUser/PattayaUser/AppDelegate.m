@@ -14,6 +14,9 @@
 #import "ThirdPartyViewController.h"
 #import "UpdateObject.h"
 #import "ProtocolKit.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "WXApi.h"
+
 //#import "DD_SpeechSynthesizer.h"
 NSString* APP_BASE_URL;
 extern CFAbsoluteTime StartTime;
@@ -38,7 +41,7 @@ extern CFAbsoluteTime StartTime;
     application.applicationIconBadgeNumber = 0;
     [JPUSHService setBadge:0];
 //    APP_BASE_URL = APP_TEST_URL;
-    APP_BASE_URL = APP_PROD_URL;
+    APP_BASE_URL = TANGNA;
 //    APP_BASE_URL = APP_DEV_URL;
     _isAppOptons = YES;
     _isblureHeight = NO;
@@ -234,21 +237,33 @@ extern CFAbsoluteTime StartTime;
     
 }
 
+
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
     NSLog(@"%@",url);
     if ([url.absoluteString containsString:@"wx"]) {
         return  [WXApi handleOpenURL:url delegate:self];
         
-    } else
-    {
+    }else if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"result = %@",resultDic);
+        }];
+        return YES;
+        
+    }else if ([url.host isEqualToString:@"pay"]) {
+        // 处理微信的支付结果
+       return [WXApi handleOpenURL:url delegate:self];
+        
+    }else{
         return [TencentOAuth HandleOpenURL:url];
         
     }
     
     //    return  [WXApi handleOpenURL:url delegate:self];
     
-}// no equiv. notification. return NO if the application can't open for some reason
+}
+// no equiv. notification. return NO if the application can't open for some reason
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     
@@ -258,8 +273,16 @@ extern CFAbsoluteTime StartTime;
         
         return  isSuc;
         
-    } else
-    {
+    }else if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"result = %@",resultDic);
+        }];
+        return YES;
+    }else if ([url.host isEqualToString:@"pay"]) {
+        // 处理微信的支付结果
+        return [WXApi handleOpenURL:url delegate:self];
+    }else{
         return [TencentOAuth HandleOpenURL:url];
         
     }

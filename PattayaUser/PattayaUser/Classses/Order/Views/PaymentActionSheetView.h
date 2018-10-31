@@ -32,7 +32,8 @@
 @property (nonatomic,strong) UIButton *alipaySelectBT;
 /// 支付宝按钮
 @property (nonatomic,strong) UIButton *paymentBT;
-
+//支付码
+@property (nonatomic, strong) NSString *payBusinessCode;
 //隐藏视图
 -(void)hiddenView;
 

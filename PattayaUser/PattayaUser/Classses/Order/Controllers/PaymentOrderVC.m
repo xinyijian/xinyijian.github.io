@@ -467,7 +467,7 @@
     return _bottomView;
 }
 
-//去支付
+#pragma mark - 去支付
 -(void)paymentClick:(UIButton*)btn{
     
     [_paymentActionSheetView showView];
@@ -480,6 +480,7 @@
 {
     if (!_paymentActionSheetView) {
         _paymentActionSheetView = [[PaymentActionSheetView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, SCREEN_Height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT)];
+        _paymentActionSheetView.payBusinessCode = _payBusinessCode;
         _paymentActionSheetView.hidden = YES;
         [_paymentActionSheetView.paymentBT addTarget:self action:@selector(goToPay) forControlEvents:UIControlEventTouchUpInside];
     }

@@ -80,4 +80,10 @@
 - (void)appDelegateProcessingOrderRequestSuccess:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
 #pragma mark  检查更新
 - (void)checkUpdateRequest:(NSDictionary *)dic success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
+#pragma mark --- post /order/order/submitOrder 提交订单
+- (void)submitOrderRequest:(NSDictionary *)dic success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
+
+#pragma mark --- post /order/order/orderPayment 生成支付订单
+- (void)orderPaymentRequest:(NSDictionary *)dic success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
+
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "PaymentActionSheetView.h"
-
+#import <AlipaySDK/AlipaySDK.h>
 @implementation PaymentActionSheetView
 
 - (id)initWithFrame:(CGRect)frame
@@ -180,10 +180,68 @@
 
 //去支付
 -(void)paymentClick:(UIButton*)btn{
+    NSDictionary *dic = @{
+                          @"orderNo":@"00327f201810300009",
+                          @"payType":_wechatSelectBT.selected ? @2 : @1,
+                          
+                          };
+    [[PattayaUserServer singleton] orderPaymentRequest:dic success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+         NSLog(@"%@",ret);
+        if ([ResponseModel isData:ret]){
+           
+        }else
+        {
+            [YDProgressHUD showMessage:ret[@"message"]];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+         [YDProgressHUD showMessage:@"网络错误，请重试"];
+    }];
     
-    
+    if (_wechatSelectBT.selected) {
+        //微信支付
+        [self WechatPay];
+    }else{
+       // 支付宝支付
+        [self aliPay];
+    }
 }
 
+#pragma mark 微信支付方法
+- (void)WechatPay{
+    
+//    //需要创建这个支付对象
+//    PayReq *req   = [[PayReq alloc] init];
+//    //由用户微信号和AppID组成的唯一标识，用于校验微信用户
+//    req.openID = @"";//appid;
+//    // 商家id，在注册的时候给的
+//    req.partnerId = @"";//partnerid;
+//    // 预支付订单这个是后台跟微信服务器交互后，微信服务器传给你们服务器的，你们服务器再传给你
+//    req.prepayId  = @"";//prepayid;
+//    // 根据财付通文档填写的数据和签名
+//    req.package  = @"";//package;
+//    // 随机编码，为了防止重复的，在后台生成
+//    req.nonceStr  = @"";//noncestr;
+//    // 这个是时间戳，也是在后台生成的，为了验证支付的
+//    NSString * stamp = @"";//timestamp;
+//    req.timeStamp = stamp.intValue;
+//    // 这个签名也是后台做的
+//    req.sign = @"";//sign;
+//    //发送请求到微信，等待微信返回onResp
+//    [WXApi sendReq:req];
+}
+
+#pragma mark 支付宝支付方法
+-(void)aliPay{
+    
+    // NOTE: 将签名成功字符串格式化为订单字符串,请严格按照该格式
+    //    NSString *orderString = [NSString stringWithFormat:@"%@&sign=%@",
+    //                             orderInfoEncoded, signedString];
+    [[AlipaySDK defaultService] payOrder:@"fdsfsfsfsfsfsfsfs" fromScheme:@"pattayaUserPay" callback:^(NSDictionary *resultDic) {
+        NSLog(@"%@",resultDic);
+    }];
+}
 
 //隐藏视图
 -(void)hiddenView{

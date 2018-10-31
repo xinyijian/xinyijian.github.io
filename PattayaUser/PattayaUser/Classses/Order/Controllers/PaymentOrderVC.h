@@ -10,6 +10,9 @@
 
 @interface PaymentOrderVC : YDBaseTBController
 
+//支付码
+@property (nonatomic, strong) NSString *payBusinessCode;
+
 /**
  设置数据源
  */

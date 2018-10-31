@@ -42,6 +42,9 @@
 @property (nonatomic, strong) UIImageView *shakeImg;//摇摆视图
 @property (nonatomic, assign) NSInteger *count;//摇摆次数
 
+@property (nonatomic, assign) NSMutableArray *uploadArray;//上传商品的数组
+
+
 @end
 
 @implementation TakeawayShopView
@@ -197,12 +200,49 @@
 #pragma mark -去结算
 -(void)settleAccountsClick:(UIButton *)btn{
     NSLog(@"去结算");
-    PaymentOrderVC *vc = [[PaymentOrderVC alloc]init];
-    vc.shopModel = _shopModel;
-    [[self getController].navigationController pushViewController:vc animated:YES];
+    [_uploadArray removeAllObjects];
+    for (ProductModel *model in _shopModel.goodsList) {
+        if (model.selectCount.intValue>0) {
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"6921168509256",@"product_barcode",model.selectCount,@"num", nil];
+            [_uploadArray addObject:dic];
+        }
+       
+    }
+//    NSDictionary *dic = @{
+//        @"deviceNo":_shopModel.deviceNo,
+//        @"barcodeInfos":_uploadArray
+//    };
+    
+   NSDictionary *dic  = @{
+        @"deviceNo":@"WHH20170815001H",
+        @"barcodeInfos":@[
+                @{
+            @"product_barcode":@"6921168509256",
+            @"num":@1
+            }
+        ]
+        };
+    [[PattayaUserServer singleton] submitOrderRequest:dic success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        if ([ResponseModel isData:ret]){
+         NSString *str = ret[@"data"][@"payBusinessCode"];
+            if (str) {
+                PaymentOrderVC *vc = [[PaymentOrderVC alloc]init];
+                vc.shopModel = _shopModel;
+                vc.payBusinessCode = str;
+                [[self getController].navigationController pushViewController:vc animated:YES];
+            }
+        }else
+        {
+            [YDProgressHUD showMessage:ret[@"message"]];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        [YDProgressHUD showMessage:@"网络错误，请重试"];
+    }];
+   
     
 }
-
 
 - (void)ListScrollViewDropDown:(UIScrollView *)scrollView
 {
@@ -383,6 +423,13 @@
     return _shakeImg;
 }
 
+-(NSMutableArray*)uploadArray{
+    if (!_uploadArray) {
+        _uploadArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    return _uploadArray;
+}
 
 
 

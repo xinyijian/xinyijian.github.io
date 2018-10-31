@@ -283,4 +283,24 @@
         failureResult(operation,error);
     }];
 }
+
+#pragma mark --- post /order/order/submitOrder 提交订单
+- (void)submitOrderRequest:(NSDictionary *)dic success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
+{
+    [[PattayaHttpRequest sharedHttpManager]postWithUrlPath:[NSString stringWithFormat:@"/order/order/submitOrder"] parameter:dic isNeedIndicator:NO success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
+        successResult(operation,responesObject);
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        failureResult(operation,error);
+    }];
+}
+
+#pragma mark --- post /order/order/orderPayment 生成支付订单
+- (void)orderPaymentRequest:(NSDictionary *)dic success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
+{
+    [[PattayaHttpRequest sharedHttpManager]postWithUrlPath:[NSString stringWithFormat:@"/order/order/orderPayment"] parameter:dic isNeedIndicator:NO success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
+        successResult(operation,responesObject);
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        failureResult(operation,error);
+    }];
+}
 @end
