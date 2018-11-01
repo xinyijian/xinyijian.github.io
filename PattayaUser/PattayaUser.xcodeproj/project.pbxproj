@@ -319,6 +319,7 @@
 		9587CA1021859BAC00EA2E7B /* MainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9587CA0F21859BAC00EA2E7B /* MainModel.m */; };
 		958A71F521783AC900209CB0 /* EvaluateOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 958A71F421783AC900209CB0 /* EvaluateOrderVC.m */; };
 		958A99A42174785D0096B4E3 /* StoreListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 958A99A32174785D0096B4E3 /* StoreListCell.m */; };
+		95FBE42A2189DD4E003F82EC /* AMapAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FBE4292189DD4E003F82EC /* AMapAddressCell.m */; };
 		B1EA3045AFF556515D0BD11B /* libPods-PattayaUser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DE452D868C9028FD60BF95F /* libPods-PattayaUser.a */; };
 /* End PBXBuildFile section */
 
@@ -846,6 +847,8 @@
 		958A71F421783AC900209CB0 /* EvaluateOrderVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EvaluateOrderVC.m; sourceTree = "<group>"; };
 		958A99A22174785D0096B4E3 /* StoreListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreListCell.h; sourceTree = "<group>"; };
 		958A99A32174785D0096B4E3 /* StoreListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreListCell.m; sourceTree = "<group>"; };
+		95FBE4282189DD4E003F82EC /* AMapAddressCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMapAddressCell.h; sourceTree = "<group>"; };
+		95FBE4292189DD4E003F82EC /* AMapAddressCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMapAddressCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1031,8 +1034,6 @@
 		95140D2A21708B46007380B6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				95140D3921708B46007380B6 /* JHHeaderFlowLayout.h */,
-				95140D2E21708B46007380B6 /* JHHeaderFlowLayout.m */,
 				95140D2D21708B46007380B6 /* ShoppingBottomView.h */,
 				95140D3A21708B46007380B6 /* ShoppingBottomView.m */,
 				95140D3221708B46007380B6 /* ShopActionSheetView.h */,
@@ -1061,6 +1062,8 @@
 				95140D4021708B46007380B6 /* PaymentOrderCell.m */,
 				952105D5217586C300C7EFD0 /* PaymentSuccessView.h */,
 				952105D6217586C300C7EFD0 /* PaymentSuccessView.m */,
+				95140D3921708B46007380B6 /* JHHeaderFlowLayout.h */,
+				95140D2E21708B46007380B6 /* JHHeaderFlowLayout.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1174,6 +1177,8 @@
 				95183A422181B2F90052F59F /* AddressListCell.m */,
 				9539FDCD2182CAE900E55941 /* MessageCell.h */,
 				9539FDCE2182CAE900E55941 /* MessageCell.m */,
+				95FBE4282189DD4E003F82EC /* AMapAddressCell.h */,
+				95FBE4292189DD4E003F82EC /* AMapAddressCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2530,6 +2535,7 @@
 				95140F8321708B46007380B6 /* AddressTableViewCell.m in Sources */,
 				95140F4C21708B46007380B6 /* ListOrderTableViewCell.m in Sources */,
 				95140F5A21708B46007380B6 /* SeachAddressViewController.m in Sources */,
+				95FBE42A2189DD4E003F82EC /* AMapAddressCell.m in Sources */,
 				95183A402181AED30052F59F /* AddressListVC.m in Sources */,
 				95140F4D21708B46007380B6 /* RecommendationModel.m in Sources */,
 				95140FD221708B47007380B6 /* JMBadgeValue.m in Sources */,

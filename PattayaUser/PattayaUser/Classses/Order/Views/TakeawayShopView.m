@@ -85,7 +85,7 @@
 -(void)requestGetProductGroupInfo_new {
     
     NSDictionary *dic = @{
-                          @"deviceNo":@"AA20170606"
+                          @"deviceNo":_shopModel.deviceNo
                           };
     //获取分类
     [[PattayaUserServer singleton] findGdsByStoreIdRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
@@ -133,7 +133,7 @@
         
         dispatch_group_enter(group);
         NSDictionary *dic = @{
-                              @"deviceNo":@"AA20170606",
+                              @"deviceNo":_shopModel.deviceNo,
                               @"gdsType":titleArray[i]
                               };
         [[PattayaUserServer singleton] findGdsBygdsTypeRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
@@ -296,7 +296,7 @@
    
     NSDictionary *dic = @{
                           
-        @"deviceNo":@"AA20170606",
+        @"deviceNo":_shopModel.deviceNo,
         @"barcodeInfos":_uploadArray
         
     };

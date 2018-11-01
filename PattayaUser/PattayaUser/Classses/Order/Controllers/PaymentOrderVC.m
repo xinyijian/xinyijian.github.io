@@ -483,14 +483,14 @@
         _paymentActionSheetView = [[PaymentActionSheetView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, SCREEN_Height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT)];
         _paymentActionSheetView.payBusinessCode = _payBusinessCode;
         _paymentActionSheetView.hidden = YES;
-        [_paymentActionSheetView.paymentBT addTarget:self action:@selector(goToPay) forControlEvents:UIControlEventTouchUpInside];
+       // [_paymentActionSheetView.paymentBT addTarget:self action:@selector(goToPay) forControlEvents:UIControlEventTouchUpInside];
     }
     return _paymentActionSheetView;
 }
 //支付
-//-(void)goToPay{
-//    self.paymentSuccessView.hidden = NO;
-//}
+-(void)goToPay{
+    self.paymentSuccessView.hidden = NO;
+}
 
 #pragma mark - 支付成功视图
 - (PaymentSuccessView *)paymentSuccessView

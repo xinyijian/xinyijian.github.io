@@ -149,7 +149,7 @@
     _paymentBT.layer.masksToBounds = YES;
     [_paymentBT setTitle:@"确定支付" forState:UIControlStateNormal];
     [_paymentBT setTitleColor:UIColorWhite forState:UIControlStateNormal];
-    //[_paymentBT addTarget:self action:@selector(paymentClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_paymentBT addTarget:self action:@selector(paymentClick:) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:_paymentBT];
     [_paymentBT activateConstraints:^{
         [_paymentBT.bottom_attr equalTo:_bgView.bottom_attr constant:IPhone_7_Scale_Height(-16)];
@@ -269,7 +269,7 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
-    [self hiddenView];
+   //[self hiddenView];
 }
 
 
