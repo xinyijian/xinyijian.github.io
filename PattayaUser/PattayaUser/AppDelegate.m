@@ -264,6 +264,7 @@ extern CFAbsoluteTime StartTime;
     //    return  [WXApi handleOpenURL:url delegate:self];
     
 }
+
 // no equiv. notification. return NO if the application can't open for some reason
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {

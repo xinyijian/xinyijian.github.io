@@ -49,6 +49,7 @@
 
 @property (nonatomic, strong) NewShopModel *model;//商品分类
 
+@property (strong, nonatomic) UIDynamicAnimator *animator;
 
 @end
 
@@ -206,6 +207,14 @@
     [self addSubview:self.shakeImg];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callStore:)];
     [self.shakeImg addGestureRecognizer:tap];
+    
+    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self];
+//    UIGravityBehavior *gravity = [[UIGravityBehavior alloc] initWithItems:@[self.shakeImg]];
+//    gravity.action = ^{
+//        NSLog(@"%f",self.shakeImg.center.y);
+//    };
+    
+    
     
         [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction animations:^{
             self.shakeImg.frame = CGRectMake( IPhone_7_Scale_Width(258), - IPhone_7_Scale_Width(85)/90*150/2, IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(85)/90*150);
