@@ -40,7 +40,7 @@
         _surplusTimeLabel.height_attr.constant = IPhone_7_Scale_Height(20);
         _surplusTimeLabel.centerX_attr = _bgView.centerX_attr;
     }];
-    
+    _surplusTimeLabel.hidden = YES;
     //取消按钮
     _cancelBT = [UIButton buttonWithType:UIButtonTypeCustom];
     [_cancelBT setTitleColor:App_Nav_BarDefalutColor forState:UIControlStateNormal];

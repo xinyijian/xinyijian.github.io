@@ -40,9 +40,6 @@
 @property (nonatomic, strong) UIImageView *promotionImg2;//推广图标2
 @property (nonatomic, strong) UILabel *promotionLabel2;//推广文字2
 
-@property (nonatomic, strong) UIImageView *shakeImg;//摇摆视图
-@property (nonatomic, assign) NSInteger *count;//摇摆次数
-
 @property (nonatomic, strong) NSMutableArray *titleArray;//商品分类
 @property (nonatomic, strong) NSMutableArray *productArray;//商品
 @property (nonatomic, strong) NSMutableArray *uploadArray;//上传商品的数组
@@ -177,7 +174,8 @@
     [self addSubview:self.shopActionSheetView];
     //创建bottomview
     [self addSubview:self.bottomView];
- 
+    
+   
 }
 
 #pragma mark - 顶部视图
@@ -204,47 +202,7 @@
     [self addSubview: self.promotionImg2];
     [self addSubview:self.promotionLabel];
     [self addSubview:self.promotionLabel2];
-    [self addSubview:self.shakeImg];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callStore:)];
-    [self.shakeImg addGestureRecognizer:tap];
-    
-    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self];
-//    UIGravityBehavior *gravity = [[UIGravityBehavior alloc] initWithItems:@[self.shakeImg]];
-//    gravity.action = ^{
-//        NSLog(@"%f",self.shakeImg.center.y);
-//    };
-    
-    
-    
-        [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction animations:^{
-            self.shakeImg.frame = CGRectMake( IPhone_7_Scale_Width(258), - IPhone_7_Scale_Width(85)/90*150/2, IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(85)/90*150);
-    
-        } completion:^(BOOL finished) {
-      
-            //开始摆动动画
-            CABasicAnimation *momAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-            momAnimation.fromValue = [NSNumber numberWithFloat:-0.3];
-            momAnimation.toValue = [NSNumber numberWithFloat:0.3];
-            momAnimation.duration = 0.3;
-            momAnimation.repeatCount = 2;
-            momAnimation.autoreverses = YES;
-            self.shakeImg.layer.anchorPoint = CGPointMake(0.5, 0);
-            //momAnimation.delegate = self;
-            [self.shakeImg.layer addAnimation:momAnimation forKey:@"animateLayer"];
-            
-//            [UIView animateWithDuration:2.0 delay:1.5 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction animations:^{
-//                self.shakeImg.frame = CGRectMake( IPhone_7_Scale_Width(258), -200, IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(145));
-//
-//            } completion:nil];
-            
-    
-        }];
-   
-//        [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction animations:^{
-//           self.shakeImg.frame = CGRectMake( IPhone_7_Scale_Width(258), 0, IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(145));
-//
-//        } completion:nil];
-
+  
 }
 #pragma mark - 商品
 - (ShopScrollView *)productListView
@@ -254,6 +212,7 @@
         _productListView.showsVerticalScrollIndicator = NO;
         _productListView.backgroundColor = [UIColor clearColor];
         _productListView.scrollDelegate = self;
+        
     }
     return _productListView;
 }
@@ -351,11 +310,6 @@
         _productListView.isStopAnimation = YES;
         _productListView.contentOffset = CGPointZero;
     }];
-    
-}
-
-#pragma mark - 打个店
--(void)callStore:(UITapGestureRecognizer *)tap{
     
 }
 
@@ -512,13 +466,6 @@
     return _promotionLabel2;
 }
 
-- (UIImageView *)shakeImg {
-    if (!_shakeImg) {
-        _shakeImg = [[UIImageView alloc]initWithFrame:CGRectMake( IPhone_7_Scale_Width(258), -IPhone_7_Scale_Width(85)/90*150, IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(85)/90*150)];
-        _shakeImg.image = [UIImage imageNamed:@"shake"];
-    }
-    return _shakeImg;
-}
 
 -(NSMutableArray*)titleArray{
     if (!_titleArray) {

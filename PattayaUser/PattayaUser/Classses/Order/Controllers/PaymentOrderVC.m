@@ -256,7 +256,7 @@
     }];
     
     if (_shopModel.canBeCalling ) {
-        
+    }
         _canUseLabel = [[UILabel alloc] init];
         _canUseLabel.text = @"*当前时段无法使用";
         _canUseLabel.font = UIBoldFont(10);
@@ -268,7 +268,7 @@
             _canUseLabel.centerX_attr = _callStoreBT.centerX_attr;
             _canUseLabel.height_attr.constant = 14;
         }];
-    }
+    
     
     _label1 = [[UILabel alloc] init];
     _label1.text = @"商家当前位置：长宁区1488弄99号113房";

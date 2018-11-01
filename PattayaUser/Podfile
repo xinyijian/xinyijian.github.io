@@ -28,4 +28,5 @@ pod 'UMCCommon'
 pod 'UMCAnalytics'
 pod 'GTSDK'
 pod 'MoxieSDK-iOS'
+    
 end

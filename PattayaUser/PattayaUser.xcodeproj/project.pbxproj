@@ -301,6 +301,7 @@
 		9539FDC92182AF1700E55941 /* AccountSafeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDC82182AF1700E55941 /* AccountSafeVC.m */; };
 		9539FDCC2182CA1900E55941 /* MessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDCB2182CA1900E55941 /* MessageVC.m */; };
 		9539FDCF2182CAE900E55941 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDCE2182CAE900E55941 /* MessageCell.m */; };
+		955FEC46218AA0BB00416BF4 /* CallStoreVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 955FEC45218AA0BB00416BF4 /* CallStoreVC.m */; };
 		956CCFA72187F7890052D8EB /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 956CCF4F2187F7890052D8EB /* AlipaySDK.bundle */; };
 		956CCFA92187F7890052D8EB /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 956CCF512187F7890052D8EB /* AlipaySDK.framework */; };
 		956CCFAE2187F95B0052D8EB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 956CCFAD2187F95B0052D8EB /* libc++.tbd */; };
@@ -825,6 +826,8 @@
 		9539FDCB2182CA1900E55941 /* MessageVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageVC.m; sourceTree = "<group>"; };
 		9539FDCD2182CAE900E55941 /* MessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
 		9539FDCE2182CAE900E55941 /* MessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		955FEC44218AA0BB00416BF4 /* CallStoreVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallStoreVC.h; sourceTree = "<group>"; };
+		955FEC45218AA0BB00416BF4 /* CallStoreVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CallStoreVC.m; sourceTree = "<group>"; };
 		956CCF4F2187F7890052D8EB /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		956CCF512187F7890052D8EB /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		956CCFAD2187F95B0052D8EB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -1027,6 +1030,8 @@
 				95140D2921708B46007380B6 /* ShopMainVC.m */,
 				95140D2821708B46007380B6 /* PaymentOrderVC.h */,
 				95140D2621708B46007380B6 /* PaymentOrderVC.m */,
+				955FEC44218AA0BB00416BF4 /* CallStoreVC.h */,
+				955FEC45218AA0BB00416BF4 /* CallStoreVC.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2486,6 +2491,7 @@
 				95140FC921708B47007380B6 /* JMWaveButton.m in Sources */,
 				95140FAE21708B47007380B6 /* UIView+Center.m in Sources */,
 				95140FD421708B47007380B6 /* ReplicatorView.m in Sources */,
+				955FEC46218AA0BB00416BF4 /* CallStoreVC.m in Sources */,
 				9539FDCC2182CA1900E55941 /* MessageVC.m in Sources */,
 				95140F5721708B46007380B6 /* WebHelpViewController.m in Sources */,
 				95140F6E21708B46007380B6 /* ConfirmationOrderViewController.m in Sources */,
@@ -2799,6 +2805,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 002C8545726D94BAEC4BE0A1 /* Pods-PattayaUser.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PattayaUser/PattayaUser.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 66WQKNHF6H;
@@ -2889,6 +2896,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7253B8CA75FE2DEA1FAF59FD /* Pods-PattayaUser.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PattayaUser/PattayaUser.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 66WQKNHF6H;
