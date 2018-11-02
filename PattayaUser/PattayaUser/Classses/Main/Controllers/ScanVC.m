@@ -38,7 +38,7 @@
     [self creatControl];
     
     //设置参数
-    //[self setupCamera];
+    [self setupCamera];
     
     //添加定时器
     [self addTimer];
@@ -234,7 +234,8 @@
         //停止扫描
         [self stopScanning];
         //显示结果
-        [self showAlertWithTitle:@"扫描结果" message:[[metadataObjects firstObject] stringValue] sureHandler:nil cancelHandler:nil];
+        //[self showAlertWithTitle:@"扫描结果" message:[[metadataObjects firstObject] stringValue] sureHandler:nil cancelHandler:nil];
+         [self showAlertWithTitle:@"识别成功，但内容暂不支持" message:nil sureHandler:nil cancelHandler:nil];
     }
 }
 
@@ -259,7 +260,10 @@
         
         //识别结果
         if (features.count > 0) {
-            [self showAlertWithTitle:@"扫描结果" message:[[features firstObject] messageString] sureHandler:nil cancelHandler:nil];
+           // [self showAlertWithTitle:@"扫描结果" message:[[features firstObject] messageString] sureHandler:nil cancelHandler:nil];
+            [self showAlertWithTitle:@"识别成功，但内容暂不支持" message:nil sureHandler:nil cancelHandler:nil];
+
+           //
             
         }else{
             [self showAlertWithTitle:@"没有识别到二维码或条形码" message:nil sureHandler:nil cancelHandler:nil];
@@ -274,7 +278,7 @@
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:sureHandler];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:cancelHandler];
     [alertController addAction:sureAction];
-    [alertController addAction:cancelAction];
+   // [alertController addAction:cancelAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
 }

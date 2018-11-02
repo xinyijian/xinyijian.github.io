@@ -58,7 +58,7 @@
     self.cycleScrollView.imageURLStringsGroup = [[bannerArray.rac_sequence map:^id _Nullable(YLBannerModel *model) {
         return model.loadingUrl;
     }] array];
-    
+   // self.cycleScrollView.localizationImageNamesGroup = @[@"banner_icon_dot",@"banner_icon_currentdot",@"banner_icon_currentdot",@"banner_icon_currentdot"];
     self.cycleScrollView.autoScroll = bannerArray.count > 1;
 }
 

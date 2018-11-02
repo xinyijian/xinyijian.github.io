@@ -92,4 +92,7 @@
 #pragma mark ---GET /gse/pub/category/findGdsBygdsType 获取分类商品
 - (void)findGdsBygdsTypeRequest:(NSDictionary *)dic Success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
 
+#pragma mark ---GET /user/getPushMessage 获取消息列表
+- (void)getPushMessageRequestSuccess:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
+
 @end

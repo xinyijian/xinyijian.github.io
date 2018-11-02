@@ -94,7 +94,7 @@
 
 - (UILabel *)distance {
     if (!_distance) {
-        _distance = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_Width - IPhone_7_Scale_Width(50 + 20) ,self.nameLabel.YD_bottom+ 8, 50, 17)];
+        _distance = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_Width - IPhone_7_Scale_Width(50 + 20) ,self.nameLabel.YD_bottom+ 8, 150, 17)];
         _distance.textColor = TextGrayColor;
         _distance.font = K_LABEL_SMALL_FONT_10;
         _distance.text = @"距离130m";
@@ -158,6 +158,12 @@
     frame.size.height -= 10;
 
     [super setFrame:frame];
+}
+
+-(void)setShopModel:(ShopModel *)shopModel{
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:shopModel.avatarURL] placeholderImage:[UIImage imageNamed:@"main_cell_headImg_bg"]];
+    _nameLabel.text = shopModel.name;
+    _distance.text= [NSString stringWithFormat:@"距离%@米",shopModel.geoDistance];
 }
 
 -(void)setupViews{

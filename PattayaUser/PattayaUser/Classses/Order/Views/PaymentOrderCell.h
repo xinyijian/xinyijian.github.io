@@ -31,6 +31,6 @@
 /**
  设置数据源
  */
-@property (nonatomic, strong) ProductModel *productModel;
+@property (nonatomic, strong) NewShopListModel *productModel;
 
 @end

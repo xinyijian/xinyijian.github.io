@@ -16,6 +16,8 @@
 /**
  设置数据源
  */
+@property (nonatomic, strong) NSMutableArray *productArray;
+
 @property (nonatomic, strong) ShopModel *shopModel;
 
 @end

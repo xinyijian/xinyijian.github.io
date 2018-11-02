@@ -302,6 +302,7 @@
 		9539FDCC2182CA1900E55941 /* MessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDCB2182CA1900E55941 /* MessageVC.m */; };
 		9539FDCF2182CAE900E55941 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDCE2182CAE900E55941 /* MessageCell.m */; };
 		955FEC46218AA0BB00416BF4 /* CallStoreVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 955FEC45218AA0BB00416BF4 /* CallStoreVC.m */; };
+		956BE0BF218BE8CA00A4B4BB /* PushMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 956BE0BE218BE8CA00A4B4BB /* PushMessageModel.m */; };
 		956CCFA72187F7890052D8EB /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 956CCF4F2187F7890052D8EB /* AlipaySDK.bundle */; };
 		956CCFA92187F7890052D8EB /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 956CCF512187F7890052D8EB /* AlipaySDK.framework */; };
 		956CCFAE2187F95B0052D8EB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 956CCFAD2187F95B0052D8EB /* libc++.tbd */; };
@@ -828,6 +829,9 @@
 		9539FDCE2182CAE900E55941 /* MessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
 		955FEC44218AA0BB00416BF4 /* CallStoreVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallStoreVC.h; sourceTree = "<group>"; };
 		955FEC45218AA0BB00416BF4 /* CallStoreVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CallStoreVC.m; sourceTree = "<group>"; };
+		955FEC51218B21A600416BF4 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		956BE0BD218BE8CA00A4B4BB /* PushMessageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PushMessageModel.h; sourceTree = "<group>"; };
+		956BE0BE218BE8CA00A4B4BB /* PushMessageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PushMessageModel.m; sourceTree = "<group>"; };
 		956CCF4F2187F7890052D8EB /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		956CCF512187F7890052D8EB /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		956CCFAD2187F95B0052D8EB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -908,6 +912,7 @@
 		7DB770817103089AD17D239A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				955FEC51218B21A600416BF4 /* libxml2.tbd */,
 				956CCFCB2188248C0052D8EB /* libsqlite3.0.tbd */,
 				956CCFC9218824590052D8EB /* Security.framework */,
 				956CCFBF2187F9B10052D8EB /* CoreMotion.framework */,
@@ -1138,18 +1143,11 @@
 		95140D4F21708B46007380B6 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
-				95140D5021708B46007380B6 /* Models */,
+				956BE0BC218BE8A900A4B4BB /* Models */,
 				95140D5121708B46007380B6 /* Controllers */,
 				95140D5221708B46007380B6 /* Views */,
 			);
 			path = Mine;
-			sourceTree = "<group>";
-		};
-		95140D5021708B46007380B6 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		95140D5121708B46007380B6 /* Controllers */ = {
@@ -2104,6 +2102,15 @@
 			path = "发现";
 			sourceTree = "<group>";
 		};
+		956BE0BC218BE8A900A4B4BB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				956BE0BD218BE8CA00A4B4BB /* PushMessageModel.h */,
+				956BE0BE218BE8CA00A4B4BB /* PushMessageModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		956CCF4C2187F5CA0052D8EB /* AliPay */ = {
 			isa = PBXGroup;
 			children = (
@@ -2450,6 +2457,7 @@
 				95140FA821708B47007380B6 /* UserInfo.m in Sources */,
 				95140F9B21708B47007380B6 /* BaseViewController.m in Sources */,
 				95140F9221708B47007380B6 /* CarNameTableViewCell.m in Sources */,
+				956BE0BF218BE8CA00A4B4BB /* PushMessageModel.m in Sources */,
 				95140F9D21708B47007380B6 /* YDBaseController.m in Sources */,
 				95140F7521708B46007380B6 /* StoreListModel.m in Sources */,
 				95140FC121708B47007380B6 /* PTLAlertView.m in Sources */,

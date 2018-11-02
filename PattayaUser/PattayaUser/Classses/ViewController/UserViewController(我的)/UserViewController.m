@@ -28,6 +28,7 @@
 @property (strong, nonatomic) NSMutableArray * socialArray;
 @property (nonatomic, assign) NSInteger  ImagePickerControllerTpye;
 
+
 @end
 
 @implementation UserViewController

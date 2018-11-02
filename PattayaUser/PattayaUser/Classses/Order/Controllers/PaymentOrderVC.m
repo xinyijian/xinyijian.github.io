@@ -54,9 +54,12 @@
 }
 
 -(void)netRequestData{
-    for (ProductModel *model in _shopModel.goodsList) {
-        if ([model.selectCount intValue]>0) {
-            [self.dataArray addObject:model];
+    
+    for (NSArray *arr in _productArray) {
+        for (NewShopListModel *model in arr) {
+            if ([model.selectCount intValue]>0) {
+                [self.dataArray addObject:model];
+            }
         }
     }
 }
@@ -255,8 +258,8 @@
         _callStoreBT.width_attr.constant = bgView.width/2;
     }];
     
-    if (_shopModel.canBeCalling ) {
-    }
+//    if (_shopModel.canBeCalling ) {
+//    }
         _canUseLabel = [[UILabel alloc] init];
         _canUseLabel.text = @"*当前时段无法使用";
         _canUseLabel.font = UIBoldFont(10);

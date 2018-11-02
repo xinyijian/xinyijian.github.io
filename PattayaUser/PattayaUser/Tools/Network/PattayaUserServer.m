@@ -325,4 +325,15 @@
     }];
     
 }
+
+#pragma mark ---GET /user/getPushMessage 获取消息列表
+- (void)getPushMessageRequestSuccess:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
+{
+    [[PattayaHttpRequest sharedHttpManager] getWithUrlPath:[NSString stringWithFormat:@"/user/getPushMessage"] parameter:nil isNeedIndicator:YES success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
+        successResult(operation,responesObject);
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        failureResult(operation,error);
+    }];
+    
+}
 @end

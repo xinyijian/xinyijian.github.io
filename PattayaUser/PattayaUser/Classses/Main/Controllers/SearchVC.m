@@ -10,6 +10,7 @@
 #import "newsreelView.h"
 #import "HotModel.h"
 #import "StoreListCell.h"
+#import "ShopMainVC.h"
 @interface SearchVC ()<UITextFieldDelegate>
 
 //导航栏pop按钮
@@ -21,7 +22,7 @@
 //历史搜索 热门搜索
 @property (nonatomic, strong) newsreelView * sreelView;
 @property (nonatomic, strong) NSMutableArray  * hotArray;//热门搜索 数组
-
+@property (nonatomic, strong) MainModel * mainModel;
 
 @end
 
@@ -47,6 +48,18 @@
     self.navigationItem.titleView = self.searchTF;
     
     [self.view addSubview:self.sreelView];
+    
+    WEAK_SELF;
+    _sreelView.hotBlcok = ^(NSString *text) {
+       // weakSelf.pageNumber = 0;
+        //weakSelf.StoreAr = [NSMutableArray array];
+        //weakSelf.seacherText = text;
+        //seachBar.seachView.text = weakSelf.seacherText;
+        //[weakSelf SeachStoreCodeRequestHTTP:_orderBytag text:_seacherText categoryId:weakSelf.categoryId];
+        weakSelf.searchTF.text = text;
+        weakSelf.sreelView.hidden = YES;
+        [weakSelf storeSearchWith:text];
+    };
 }
 //网络数据
 -(void)netRequestData{
@@ -85,6 +98,65 @@
     }];
 }
 
+-(void)storeSearchWith:(NSString *)keyword{
+    NSDictionary *dic = @{
+                          @"keyword":keyword
+                          };
+    [[PattayaUserServer singleton] SeachStoreCodeRequest:dic success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        NSLog(@"RET = %@",ret);
+        if ([ResponseModel isData:ret]){
+            
+             _mainModel = [[MainModel alloc] initWithDictionary:ret[@"data"] error:nil];
+            if (_mainModel.content.count > 0) {
+                self.tableView.hidden = NO;
+            }else{
+                self.tableView.hidden = YES;
+                //展示emptyView
+            }
+            [self.tableView reloadData];
+        }else{
+            [YDProgressHUD showMessage:ret[@"message"]];
+        }
+        
+//        if ([ResponseModel isData:ret]) {
+//            self.tableView.hidden = NO;
+//            MainModel * model = [[MainModel alloc] initWithDictionary:ret[@"data"] error:nil];
+////            if (self.pageNumber >= list.totalPages.integerValue) {
+////                if (_StoreAr.count > 0) {
+////                    _sreelView.hidden = YES;
+////                } else
+////                {
+////                    _signalLaber.hidden = NO;
+////                }
+////                [self.tableview.mj_footer endRefreshingWithNoMoreData];
+////                [self.tableview.mj_header endRefreshing];
+////                self .tableview.mj_footer.alpha = 0.0f;
+////                NSLog(@"没用更多");
+////                [_tableview reloadData];
+//
+//                return;
+//            }
+//            [_StoreAr addObjectsFromArray:list.content];
+//            if (_StoreAr.count > 0) {
+//                _signalLaber.hidden = YES;
+//            } else
+//            {
+//                _signalLaber.hidden = NO;
+//            }
+//        } else
+//        {
+//            [self showToast:ret[@"message"]];
+//        }
+//        [_tableview reloadData];
+//        [self.tableview.mj_footer endRefreshing];
+//        [self.tableview.mj_header endRefreshing];
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+         [YDProgressHUD showMessage:@"网络异常，请重试！"];
+//        [self.tableview.mj_header endRefreshing];
+//        [self.tableview.mj_footer endRefreshing];
+    }];
+}
+
 
 #pragma mark - 导航栏pop按钮
 -(UIButton*)backBT{
@@ -111,9 +183,13 @@
 }
 
 -(void)searchClick{
-   
+    if (self.searchTF.text.length == 0) {
+        [YDProgressHUD showMessage:@"请输入关键字"];
+        return;
+    }
     NSLog(@"点击搜索按钮");
     self.sreelView.hidden = YES;
+    [self storeSearchWith:self.searchTF.text];
     [self loadText:self.searchTF.text];
 }
 
@@ -194,6 +270,8 @@
         _sreelView = [[newsreelView alloc]initWithFrame:CGRectMake(0, 10, SCREEN_Width, SCREEN_Height - TopBarHeight - SafeAreaBottomHeight - 10)];
     }
     _sreelView.backgroundColor = [UIColor whiteColor];
+    
+ 
     return _sreelView;
 }
 
@@ -204,7 +282,7 @@
 #pragma mark - tableView datasource && delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return _mainModel.content.count;
 }
 
 
@@ -232,9 +310,17 @@
         
     }
     
+    cell.shopModel = _mainModel.content[indexPath.row];
+    
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    ShopMainVC *vc = [[ShopMainVC alloc]init];
+    vc.model = _mainModel.content[indexPath.row];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

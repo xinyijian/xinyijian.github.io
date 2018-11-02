@@ -8,6 +8,11 @@
 
 #import "PaymentActionSheetView.h"
 #import <AlipaySDK/AlipaySDK.h>
+
+@interface PaymentActionSheetView() <NSXMLParserDelegate>
+
+@end
+
 @implementation PaymentActionSheetView
 
 - (id)initWithFrame:(CGRect)frame
@@ -32,7 +37,7 @@
     _surplusTimeLabel = [[UILabel alloc] init];
     _surplusTimeLabel.font = K_LABEL_SMALL_FONT_14;
     _surplusTimeLabel.textColor = TextGrayColor;
-    _surplusTimeLabel.text = @"支付剩余时间 10：00";
+    _surplusTimeLabel.text = @"支付金额";
     _surplusTimeLabel.adjustsFontSizeToFitWidth = YES;
     [_bgView addSubview: _surplusTimeLabel];
     [_surplusTimeLabel activateConstraints:^{
@@ -40,7 +45,6 @@
         _surplusTimeLabel.height_attr.constant = IPhone_7_Scale_Height(20);
         _surplusTimeLabel.centerX_attr = _bgView.centerX_attr;
     }];
-    _surplusTimeLabel.hidden = YES;
     //取消按钮
     _cancelBT = [UIButton buttonWithType:UIButtonTypeCustom];
     [_cancelBT setTitleColor:App_Nav_BarDefalutColor forState:UIControlStateNormal];
@@ -78,6 +82,8 @@
         [_wechatImg.top_attr equalTo:_totalAmountLabel.bottom_attr constant:IPhone_7_Scale_Height(10)];
     }];
     
+    
+    
     //支付宝img
     _aliPayImg = [[UIImageView alloc] init];
     [_bgView addSubview:_aliPayImg];
@@ -87,32 +93,6 @@
         _aliPayImg.height_attr.constant = IPhone_7_Scale_Height(30);
         _aliPayImg.width_attr.constant = IPhone_7_Scale_Height(30);
         [_aliPayImg.top_attr equalTo:_wechatImg.bottom_attr constant:IPhone_7_Scale_Height(25)];
-    }];
-    
-    //微信支付
-    _wechatLabel = [[UILabel alloc] init];
-    _wechatLabel.font = [UIFont systemFontOfSize:14];
-    _wechatLabel.textColor = TextColor;
-    _wechatLabel.text = @"微信支付";
-    _wechatLabel.adjustsFontSizeToFitWidth = YES;
-    [_bgView addSubview: _wechatLabel];
-    [_wechatLabel activateConstraints:^{
-        [_wechatLabel.left_attr equalTo:_wechatImg.right_attr constant:IPhone_7_Scale_Width(10)];
-        _wechatLabel.height_attr.constant = IPhone_7_Scale_Height(20);
-        _wechatLabel.centerY_attr = _wechatImg.centerY_attr;
-    }];
-    
-    //微信支付
-    _aliPayLabel = [[UILabel alloc] init];
-    _aliPayLabel.font = [UIFont systemFontOfSize:14];
-    _aliPayLabel.textColor = TextColor;
-    _aliPayLabel.text = @"支付宝支付";
-    _aliPayLabel.adjustsFontSizeToFitWidth = YES;
-    [_bgView addSubview: _aliPayLabel];
-    [_aliPayLabel activateConstraints:^{
-        [_aliPayLabel.left_attr equalTo:_aliPayImg.right_attr constant:IPhone_7_Scale_Width(10)];
-        _aliPayLabel.height_attr.constant = IPhone_7_Scale_Height(20);
-        _aliPayLabel.centerY_attr = _aliPayImg.centerY_attr;
     }];
     
     //
@@ -142,6 +122,45 @@
         _alipaySelectBT.width_attr.constant  = IPhone_7_Scale_Height(20) ;
     }];
     
+    //微信支付
+    _wechatLabel = [[UILabel alloc] init];
+    _wechatLabel.font = [UIFont systemFontOfSize:14];
+    _wechatLabel.textColor = TextColor;
+    _wechatLabel.text = @"微信支付";
+    [_bgView addSubview: _wechatLabel];
+    [_wechatLabel activateConstraints:^{
+        [_wechatLabel.left_attr equalTo:_wechatImg.right_attr constant:IPhone_7_Scale_Width(10)];
+        [_wechatLabel.right_attr equalTo:_wechatSelectBT.left_attr constant:0];
+        _wechatLabel.height_attr.constant = IPhone_7_Scale_Height(40);
+        _wechatLabel.centerY_attr = _wechatImg.centerY_attr;
+    }];
+    
+    //微信支付
+    _aliPayLabel = [[UILabel alloc] init];
+    _aliPayLabel.font = [UIFont systemFontOfSize:14];
+    _aliPayLabel.textColor = TextColor;
+    _aliPayLabel.text = @"支付宝支付";
+    _aliPayLabel.adjustsFontSizeToFitWidth = YES;
+    [_bgView addSubview: _aliPayLabel];
+    [_aliPayLabel activateConstraints:^{
+        [_aliPayLabel.right_attr equalTo:_alipaySelectBT.left_attr constant:0];
+        [_aliPayLabel.left_attr equalTo:_aliPayImg.right_attr constant:IPhone_7_Scale_Width(10)];
+        _aliPayLabel.height_attr.constant = IPhone_7_Scale_Height(40);
+        _aliPayLabel.centerY_attr = _aliPayImg.centerY_attr;
+    }];
+    
+    
+    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap1:)];
+   
+    _wechatLabel.userInteractionEnabled = YES;
+    
+    [_wechatLabel addGestureRecognizer:tap1];
+    
+    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap2:)];
+     _aliPayLabel.userInteractionEnabled  = YES;
+    [_aliPayLabel addGestureRecognizer:tap2];
+    
+    
     //
     _paymentBT = [UIButton buttonWithType:UIButtonTypeCustom];
     _paymentBT.backgroundColor = App_Nav_BarDefalutColor;
@@ -159,6 +178,19 @@
     }];
     
 }
+
+-(void)tap1:(UITapGestureRecognizer *)tap{
+    
+    [self selectlClick:_wechatSelectBT];
+    
+}
+
+-(void)tap2:(UITapGestureRecognizer *)tap{
+   
+    [self selectlClick:_alipaySelectBT];
+    
+}
+
 
 //取消
 -(void)cancelClick:(UIButton*)btn{
@@ -207,8 +239,66 @@
 
 }
 
+
+// 开始
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    
+    NSLog(@"开始");
+    
+   // self.studentArray = [NSMutableArray array];
+    
+}
+
+// 获取节点头
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
+    
+    NSLog(@"start element : %@", elementName);
+    
+   // self.currentElementName = elementName;
+    
+//    if ([elementName isEqualToString:@"student"]) {
+//        Student *stu = [[Student alloc] init];
+//        [_studentArray addObject:stu];
+//    }
+    
+}
+
+// 获取节点的值 (这个方法在获取到节点头和节点尾后，会分别调用一次)
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+    
+    NSLog(@"value : %@", string);
+    
+//    if (_currentElementName != nil) {
+//        Student *stu = [_studentArray lastObject];
+//        [stu setValue:string forKey:_currentElementName];
+//    }
+}
+
+// 获取节点尾
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+    
+    //_currentElementName = nil;
+    NSLog(@"end element :%@", elementName);
+    
+}
+
+// 结束
+- (void)parserDidEndDocument:(NSXMLParser *)parser {
+    
+    NSLog(@"结束");
+   // NSLog(@"%@",_studentArray);
+    
+}
+
+
 #pragma mark 微信支付方法
-- (void)WechatPayWithData:(NSString *)data{
+- (void)WechatPayWithData:(NSString *)str{
+    NSData *data = [NSData dataWithContentsOfFile:str];
+    NSXMLParser * xmlParser = [[NSXMLParser alloc]initWithData:data];
+    xmlParser.delegate = self;
+    
+    //  开始解析
+    [xmlParser parse];
     
     //需要创建这个支付对象
     PayReq *req   = [[PayReq alloc] init];

@@ -103,7 +103,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>是否允许使用您的相机更改头像?</string>
+	<string>是否允许使用您的相机更改头像或者扫描二维码?</string>
 	<key>NSContactsUsageDescription</key>
 	<string>APP需要得到您所在的城市位置,为您提供相应城市的服务</string>
 	<key>NSLocationAlwaysUsageDescription</key>

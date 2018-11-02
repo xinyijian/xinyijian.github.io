@@ -138,8 +138,8 @@
 }
 
 
--(void)setProductModel:(ProductModel *)productModel{
-    _productNameLabel.text = productModel.name;
+-(void)setProductModel:(NewShopListModel *)productModel{
+    _productNameLabel.text = productModel.gdsName;
     _priceLabel.text = [NSString stringWithFormat:@"%@.00", productModel.salePrice];
     _countLab.text = [NSString stringWithFormat:@"x%@",productModel.selectCount];
 }
