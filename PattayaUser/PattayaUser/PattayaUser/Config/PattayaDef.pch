@@ -1,0 +1,264 @@
+//
+//  PattayaDef.pch
+//  PattayaUser
+//
+//  Created by 明克 on 2018/1/29.
+//  Copyright © 2018年 明克. All rights reserved.
+//
+#ifdef DEBUG  // 调试
+
+#define YDLog(format, ...) printf("\n[%s] %s [第%d行] %s\n", __TIME__, __FUNCTION__, __LINE__, [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String])
+
+#define APSForProduction NO
+
+#else         // 发布
+
+#define YDLog(...)
+
+#define APSForProduction YES
+
+#endif
+
+/*------------------------------------------------------------------*/
+
+
+#ifndef PattayaDef_pch
+#define PattayaDef_pch
+
+
+// 引入JPush功能所需头文件
+#import "JPUSHService.h"
+// iOS10注册APNs所需头文件
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+#import "SystemAuthority.h"
+#import "CodeObject.h"
+#import <MJRefresh.h>
+#import <MBProgressHUD.h>
+#import <UIImageView+WebCache.h>
+#import <IQKeyboardManager.h>
+#import <JSONModel.h>
+#import <NSLayoutConstraint+SSLayout.h>
+#import "UIView+Center.h"
+#import "AppDelegate.h"
+#import "JMButtons.h"
+#import <JMDropMenu.h>
+#import "PattayaTool.h"
+#import <MAMapKit/MAMapView.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
+#import <AMapLocationKit/AMapLocationManager.h>
+#import <AMapSearchKit/AMapSearchKit.h>
+#import <MAMapKit/MAPinAnnotationView.h>
+#import "NSDate+Extension.h"
+#import <AFNetworking/AFNetworking.h>
+#import <YYModel.h>
+#import <YYText.h>
+#import <ReactiveObjC.h>
+#import <TYTabPagerController.h>
+#import "SDCycleScrollView.h"
+#import <UIButton+WebCache.h>
+#import <UIImageView+WebCache.h>
+#import <WXApi.h>
+#import <UMCommon/UMCommon.h>
+#import <UMAnalytics/MobClick.h>
+#import <MoxieSDK.h>
+#import "PattayaUserServer.h"
+#import "PattayaHttpRequest.h"
+#import <NSObject+Singleton.h>
+#import "PattAmapLocationManager.h"
+#import "PTLAlertView.h"
+#import "ResponseModel.h"
+#import "BaseNavigationViewController.h"
+#import "YLFontSize.h"
+#import "YDProgressHUD.h"
+#import "YDPredicate.h"
+#import "UINavigationBar+YDNavBarStyle.h"
+#import "UIView+YDExtension.h"
+#import "UIImage+ALinExtension.h"
+#import "UIImage+CircleCorner.h"
+#import "YDRefresh.h"
+#import "YDBaseController.h"
+#import "YDBaseTBController.h"
+#import "YDBaseWebController.h"
+#import "YBPopupMenu.h"
+#import "MainModel.h"
+#import "NewShopModel.h"
+#import "NewShopListModel.h"
+//***************************************
+
+static NSString* APP_DEV_URL  = @"http://192.168.210.37:4000/";
+static NSString* APP_URL = @"https://appdev.icebergsports.io/";
+static NSString* APP_TEST_URL  = @"http://apitest.callstore.cn/";
+static NSString* APP_JACKY_URL  = @"http://192.168.100.91:4000/";
+static NSString* APP_PROD_URL  = @"https://api.callstore.cn/";
+//static NSString* APP_PROD_URL  = @"http://tangna.s1.natapp.cc:80/";
+static NSString* TANGNA  = @"http://tangna.s1.natapp.cc:80/";
+
+extern NSString* APP_BASE_URL;
+/**************************************************************************************************/
+#pragma mark 第三方SDK相关配置
+/****************************************第三方SDK--Key、Id、Secret**********************************/
+static NSString *const QQ_APPID = @"1106468529";
+static NSString *const QQ_APPKEY = @"NB7LqES8jA4dgJQO";
+
+static NSString *const WECHAT_APPID = @"wx6b40f3d33282f8cf";
+static NSString *const WECHAT_APPSECRET = @"0c96aaf7a31132510d7e6fda0c7af8b4";
+///高德
+static NSString *const GaoDe_APPKEY = @"";
+
+/**************************************************************************************************/
+
+
+#define NavtinavigationYBottom (self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height)
+
+//快速定义Weakself
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#define WEAK_SELF __weak typeof(self) weakSelf = self
+#define STRONG_SELF __strong typeof(weakSelf) self = weakSelf
+//当前设备的屏幕宽度
+#define SCREEN_Width         [[UIScreen mainScreen]  bounds].size.width
+#define SCREEN_Height        [[UIScreen mainScreen] bounds].size.height
+/** 屏幕的高 */
+#define KScreenHeight [UIScreen mainScreen].bounds.size.height
+/** 屏幕的宽 */
+#define KScreenWidth  [UIScreen mainScreen].bounds.size.width
+/** 计算比例后的宽度 */
+#define IPhone_7_Scale_Width(w)  (w*(SCREEN_Width/375.0f))
+/** 计算比例后高度 */
+#define IPhone_7_Scale_Height(h) (h*(SCREEN_Height/667.0f))
+
+// 判断是否为iPhoneX
+#define kIsiPhoneX (KScreenWidth == 375.0 && KScreenHeight == 812.0)
+#define IS_IPHONEX      ((int)DEVICE_HEIGHT%812==0)
+#define StatusBarHeight (SCREEN_Height == 812.0 ? 44 : 20)
+/** 导航栏的高度 */
+#define NavigationBarH 44.0
+/** 状态栏的高度 */
+#define StatusBarH [UIApplication sharedApplication].statusBarFrame.size.height
+/** 导航栏和状态栏的高度 */
+#define TopBarHeight (NavigationBarH + StatusBarH)
+/** 底部安全高度 */
+#define IPHONE_SAFEBOTTOMAREA_HEIGHT (kIsiPhoneX ? 34 : 0)
+
+#define BottomH 48.0
+/** 可以忽略不计的高度 */
+#define IgnoreHeight 0.001
+/** 底部tabBar的高度 */
+#define TabBarHeight self.tabBarController.tabBar.bounds.size.height
+#define SafeAreaTopHeight (SCREEN_Height >= 812.0 ? 88 : 64)
+#define SafeAreaBottomHeight (SCREEN_Height >= 812.0 ? 34 : 0)
+#define SafeAreaHeightWithNav SCREEN_Height - SafeAreaTopHeight - SafeAreaBottomHeight
+#define ShopHeadH IPhone_7_Scale_Height(196.0)
+
+
+#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)]? CGSizeEqualToSize(CGSizeMake(1125, 2436),[[UIScreen mainScreen] currentMode].size): NO)
+#define isIphone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
+
+
+#define isIphone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+
+
+#define isIphone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define isIphone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+
+// 系统版本
+#define SYSTEMVERSION [[[UIDevice currentDevice] systemVersion] doubleValue]
+// 网络连接状态监控通知
+#define kWiFiStateNotification @"kWiFiStateNotification"
+#define k4GStateNotification @"k4GStateNotification"
+#define kWithoutNetNotification @"kWithoutNetNotification"
+
+
+///block 检查block是否可用
+#define BLOCK_EXEC(block, ...) if (block) { block(__VA_ARGS__); };
+//全局可获得的appdelegate的引用
+#define GetAppDelegate  ((AppDelegate *)([UIApplication sharedApplication].delegate))
+/** 全局的单例对象 */
+#define App_Delegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
+
+#define KdLOGINTPYE @"KdloginType"
+#ifdef DEBUG
+#define NSLog(format, ...) do {  \
+fprintf(stderr, "< 件名:%s > \n\n < 行号:%d > \n\n  [函数名]:\n < %s >\n\n",                                           \
+[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],  \
+__LINE__, __func__);                                                        \
+(NSLog)((format), ##__VA_ARGS__);                                           \
+fprintf(stderr, "***************----分割线----*************** \n\n \n");                                               \
+} while (0)
+//# define NSLog(fmt, ...) NSLog((@"\n\n*****--开始Log分割--*****\n[文件名:%s]\n""[函数名:%s]\n""[行号:%d] \n *****--结束Log分割--*****\n" fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+# define NSLog(...);
+#endif
+///设置字体
+#define fontStely(name,number) [UIFont fontWithName:name size:number]
+///字符串颜色
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xff0000)>>16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+#define UIColorFromRGBP(rgbValue,fg) [UIColor colorWithRed:((float)((rgbValue & 0xff0000)>>16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:fg]
+#define ColorWithRGBA(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+#define ColorWithRGB(r,g,b) ColorWithRGBA(r,g,b,1)
+#define UIColorWhite [UIColor whiteColor]
+#define UIColorBlack [UIColor blackColor]
+#define UIColorClear [UIColor clearColor]
+
+
+#define TextColor UIColorFromRGB(0x2A2A2A)
+#define TextGrayColor UIColorFromRGB(0x7c7c7c)
+#define BlueColor UIColorFromRGB(0x1F4BA5)
+#define LineColor UIColorFromRGB(0xEBEBEB)
+#define DD_RedColor UIColorFromRGB(0xDB1917)
+/**  --------- App全局通用颜色 ----------- */
+/** 全局主题颜色 */
+#define App_ThemeColor [UIColor colorWithHexString:@"FD8334"]
+/** 全局按钮不能点击的颜色 */
+#define App_BtnUNEnabled   [UIColor colorWithHexString:@"cccccc"]
+/** 全局背景通用灰白色 */
+#define App_TotalGrayWhite ColorWithRGB(245, 245, 245)
+/** 全局tableView分割线颜色 */
+#define App_TableSeparator UIColorFromRGB(0xEBEBEB)
+/** 全局主题文字颜色 */
+#define App_TitleColor     [UIColor colorWithHexString:@"333333"]
+/** 全局主题未选中的文字颜色 */
+#define App_TitleGrayColor ColorWithRGB(180, 180, 180)
+
+/**  --------- 导航栏字体和item的颜色 ----------- */
+#define App_Nav_ItemDefaultColor  [UIColor whiteColor]
+#define App_Nav_ItemThemeColor    [UIColor whiteColor]
+// 导航栏背景颜色
+#define App_Nav_BarDefalutColor   [UIColor colorWithHexString:@"328CE2"]
+#define App_Nav_BarThemeColor     UIColorWhite
+// 导航栏标题字体大小
+#define App_NavBar_TitleFont     [UIFont boldSystemFontOfSize:16.0]
+// 导航栏标题item大小
+#define App_NavBar_ItemFont      [UIFont systemFontOfSize:16.0]
+
+//ErrorDesp
+#define k_ERROR_NETWORK_OFF @"无法连接，请检查网络"
+#define k_ERROR_PASSWORD_FMT @"6~20位字符（字母、数字或英文标点符号组合）"
+#define k_ERROR_PASSWORD_DIFF @"两次输入密码不一致"
+#define k_ERROR_PASSWORD_OLD_WRONG @"原密码错误"
+#define k_ERROR_PASSWORD_RESET_FIELD @"重置密码失败"
+#define k_ERROR_PASSWORD_RESET_SUCCESS @"重置成功"
+#define k_ERROR_PHONE_PWD_WRONG @"手机号或密码错误"
+#define k_ERROR_IDY_WRONG @"验证码错误"
+#define k_NOTICE_PASSWORD_INPUT_LOGIN_PWD @"请输入登录密码"
+#define k_NOTICE_PHONE_RIGHT_NUMBER @"请输入正确的手机号"
+#define k_NOTICE_LOGINT_SUCCESS @"登录成功"
+#define k_NOTICE_IDY_SEND_SUCCESS @""
+
+
+#define UIFontSystem(x) [UIFont systemFontOfSize:x]
+#define UIFontBoldSystem(x) [UIFont boldSystemFontOfSize:x]
+// label上小标题字体大小
+#define K_LABEL_SMALL_FONT_10       UIFontSystem(10)
+#define K_LABEL_SMALL_FONT_12       UIFontSystem(12)
+#define K_LABEL_SMALL_FONT_13       UIFontSystem(13)
+#define K_LABEL_SMALL_FONT_14       UIFontSystem(14)
+#define K_LABEL_SMALL_FONT_15       UIFontSystem(15)
+#define K_LABEL_SMALL_FONT_16       UIFontSystem(16)
+#define K_LABEL_SMALL_FONT_18       UIFontSystem(18)
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PattayaDef_pch */
