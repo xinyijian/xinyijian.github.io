@@ -24,22 +24,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-## AMap2DMap
+## AMap3DMap-NO-IDFA
 
 Copyright © 2014 AutoNavi. All Rights Reserved.
 
 
-## AMapFoundation
+## AMapFoundation-NO-IDFA
 
 Copyright © 2014 AutoNavi. All Rights Reserved.
 
 
-## AMapLocation
+## AMapLocation-NO-IDFA
 
 Copyright © 2014 AutoNavi. All Rights Reserved.
 
 
-## AMapSearch
+## AMapSearch-NO-IDFA
 
 Copyright © 2014 AutoNavi. All Rights Reserved.
 

@@ -14,13 +14,13 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - AMap2DMap (5.6.0):
-    - AMapFoundation (~> 1.4)
-  - AMapFoundation (1.4.3)
-  - AMapLocation (2.6.0):
-    - AMapFoundation (~> 1.4)
-  - AMapSearch (5.7.0):
-    - AMapFoundation (~> 1.4)
+  - AMap3DMap-NO-IDFA (6.5.0):
+    - AMapFoundation-NO-IDFA (~> 1.5)
+  - AMapFoundation-NO-IDFA (1.5.5)
+  - AMapLocation-NO-IDFA (2.6.1):
+    - AMapFoundation-NO-IDFA (~> 1.4)
+  - AMapSearch-NO-IDFA (6.5.0):
+    - AMapFoundation-NO-IDFA (~> 1.4)
   - AvoidCrash (2.5.2)
   - BHInfiniteScrollView (1.5.3):
     - SDWebImage
@@ -55,15 +55,14 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
-  - AMap2DMap (~> 5.6.0)
-  - AMapLocation (~> 2.6.0)
-  - AMapSearch (~> 5.7.0)
+  - AMap3DMap-NO-IDFA
+  - AMapLocation-NO-IDFA
+  - AMapSearch-NO-IDFA
   - AvoidCrash
   - BHInfiniteScrollView (~> 1.5.3)
   - GTSDK
   - IQKeyboardManager (~> 5.0.7)
   - JMDropMenu (~> 0.1.1)
-  - JPush
   - JPush (~> 3.0.8)
   - JSONModel (~> 1.7.0)
   - MBProgressHUD (~> 1.1.0)
@@ -86,10 +85,10 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
-    - AMap2DMap
-    - AMapFoundation
-    - AMapLocation
-    - AMapSearch
+    - AMap3DMap-NO-IDFA
+    - AMapFoundation-NO-IDFA
+    - AMapLocation-NO-IDFA
+    - AMapSearch-NO-IDFA
     - AvoidCrash
     - BHInfiniteScrollView
     - GTSDK
@@ -118,10 +117,10 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  AMap2DMap: cf0bfd6ae97951b55cc061903b814f924ba6c221
-  AMapFoundation: 973682cfe60b92efd73a8ef8f1144fa0fa8e1296
-  AMapLocation: 55116a2c8956eab7550cbb56e989aa5cdcc424e3
-  AMapSearch: 314f75e9ce282b53dbf66455efa416c39f12b5b1
+  AMap3DMap-NO-IDFA: 8cdbdce78a17fe1170e208fc6371875aec81533e
+  AMapFoundation-NO-IDFA: a09d8cef57c10d4f841595829a574bcea67fc323
+  AMapLocation-NO-IDFA: ffd69b8b88f553d0b252d4967bf301ad2afff9c0
+  AMapSearch-NO-IDFA: 9d989bd376133fdba233f0f8dc5dce8642267e0b
   AvoidCrash: 28c6916fe19bd2b84126b8dec7cbe61c9a12741d
   BHInfiniteScrollView: 1ce1a2ebc0cc32bbed15c466304d8fcf6539f5e5
   GTSDK: 16f570807190eca9846653886a1f399cb0485061
@@ -148,6 +147,6 @@ SPEC CHECKSUMS:
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: ec09c85f0ca796373849923f0a55dd2f6a9dc957
+PODFILE CHECKSUM: 487ef2651d34dcbbeb388bd0c5a7e9fce916551f
 
 COCOAPODS: 1.5.3
