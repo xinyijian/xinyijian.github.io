@@ -303,6 +303,7 @@
 		9539FDCF2182CAE900E55941 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDCE2182CAE900E55941 /* MessageCell.m */; };
 		955FEC46218AA0BB00416BF4 /* CallStoreVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 955FEC45218AA0BB00416BF4 /* CallStoreVC.m */; };
 		956BE0BF218BE8CA00A4B4BB /* PushMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 956BE0BE218BE8CA00A4B4BB /* PushMessageModel.m */; };
+		956BE0C5218BFE2400A4B4BB /* 启动页.png in Resources */ = {isa = PBXBuildFile; fileRef = 956BE0C4218BFE2300A4B4BB /* 启动页.png */; };
 		956CCFA72187F7890052D8EB /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 956CCF4F2187F7890052D8EB /* AlipaySDK.bundle */; };
 		956CCFA92187F7890052D8EB /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 956CCF512187F7890052D8EB /* AlipaySDK.framework */; };
 		956CCFAE2187F95B0052D8EB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 956CCFAD2187F95B0052D8EB /* libc++.tbd */; };
@@ -832,6 +833,7 @@
 		955FEC51218B21A600416BF4 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		956BE0BD218BE8CA00A4B4BB /* PushMessageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PushMessageModel.h; sourceTree = "<group>"; };
 		956BE0BE218BE8CA00A4B4BB /* PushMessageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PushMessageModel.m; sourceTree = "<group>"; };
+		956BE0C4218BFE2300A4B4BB /* 启动页.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "启动页.png"; sourceTree = "<group>"; };
 		956CCF4F2187F7890052D8EB /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		956CCF512187F7890052D8EB /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		956CCFAD2187F95B0052D8EB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -1961,6 +1963,7 @@
 		95140EC521708B46007380B6 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				956BE0C4218BFE2300A4B4BB /* 启动页.png */,
 				95140EC621708B46007380B6 /* 地址@3x.png */,
 				95140EC721708B46007380B6 /* banner-店铺详情@3x.png */,
 				95140EC821708B46007380B6 /* 我的 */,
@@ -2352,6 +2355,7 @@
 				9514101D21708B47007380B6 /* Fill 1@3x.png in Resources */,
 				9514103421708B47007380B6 /* User引导页@3x.png in Resources */,
 				9514103C21708B47007380B6 /* 下拉菜单@2x.png in Resources */,
+				956BE0C5218BFE2400A4B4BB /* 启动页.png in Resources */,
 				95140FFD21708B47007380B6 /* icon-零食@3x.png in Resources */,
 				9514101B21708B47007380B6 /* icon-Ok@2x.png in Resources */,
 				9514101221708B47007380B6 /* icon-Search@3x.png in Resources */,
@@ -2404,7 +2408,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-PattayaUser/Pods-PattayaUser-resources.sh",
-				"${PODS_ROOT}/AMap2DMap/MAMapKit.framework/AMap.bundle",
+				"${PODS_ROOT}/AMap3DMap-NO-IDFA/MAMapKit.framework/AMap.bundle",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/MoxieSDK-iOS/MoxieSDK/resources/mx_back@2x.png",

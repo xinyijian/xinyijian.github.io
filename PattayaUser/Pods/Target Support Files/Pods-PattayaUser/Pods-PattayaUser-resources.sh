@@ -92,7 +92,7 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${PODS_ROOT}/AMap2DMap/MAMapKit.framework/AMap.bundle"
+  install_resource "${PODS_ROOT}/AMap3DMap-NO-IDFA/MAMapKit.framework/AMap.bundle"
   install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
   install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "${PODS_ROOT}/MoxieSDK-iOS/MoxieSDK/resources/mx_back@2x.png"
@@ -105,7 +105,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${PODS_ROOT}/AMap2DMap/MAMapKit.framework/AMap.bundle"
+  install_resource "${PODS_ROOT}/AMap3DMap-NO-IDFA/MAMapKit.framework/AMap.bundle"
   install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
   install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "${PODS_ROOT}/MoxieSDK-iOS/MoxieSDK/resources/mx_back@2x.png"
