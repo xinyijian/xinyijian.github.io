@@ -52,6 +52,7 @@
     opacityAnimation.fillMode = kCAFillModeForwards;
     
     [self.aDImgView.layer addAnimation:opacityAnimation forKey:@"animateOpacity"];
+    [self.skipBtn.layer addAnimation:opacityAnimation forKey:@"animateOpacity"];
     [NSTimer scheduledTimerWithTimeInterval:opacityAnimation.duration
                                      target:self
                                    selector:@selector(closeAddImgAnimation)
@@ -71,13 +72,13 @@
     countDownTimer = nil;
     
     if ([_isClick integerValue] == 1) {
-        if (self.clickBlock) {//点击广告
-            self.clickBlock(clickAdType); 
-        }
+//        if (self.clickBlock) {//点击广告
+//            self.clickBlock(clickAdType); 
+//        }
     }else if([_isClick integerValue] == 2){
-        if (self.clickBlock) {//点击跳过
-            self.clickBlock(skipAdType);
-        }
+//        if (self.clickBlock) {//点击跳过
+//            self.clickBlock(skipAdType);
+//        }
     }else{
         if (self.clickBlock) {
             self.clickBlock(overtimeAdType);
@@ -105,6 +106,9 @@
             _localAdImgName  = [_localAdImgName stringByReplacingOccurrencesOfString:@".gif" withString:@""];
             NSData *gifData = [NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:_localAdImgName ofType:@"gif"]];
             UIWebView *webView = [[UIWebView alloc] initWithFrame:self.aDImgView.frame];
+            if (KIsiPhoneXs) {
+                webView.frame = CGRectMake(0, -24, mainWidth, mainHeight + 64);
+            }
             webView.backgroundColor = [UIColor clearColor];
             webView.scalesPageToFit = YES;
             webView.scrollView.scrollEnabled = NO;
@@ -158,10 +162,11 @@
     self.backgroundColor = [UIColor colorWithPatternImage:launchImage];
     self.frame = CGRectMake(0, 0, mainWidth, mainHeight);
     if (adType == FullScreenAdType) {
-        self.aDImgView = [[FLAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, mainWidth, mainHeight)];
+        self.aDImgView = [[FLAnimatedImageView alloc]initWithFrame:CGRectMake(0, -20, mainWidth,mainHeight + 40)];
     }else{
         self.aDImgView = [[FLAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, mainWidth, mainHeight - mainWidth/3)];
     }
+    
     self.skipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.skipBtn.frame = CGRectMake(mainWidth - 70, 20, 60, 30);
     if (KIsiPhoneXs) {
