@@ -17,7 +17,7 @@
 #import "WXApi.h"
 #import "AccountSafeVC.h"
 #import "NSObject+LBLaunchImage.h"
-
+#import "AnimationViewController.h"
 //#import "DD_SpeechSynthesizer.h"
 NSString* APP_BASE_URL;
 extern CFAbsoluteTime StartTime;
@@ -38,6 +38,13 @@ extern CFAbsoluteTime StartTime;
     // Override point for customization after application launch.
     //    double launchTime = (CFAbsoluteTimeGetCurrent() - StartTime);
 //    [PattayaTool INVALID_ACCESS_TOKEN];
+    
+    AnimationViewController *KNVC = [[AnimationViewController alloc]init];
+    // 1、获取媒体资源地址
+    NSString *path =  [[NSBundle mainBundle] pathForResource:@"min.mp4" ofType:nil];
+    KNVC.movieURL = [NSURL fileURLWithPath:path];
+    self.window.rootViewController = KNVC;
+    
     NSLog(@"---");
     application.applicationIconBadgeNumber = 0;
     [JPUSHService setBadge:0];
@@ -76,41 +83,41 @@ extern CFAbsoluteTime StartTime;
         [self requestUserInfoOrder:pushNotificationKey];
     }
     _hegihtStats = [UIApplication sharedApplication].statusBarFrame.size.height;
-    
-    __weak typeof(self) weakSelf = self;
-    [NSObject makeLBLaunchImageAdView:^(LBLaunchImageAdView *imgAdView) {
-        //设置广告的类型
-        imgAdView.getLBlaunchImageAdViewType(FullScreenAdType);
-        //设置本地启动图片
-        imgAdView.localAdImgName = @"开机页-2.gif";
-        //自定义跳过按钮
-        imgAdView.skipBtn.backgroundColor = [UIColor grayColor];
-        //各种点击事件的回调
-        imgAdView.isClickAdView = NO;
-        imgAdView.adTime = 6;
-        imgAdView.skipBtn.hidden = YES;
-        imgAdView.clickBlock = ^(clickType type){
-            switch (type) {
-                case skipAdType:{
-                    BaseTabBarViewController *baseTabBarVC = [[BaseTabBarViewController alloc] init];
-                    self.window.rootViewController = baseTabBarVC;
-                }
-                    NSLog(@"点击跳过回调");
-                    break;
-                case overtimeAdType:{
-                   
-                    BaseTabBarViewController *baseTabBarVC = [[BaseTabBarViewController alloc] init];
-                    self.window.rootViewController = baseTabBarVC;
-                }
-                 NSLog(@"倒计时完成后的回调");
-                    break;
-                default:
-                    break;
-            }
-        };
-        
-    }];
-    
+//
+//    __weak typeof(self) weakSelf = self;
+//    [NSObject makeLBLaunchImageAdView:^(LBLaunchImageAdView *imgAdView) {
+//        //设置广告的类型
+//        imgAdView.getLBlaunchImageAdViewType(FullScreenAdType);
+//        //设置本地启动图片
+//        imgAdView.localAdImgName = @"开机页-2.gif";
+//        //自定义跳过按钮
+//        imgAdView.skipBtn.backgroundColor = [UIColor grayColor];
+//        //各种点击事件的回调
+//        imgAdView.isClickAdView = NO;
+//        imgAdView.adTime = 6;
+//        imgAdView.skipBtn.hidden = YES;
+//        imgAdView.clickBlock = ^(clickType type){
+//            switch (type) {
+//                case skipAdType:{
+//                    BaseTabBarViewController *baseTabBarVC = [[BaseTabBarViewController alloc] init];
+//                    self.window.rootViewController = baseTabBarVC;
+//                }
+//                    NSLog(@"点击跳过回调");
+//                    break;
+//                case overtimeAdType:{
+//
+//                    BaseTabBarViewController *baseTabBarVC = [[BaseTabBarViewController alloc] init];
+//                    self.window.rootViewController = baseTabBarVC;
+//                }
+//                 NSLog(@"倒计时完成后的回调");
+//                    break;
+//                default:
+//                    break;
+//            }
+//        };
+//
+//    }];
+   
  
     
     return YES;
