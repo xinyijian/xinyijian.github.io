@@ -9,8 +9,11 @@
 #import "CallStoreVC.h"
 #import "PaymentBottomView.h"
 #import "PaymentActionSheetView.h"
+#import <AMapSearchKit/AMapSearchKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+#import <MAMapKit/MAMapKit.h>
 
-@interface CallStoreVC ()
+@interface CallStoreVC ()<MAMapViewDelegate,AMapSearchDelegate>
 
 @property (nonatomic, strong) UIImageView *headImage;//商店头像
 @property (nonatomic, strong) UILabel *nameLabel;//商店名称
@@ -32,8 +35,10 @@
 
 @property (nonatomic, strong) PaymentBottomView *bottomView;//底部视图
 @property (nonatomic, strong) PaymentActionSheetView *paymentActionSheetView;//收缩视图
-
-
+@property (nonatomic, strong)  MAMapView *mapView;
+@property (nonatomic, strong) AMapSearchAPI *search;
+@property (nonatomic, strong) AMapPOI * addressLocation;
+@property (nonatomic, strong) NSString * Component;
 
 @end
 
@@ -46,6 +51,47 @@
    // [self netRequestData];
     [self setupUI];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.search = [[AMapSearchAPI alloc] init];
+    self.search.delegate = self;
+}
+
+- (void)addMapviewUI:(UIView *)topView{
+    self.mapView = [[MAMapView alloc] init];
+    [self.view addSubview:self.mapView];
+    [self.mapView activateConstraints:^{
+        [self.mapView.top_attr equalTo:topView.bottom_attr];
+        [self.mapView.width_attr equalTo:self.view.width_attr];
+        [self.mapView.bottom_attr equalTo:self.bottomView.top_attr];
+    }];
+    self.mapView.delegate = self;
+    self.mapView.showsUserLocation = YES;
+    [self.mapView setMapType:MAMapTypeStandard];
+    self.mapView.showsCompass = NO;
+    self.mapView.showsScale = NO;
+    self.mapView.scrollEnabled = NO;
+    self.mapView.rotateEnabled = NO;
+    self.mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
+    [self locationSucceed];
+    
+}
+-(void)locationSucceed{
+    if([PattAmapLocationManager singleton].lat.integerValue > 0){
+        CLLocationCoordinate2D center;
+        center.longitude = [PattAmapLocationManager singleton].lng.doubleValue;
+        center.latitude = [PattAmapLocationManager singleton].lat.doubleValue;
+//        _userCenter = center;
+        [self.mapView setCenterCoordinate:center animated:YES];
+        [self.mapView setZoomLevel:16.5];
+        AMapReGeocodeSearchRequest* request = [[AMapReGeocodeSearchRequest alloc]init];
+        request.location = [AMapGeoPoint locationWithLatitude: center.latitude longitude:center.longitude];
+        request.requireExtension = YES;
+        [self.search AMapReGoecodeSearch:request];
+        
+    }
 }
 
 -(void)netRequestData{
@@ -64,7 +110,6 @@
     headerView.backgroundColor = UIColorWhite;
     headerView.userInteractionEnabled = YES;
     [self.view addSubview:headerView];
-    
     [headerView addSubview:self.headImage];
     [headerView addSubview:self.nameLabel];
     [headerView addSubview:self.chainLabel];
@@ -84,6 +129,9 @@
     
     [self.view addSubview:self.bottomView];
     [self.view addSubview:self.paymentActionSheetView];
+    [self addMapviewUI:headerView];
+
+    
 
 }
 
@@ -276,5 +324,63 @@
     return _paymentActionSheetView;
 }
 
+
+
+-(void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response{
+    
+    if(response.regeocode != nil){
+        NSString *result = [NSString stringWithFormat:@"%@",response.regeocode.addressComponent];
+        NSLog(@"逆地理编码结果:%@",result);
+        self.addressLocation = [response.regeocode.pois firstObject];
+        _Component = response.regeocode.formattedAddress;
+        _destinationLabel.text = _Component;
+//                self.centerAddressComponent = response.regeocode.addressComponent;
+//        self.searchSources  = [response.regeocode.pois mutableCopy];
+//        self.poiType = POI_TYPE_REGEO;
+//        if (self.searchSources.count > 0) {
+//
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self.tableView reloadData];
+//            });
+//        }
+    }
+}
+
+
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
+{
+  if ([annotation isKindOfClass:[MAUserLocation class]])
+    {
+        static NSString *customReuseIndetifier = @"DD_customReuseIndetifierConfirmation";
+        MAPinAnnotationView *annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:customReuseIndetifier];
+        if (annotationView == nil)
+        {
+            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:customReuseIndetifier];
+            // must set to NO, so we can show the custom callout view.
+            //            annotationView.canShowCallout = NO;
+            //            annotationView.draggable = YES;
+            //            annotationView.calloutOffset = CGPointMake(0, -5);
+        }
+        annotationView.image = [UIImage imageNamed:@"icon_location"];
+        return annotationView;
+        
+    }
+//    else if ([annotation isKindOfClass:[DD_MAPointUserLocationView class]])
+//    {
+//        static NSString *customReuseIndetifier = @"DD_customReuseIndetifierConfirmation";
+//        MAPinAnnotationView *annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:customReuseIndetifier];
+//        if (annotationView == nil)
+//        {
+//            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:customReuseIndetifier];
+//            // must set to NO, so we can show the custom callout view.
+//            //            annotationView.canShowCallout = NO;
+//            //            annotationView.draggable = YES;
+//            //            annotationView.calloutOffset = CGPointMake(0, -5);
+//        }
+//        annotationView.image = [UIImage imageNamed:@"icon--"];
+//        return annotationView;
+//    }
+    return nil;
+}
 
 @end
