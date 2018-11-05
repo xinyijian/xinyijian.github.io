@@ -13,6 +13,9 @@
 		92BE478920552B8200391F33 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BE478820552B8200391F33 /* SystemConfiguration.framework */; };
 		92D10DB5202AEEB800B01DDF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92D10DB3202AEE9600B01DDF /* MapKit.framework */; };
 		92FE93DC218BF7EA00E02CB6 /* 开机页-2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 92FE93DB218BF7EA00E02CB6 /* 开机页-2.gif */; };
+		92FE93DF218C47E900E02CB6 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FE93DE218C47E900E02CB6 /* AnimationViewController.m */; };
+		92FE93E4218FEB6000E02CB6 /* min.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 92FE93E3218FEB5F00E02CB6 /* min.mp4 */; };
+		92FE93E621900EBB00E02CB6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FE93E521900EBB00E02CB6 /* AVFoundation.framework */; };
 		95140F3621708B46007380B6 /* NewShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2021708B46007380B6 /* NewShopModel.m */; };
 		95140F3721708B46007380B6 /* ShoppingCartOrderListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2221708B46007380B6 /* ShoppingCartOrderListInfo.m */; };
 		95140F3821708B46007380B6 /* NewShopListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2321708B46007380B6 /* NewShopListModel.m */; };
@@ -360,6 +363,10 @@
 		92BE478820552B8200391F33 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		92D10DB3202AEE9600B01DDF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		92FE93DB218BF7EA00E02CB6 /* 开机页-2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "开机页-2.gif"; sourceTree = "<group>"; };
+		92FE93DD218C47E900E02CB6 /* AnimationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnimationViewController.h; sourceTree = "<group>"; };
+		92FE93DE218C47E900E02CB6 /* AnimationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnimationViewController.m; sourceTree = "<group>"; };
+		92FE93E3218FEB5F00E02CB6 /* min.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = min.mp4; sourceTree = "<group>"; };
+		92FE93E521900EBB00E02CB6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		95140D1F21708B46007380B6 /* ShoppingCartOrderListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartOrderListInfo.h; sourceTree = "<group>"; };
 		95140D2021708B46007380B6 /* NewShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewShopModel.m; sourceTree = "<group>"; };
 		95140D2121708B46007380B6 /* NewShopListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewShopListModel.h; sourceTree = "<group>"; };
@@ -867,6 +874,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92FE93E621900EBB00E02CB6 /* AVFoundation.framework in Frameworks */,
 				956CCFCC2188248D0052D8EB /* libsqlite3.0.tbd in Frameworks */,
 				956CCFCA218824590052D8EB /* Security.framework in Frameworks */,
 				956CCFC02187F9B10052D8EB /* CoreMotion.framework in Frameworks */,
@@ -916,6 +924,7 @@
 		7DB770817103089AD17D239A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				92FE93E521900EBB00E02CB6 /* AVFoundation.framework */,
 				955FEC51218B21A600416BF4 /* libxml2.tbd */,
 				956CCFCB2188248C0052D8EB /* libsqlite3.0.tbd */,
 				956CCFC9218824590052D8EB /* Security.framework */,
@@ -984,12 +993,15 @@
 				95140EB321708B46007380B6 /* AppDelegate.m */,
 				92FE93DB218BF7EA00E02CB6 /* 开机页-2.gif */,
 				95140EAC21708B46007380B6 /* main.m */,
+				92FE93E3218FEB5F00E02CB6 /* min.mp4 */,
 				95140D1C21708B46007380B6 /* Classses */,
 				95140E2321708B46007380B6 /* Tools */,
 				95140EA821708B46007380B6 /* Expands */,
 				95140EA921708B46007380B6 /* Config */,
 				95140EAD21708B46007380B6 /* SDK */,
 				95140EB421708B46007380B6 /* Resource */,
+				92FE93DD218C47E900E02CB6 /* AnimationViewController.h */,
+				92FE93DE218C47E900E02CB6 /* AnimationViewController.m */,
 			);
 			path = PattayaUser;
 			sourceTree = "<group>";
@@ -2328,6 +2340,7 @@
 				9514102D21708B47007380B6 /* icon-下拉@2x.png in Resources */,
 				95140FEE21708B47007380B6 /* Imported Layers Copy@2x.png in Resources */,
 				9514102F21708B47007380B6 /* 小标题@3x.png in Resources */,
+				92FE93E4218FEB6000E02CB6 /* min.mp4 in Resources */,
 				9514103921708B47007380B6 /* 订单详情-占位图@2x.png in Resources */,
 				956CCFA72187F7890052D8EB /* AlipaySDK.bundle in Resources */,
 				9514101321708B47007380B6 /* icon--@2x.png in Resources */,
@@ -2478,6 +2491,7 @@
 				95140FC221708B47007380B6 /* DD_SpeechSynthesizer.m in Sources */,
 				95140F3821708B46007380B6 /* NewShopListModel.m in Sources */,
 				95140F5C21708B46007380B6 /* AddressViewController.m in Sources */,
+				92FE93DF218C47E900E02CB6 /* AnimationViewController.m in Sources */,
 				95140F9E21708B47007380B6 /* BaseNavigationViewController.m in Sources */,
 				95140F5221708B46007380B6 /* XLCardItem.m in Sources */,
 				95140F6321708B46007380B6 /* DeveloperViewController.m in Sources */,
