@@ -7,7 +7,8 @@
 //
 
 #import "AccountSafeVC.h"
-
+#import "QNUploadManager.h"
+#import "QNConfiguration.h"
 #define HEADTITLES @[@"  基本信息",@"  账号绑定"]
 #define IMAGES @[@"icon_wechat",@"icon_QQ"]
 
@@ -19,6 +20,7 @@
 @property(nonatomic, strong)UIButton *layoutBT;
 
 @property (nonatomic, strong) NSMutableArray * nameText;
+@property (nonatomic, assign) NSInteger  ImagePickerControllerTpye;
 
 @end
 
@@ -196,15 +198,17 @@
         
         if (indexPath.row == 2) {
             //昵称
-            //姓名
-            self.name = [[UITextField alloc]initWithFrame:CGRectMake(SCREEN_Width- 36 - 200, 10, 200, 35)];
-            self.name.returnKeyType = UIReturnKeyDone;
-            self.name.font = [UIFont systemFontOfSize:14];
-            self.name.textAlignment = 2;
-            self.name.delegate = self;
-            self.name.text = _userModel.mobile;
-            [cell.contentView addSubview:self.name];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//            self.name = [[UITextField alloc]initWithFrame:CGRectMake(SCREEN_Width- 36 - 200, 10, 200, 35)];
+//            self.name.returnKeyType = UIReturnKeyDone;
+//            self.name.font = [UIFont systemFontOfSize:14];
+//            self.name.textAlignment = 2;
+//            self.name.delegate = self;
+//            self.name.text = _userModel.mobile;
+//            [cell.contentView addSubview:self.name];
+//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            cell.detailTextLabel.text = _userModel.userSocialLinks.count > 0 ? _userModel.userSocialLinks[0][@"nickName"] : _userModel.userName;;
+            cell.detailTextLabel.textColor = UIColorFromRGB(0x4A4A4A);
         }
         
     }else{
@@ -223,11 +227,13 @@
         if (_userModel.userSocialLinks.count > 0) {
             NSDictionary * dicwecht = _userModel.userSocialLinks[0];
             if (_userModel.userSocialLinks.count == 1) {
-                if ([dicwecht[@"socialType"] isEqualToString:@"WECHAT"] && indexPath.row == 0){
-                    cell.detailTextLabel.textColor = UIColorFromRGB(0xE4344A);
-                }else{
-                    cell.detailTextLabel.textColor = App_Nav_BarDefalutColor;
+                if ( indexPath.row == 0){
+                    cell.detailTextLabel.textColor = [dicwecht[@"socialType"] isEqualToString:@"WECHAT"] ? UIColorFromRGB(0xE4344A) : App_Nav_BarDefalutColor;
+                }else  if ( indexPath.row == 1){
+                    cell.detailTextLabel.textColor = [dicwecht[@"socialType"] isEqualToString:@"QQ"] ? UIColorFromRGB(0xE4344A) : App_Nav_BarDefalutColor;
+
                 }
+                
             }else{
                  cell.detailTextLabel.textColor = UIColorFromRGB(0xE4344A);
             }
@@ -383,6 +389,8 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     //按钮：从相册选择，类型：UIAlertActionStyleDefault
     [alert addAction:[UIAlertAction actionWithTitle:@"从相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        _ImagePickerControllerTpye = 2;
+        
         //初始化UIImagePickerController
         UIImagePickerController *PickerImage = [[UIImagePickerController alloc]init];
         //获取方式1：通过相册（呈现全部相册），UIImagePickerControllerSourceTypePhotoLibrary
@@ -398,6 +406,8 @@
     }]];
     //按钮：拍照，类型：UIAlertActionStyleDefault
     [alert addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        
+        _ImagePickerControllerTpye = 1;
         /**
          其实和从相册选择一样，只是获取方式不同，前面是通过相册，而现在，我们要通过相机的方式
          */
@@ -412,15 +422,118 @@
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
 }
-//PickerImage完成后的代理方法
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-   
-    //定义一个newPhoto，用来存放我们选择的图片。
-    UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-    self.headImg.image = newPhoto;
-    //_myHeadPortrait.image = newPhoto;
+
+
+
+#pragma mark -- <UIImagePickerControllerDelegate>--
+// 获取图片后的操作
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    // 销毁控制器
+    //    [picker dismissViewControllerAnimated:YES completion:nil];
+    NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
+    //判断资源类型
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        //定义一个newPhoto，用来存放我们选择的图片。
+        UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+        self.headImg.image = newPhoto;
+        [self dismissViewControllerAnimated:YES completion:nil];
+        NSString * string;
+        if (@available(iOS 11.0, *)) {
+            string = info[UIImagePickerControllerImageURL];
+        } else {
+            // Fallback on earlier versions
+            string =  info[UIImagePickerControllerMediaURL];
+        }
+        //        self.headImage.layer.cornerRadius = 24;
+        //压缩图片
+        NSData *fileData = UIImageJPEGRepresentation(self.headImg.image, 1.0);
+       //保存图片至相册
+        if (_ImagePickerControllerTpye == 1) {
+            
+            UIImageWriteToSavedPhotosAlbum( self.headImg.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+        }
+        //上传图片
+        //        [self uploadImageWithData:fileData];
+        [self qinniHttpToken:fileData];
+        
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
+    // 设置图片
+    //    self.imageView.image = info[UIImagePickerControllerOriginalImage];
 }
+
+#pragma mark 视频保存完毕的回调
+- (void)image:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInf{
+    if (error) {
+        NSLog(@"保存视频过程中发生错误，错误信息:%@",error.localizedDescription);
+    }else{
+        NSLog(@"视频保存成功.");
+       // [self.tableView reloadData];
+        
+    }
+}
+
+- (void)qinniHttpToken:(NSData *)data
+{
+    [[PattayaUserServer singleton]QiniuTokenRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        NSLog(@"获取七牛token==%@",ret);
+        if ([ResponseModel isData:ret]) {
+            
+            [self updateImage:ret[@"data"][@"uploadToken"] imageData:data filekey:ret[@"data"][@"filekey"]];
+        } else
+        {
+            [YDProgressHUD showMessage:ret[@"message"]];
+            //[self showToast:ret[@"message"]];
+        }
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
+}
+
+
+- (void)updateImage:(NSString *)token imageData:(NSData*)data filekey:(NSString *)key
+{
+    QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
+        builder.zone = [QNFixedZone zone0];
+    }];
+    QNUploadManager *upManager = [[QNUploadManager alloc] initWithConfiguration:config];
+    //    NSData *data = [@"Hello, World!" dataUsingEncoding : NSUTF8StringEncoding];
+    [upManager putData:data key:key token:token
+              complete: ^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                  NSLog(@"%@", info);
+                  NSLog(@"%@", resp);
+                  if (![PattayaTool isNull:key]) {
+                      [self postHeadImg:key];
+                  }
+                  
+              } option:nil];
+}
+
+- (void)postHeadImg:(NSString *)key
+{
+    [[PattayaUserServer singleton] headImgSaveRequest:key Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        if ([ResponseModel isData:ret]) {
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"KdUserInfoHtppLoad" object:nil];
+            
+        } else
+        {
+            [YDProgressHUD showMessage:ret[@"message"]];
+        }
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
+}
+////PickerImage完成后的代理方法
+//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+//
+//    //定义一个newPhoto，用来存放我们选择的图片。
+//    UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+//    self.headImg.image = newPhoto;
+//    //_myHeadPortrait.image = newPhoto;
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
 
 //
 - (void)hideKeyBoard{
@@ -438,7 +551,7 @@
         {
              [YDProgressHUD showHUD:@"message"];
         }
-        [self.tableView reloadData];
+       
         
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         
@@ -507,7 +620,7 @@
 //            _listUserSocial = [NSMutableArray array];
 //            _listUserSocial = mode.userSocialLinks;
             [self loadDataCell];
-            
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"KdUserInfoHtppLoad" object:nil];
         } else
         {
             [YDProgressHUD showHUD:@"message"];

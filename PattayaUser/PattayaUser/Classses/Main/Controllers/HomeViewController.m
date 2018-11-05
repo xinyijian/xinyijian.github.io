@@ -90,11 +90,11 @@
     float width = (SCREEN_Width - IPhone_7_Scale_Width(12)*2 - IPhone_7_Scale_Width(6)*2)/3;
     float height = width/113*74;
     
-    for (int i = 0 ; i < 3; i++) {
-        UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(12)+(width+IPhone_7_Scale_Width(6))*i, 16, width, height)];
-        [btn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"main_adv_%d",i+1]] forState:UIControlStateNormal];
-        [self.advView addSubview:btn];
-    }
+//    for (int i = 0 ; i < 3; i++) {
+//        UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(12)+(width+IPhone_7_Scale_Width(6))*i, 16, width, height)];
+//        [btn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"main_adv_%d",i+1]] forState:UIControlStateNormal];
+//        [self.advView addSubview:btn];
+//    }
     
     [self.scrollView addSubview:self.advButton4];
     
@@ -268,7 +268,7 @@
 
 - (UIView *)advView {
     if (!_advView) {
-        _advView = [[UIView alloc]initWithFrame:CGRectMake(0, self.locationLabel.YD_bottom+IPhone_7_Scale_Height(15), SCREEN_Width, IPhone_7_Scale_Height(108))];
+        _advView = [[UIView alloc]initWithFrame:CGRectMake(0, self.locationLabel.YD_bottom+IPhone_7_Scale_Height(15), SCREEN_Width, 0)];//IPhone_7_Scale_Height(108)
         _advView.backgroundColor = UIColorWhite;
     }
     return _advView;
@@ -278,6 +278,8 @@
     if (!_advButton4) {
         _advButton4 = [[UIButton alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(12), self.advView.YD_bottom+IPhone_7_Scale_Height(8), SCREEN_Width-IPhone_7_Scale_Width(24), (SCREEN_Width-IPhone_7_Scale_Width(24))/350*80)];
         [_advButton4 setBackgroundImage:[UIImage imageNamed:@"main_adv_4"] forState:UIControlStateNormal];
+        [_advButton4 setBackgroundImage:[UIImage imageNamed:@"main_adv_4"] forState:UIControlStateHighlighted];
+
     }
     return _advButton4;
 }

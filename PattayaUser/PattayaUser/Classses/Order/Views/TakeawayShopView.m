@@ -283,6 +283,7 @@
          NSString *str = ret[@"data"][@"id"];
             if (str) {
                 PaymentOrderVC *vc = [[PaymentOrderVC alloc]init];
+                vc.productArray = _productArray;
                 vc.shopModel = _shopModel;
                 vc.payBusinessCode = str;
                 [[self getController].navigationController pushViewController:vc animated:YES];

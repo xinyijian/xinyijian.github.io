@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PushMessageModel.h"
 
 @interface MessageCell : UITableViewCell
 
 @property (nonatomic, strong) UIImageView * headImg;
+@property (nonatomic, strong) UILabel * titleLabel;//时间
 @property (nonatomic, strong) UILabel * timeLabel;//时间
 @property (nonatomic, strong) UILabel * messageLabel;
+
+@property (nonatomic, strong) PushMessageModel * messageModel;
+
 
 @end

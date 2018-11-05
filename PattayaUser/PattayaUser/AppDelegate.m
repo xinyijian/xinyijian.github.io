@@ -59,6 +59,7 @@ extern CFAbsoluteTime StartTime;
     _locationAddress = [[AddressModel alloc]init];
     _locationAddress.formattedAddress = @"上海";
     NSLog(@"_%@",_locationAddress);
+    
     [WXApi registerApp:@"wx122211556959a8b4"];
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1106673029" andDelegate:self];
     
@@ -297,6 +298,24 @@ extern CFAbsoluteTime StartTime;
         //跳转支付宝钱包进行支付，处理支付结果
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
             NSLog(@"result = %@",resultDic);
+            int statusCode = [resultDic[@"resultStatus"]  intValue];
+            
+            if (statusCode == 9000)
+            {
+                //订单支付
+                [YDProgressHUD showMessage:@"支付成功"];
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"paymentsuccess" object:nil];
+                
+            }
+            else
+            {
+                //交易失败
+                // [[NSNotificationCenter defaultCenter] postNotificationName:@"PAY_STATUS" object:@"0"];
+                [YDProgressHUD showMessage:@"支付异常"];
+            }
+            
+           
         }];
         return YES;
         
@@ -343,6 +362,36 @@ extern CFAbsoluteTime StartTime;
 
 - (void)onResp:(BaseResp *)resp
 {
+    //启动微信支付的response
+    NSString *payResoult = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
+    if([resp isKindOfClass:[PayResp class]]){
+        PayResp * rp = (PayResp *)resp;
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        switch (resp.errCode) {
+            case 0:
+                payResoult = @"支付结果：成功！";
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"paymentsuccess" object:@{@"code":[NSString stringWithFormat:@"%d",rp.errCode]}];
+
+                break;
+            case -1:
+                payResoult = @"支付结果：失败！";
+                break;
+            case -2:
+                payResoult = @"用户已经退出支付！";
+                break;
+            default:
+                payResoult = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+                break;
+                
+        }
+        
+        [YDProgressHUD showMessage:payResoult];
+        
+
+    }
+
+    
+    //第三方登录回调
     if ([resp isKindOfClass:[SendAuthResp class]]) {
         SendAuthResp * rp = (SendAuthResp *)resp;
         if (rp.errCode == 0) {

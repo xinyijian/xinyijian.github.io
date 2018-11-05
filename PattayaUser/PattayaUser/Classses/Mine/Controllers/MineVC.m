@@ -198,8 +198,8 @@
         NSLog(@"%@",ret);
         if ([ResponseModel isData:ret]) {
             _userModel = [[UserModel alloc] initWithDictionary:ret[@"data"] error:nil];
-            self.nameLabel.text = _userModel.userName;
-            self.numberLabel.text = _userModel.maskMobile;
+            self.nameLabel.text = _userModel.userSocialLinks.count>0 ? _userModel.userSocialLinks[0][@"nickName"] : _userModel.userName;
+            self.numberLabel.text = _userModel.mobile;
             NSString *url = (_userModel.headImgUrl) ? (_userModel.headImgUrl) : (_userModel.userSocialLinks.count > 0 ? _userModel.userSocialLinks[0][@"headImgUrl"] : @"");
             [self.headImg sd_setImageWithURL:[NSURL URLWithString:url]  placeholderImage:[UIImage imageNamed:@"main_cell_headImg_bg"]];
 //            _socialArray = [NSMutableArray array];
@@ -227,6 +227,7 @@
     }else if (btn.tag == 1){
         
         AccountSafeVC *vc = [[AccountSafeVC alloc]init];
+        vc.userModel = _userModel;
         [self.navigationController pushViewController:vc animated:YES];
         
     }else if (btn.tag == 2){

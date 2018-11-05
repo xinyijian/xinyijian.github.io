@@ -22,5 +22,5 @@
 @property (nonatomic, strong) UIImageView *promotionImg2;//推广图标2
 @property (nonatomic, strong) UILabel *promotionLabel2;//推广文字2
 
-
+@property (nonatomic, strong) ShopModel *shopModel;
 @end

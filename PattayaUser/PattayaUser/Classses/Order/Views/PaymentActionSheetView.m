@@ -8,6 +8,11 @@
 
 #import "PaymentActionSheetView.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import <CommonCrypto/CommonDigest.h>
+@interface PaymentActionSheetView()
+
+@end
+
 @implementation PaymentActionSheetView
 
 - (id)initWithFrame:(CGRect)frame
@@ -16,7 +21,7 @@
     if (self) {
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
         [self initViews];
-        
+                
     }
     return self;
 }
@@ -32,7 +37,7 @@
     _surplusTimeLabel = [[UILabel alloc] init];
     _surplusTimeLabel.font = K_LABEL_SMALL_FONT_14;
     _surplusTimeLabel.textColor = TextGrayColor;
-    _surplusTimeLabel.text = @"支付剩余时间 10：00";
+    _surplusTimeLabel.text = @"支付金额";
     _surplusTimeLabel.adjustsFontSizeToFitWidth = YES;
     [_bgView addSubview: _surplusTimeLabel];
     [_surplusTimeLabel activateConstraints:^{
@@ -40,7 +45,6 @@
         _surplusTimeLabel.height_attr.constant = IPhone_7_Scale_Height(20);
         _surplusTimeLabel.centerX_attr = _bgView.centerX_attr;
     }];
-    _surplusTimeLabel.hidden = YES;
     //取消按钮
     _cancelBT = [UIButton buttonWithType:UIButtonTypeCustom];
     [_cancelBT setTitleColor:App_Nav_BarDefalutColor forState:UIControlStateNormal];
@@ -78,6 +82,8 @@
         [_wechatImg.top_attr equalTo:_totalAmountLabel.bottom_attr constant:IPhone_7_Scale_Height(10)];
     }];
     
+    
+    
     //支付宝img
     _aliPayImg = [[UIImageView alloc] init];
     [_bgView addSubview:_aliPayImg];
@@ -87,32 +93,6 @@
         _aliPayImg.height_attr.constant = IPhone_7_Scale_Height(30);
         _aliPayImg.width_attr.constant = IPhone_7_Scale_Height(30);
         [_aliPayImg.top_attr equalTo:_wechatImg.bottom_attr constant:IPhone_7_Scale_Height(25)];
-    }];
-    
-    //微信支付
-    _wechatLabel = [[UILabel alloc] init];
-    _wechatLabel.font = [UIFont systemFontOfSize:14];
-    _wechatLabel.textColor = TextColor;
-    _wechatLabel.text = @"微信支付";
-    _wechatLabel.adjustsFontSizeToFitWidth = YES;
-    [_bgView addSubview: _wechatLabel];
-    [_wechatLabel activateConstraints:^{
-        [_wechatLabel.left_attr equalTo:_wechatImg.right_attr constant:IPhone_7_Scale_Width(10)];
-        _wechatLabel.height_attr.constant = IPhone_7_Scale_Height(20);
-        _wechatLabel.centerY_attr = _wechatImg.centerY_attr;
-    }];
-    
-    //微信支付
-    _aliPayLabel = [[UILabel alloc] init];
-    _aliPayLabel.font = [UIFont systemFontOfSize:14];
-    _aliPayLabel.textColor = TextColor;
-    _aliPayLabel.text = @"支付宝支付";
-    _aliPayLabel.adjustsFontSizeToFitWidth = YES;
-    [_bgView addSubview: _aliPayLabel];
-    [_aliPayLabel activateConstraints:^{
-        [_aliPayLabel.left_attr equalTo:_aliPayImg.right_attr constant:IPhone_7_Scale_Width(10)];
-        _aliPayLabel.height_attr.constant = IPhone_7_Scale_Height(20);
-        _aliPayLabel.centerY_attr = _aliPayImg.centerY_attr;
     }];
     
     //
@@ -142,6 +122,45 @@
         _alipaySelectBT.width_attr.constant  = IPhone_7_Scale_Height(20) ;
     }];
     
+    //微信支付
+    _wechatLabel = [[UILabel alloc] init];
+    _wechatLabel.font = [UIFont systemFontOfSize:14];
+    _wechatLabel.textColor = TextColor;
+    _wechatLabel.text = @"微信支付";
+    [_bgView addSubview: _wechatLabel];
+    [_wechatLabel activateConstraints:^{
+        [_wechatLabel.left_attr equalTo:_wechatImg.right_attr constant:IPhone_7_Scale_Width(10)];
+        [_wechatLabel.right_attr equalTo:_wechatSelectBT.left_attr constant:0];
+        _wechatLabel.height_attr.constant = IPhone_7_Scale_Height(40);
+        _wechatLabel.centerY_attr = _wechatImg.centerY_attr;
+    }];
+    
+    //微信支付
+    _aliPayLabel = [[UILabel alloc] init];
+    _aliPayLabel.font = [UIFont systemFontOfSize:14];
+    _aliPayLabel.textColor = TextColor;
+    _aliPayLabel.text = @"支付宝支付";
+    _aliPayLabel.adjustsFontSizeToFitWidth = YES;
+    [_bgView addSubview: _aliPayLabel];
+    [_aliPayLabel activateConstraints:^{
+        [_aliPayLabel.right_attr equalTo:_alipaySelectBT.left_attr constant:0];
+        [_aliPayLabel.left_attr equalTo:_aliPayImg.right_attr constant:IPhone_7_Scale_Width(10)];
+        _aliPayLabel.height_attr.constant = IPhone_7_Scale_Height(40);
+        _aliPayLabel.centerY_attr = _aliPayImg.centerY_attr;
+    }];
+    
+    
+    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap1:)];
+   
+    _wechatLabel.userInteractionEnabled = YES;
+    
+    [_wechatLabel addGestureRecognizer:tap1];
+    
+    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap2:)];
+     _aliPayLabel.userInteractionEnabled  = YES;
+    [_aliPayLabel addGestureRecognizer:tap2];
+    
+    
     //
     _paymentBT = [UIButton buttonWithType:UIButtonTypeCustom];
     _paymentBT.backgroundColor = App_Nav_BarDefalutColor;
@@ -159,6 +178,19 @@
     }];
     
 }
+
+-(void)tap1:(UITapGestureRecognizer *)tap{
+    
+    [self selectlClick:_wechatSelectBT];
+    
+}
+
+-(void)tap2:(UITapGestureRecognizer *)tap{
+   
+    [self selectlClick:_alipaySelectBT];
+    
+}
+
 
 //取消
 -(void)cancelClick:(UIButton*)btn{
@@ -184,11 +216,24 @@
     [[PattayaUserServer singleton] orderPaymentRequest:_payBusinessCode payType:_wechatSelectBT.selected ? 2 : 1 success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         
         NSLog(@"%@",ret);
+      
         if ([ResponseModel isData:ret]){
+               [self hiddenView];
             
                 if (_wechatSelectBT.selected) {
+                    
+//                 ret =   @{
+//                        @"resultCode": @"1",
+//                       @"message": @"",
+//                        @"data": @"{\"appid\":\"wx122211556959a8b4\",\"noncestr\":\"wLwSuEkvPDhCiJ43\",\"package\":\"Sign=WXPay\",\"partnerid\":\"1511150521\",\"prepayid\":\"wx021827387156551f87ae6cb83677751650\",\"sign\":\"B1BF8EF26D707B5DD35A42B383BBABE4\",\"timestamp\":\"1541154456\"}",
+//                        @"timestamp": @""
+//                        };
                     //微信支付
-                    [self WechatPayWithData:ret[@"data"]];
+                   NSData *jsonData =  [ret[@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+                   NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                        options:NSJSONReadingMutableContainers
+                                                                          error:nil];
+                    [self WechatPayWithData:dic];
                 }else{
                    // 支付宝支付
                     [self aliPayWithData:ret[@"data"]];
@@ -208,25 +253,28 @@
 }
 
 #pragma mark 微信支付方法
-- (void)WechatPayWithData:(NSString *)data{
+- (void)WechatPayWithData:(NSDictionary *)dic{
+
     
     //需要创建这个支付对象
     PayReq *req   = [[PayReq alloc] init];
     //由用户微信号和AppID组成的唯一标识，用于校验微信用户
-    req.openID = @"";//appid;
+    req.openID = dic[@"appid"];//appid;
     // 商家id，在注册的时候给的
-    req.partnerId = @"";//partnerid;
+    req.partnerId = dic[@"partnerid"];//partnerid;
     // 预支付订单这个是后台跟微信服务器交互后，微信服务器传给你们服务器的，你们服务器再传给你
-    req.prepayId  = @"";//prepayid;
+    req.prepayId  = dic[@"prepayid"];//prepayid;
     // 根据财付通文档填写的数据和签名
-    req.package  = @"";//package;
+    req.package  = dic[@"package"];//package;
     // 随机编码，为了防止重复的，在后台生成
-    req.nonceStr  = @"";//noncestr;
+    req.nonceStr  = dic[@"noncestr"];//noncestr;
     // 这个是时间戳，也是在后台生成的，为了验证支付的
-    NSString * stamp = @"";//timestamp;
-    req.timeStamp = stamp.intValue;
+    NSString * stamp = dic[@"timestamp"];//timestamp;
+    UInt32 timestamp = [stamp intValue];
+    req.timeStamp = timestamp;
     // 这个签名也是后台做的
-    req.sign = @"";//sign;
+    req.sign = dic[@"sign"];//dic[@"sign"];//sign;
+    
     //发送请求到微信，等待微信返回onResp
     [WXApi sendReq:req];
 }
@@ -271,6 +319,23 @@
     
    //[self hiddenView];
 }
+
+
+- (NSString *) md5:(NSString *) str
+{
+    const char *cStr = [str UTF8String];
+    unsigned char result[16];
+    CC_MD5(cStr, strlen(cStr), result); // This is the md5 call
+    return [NSString stringWithFormat:
+            @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+            result[0], result[1], result[2], result[3],
+            result[4], result[5], result[6], result[7],
+            result[8], result[9], result[10], result[11],
+            result[12], result[13], result[14], result[15]
+            ];
+}
+
+
 
 
 @end

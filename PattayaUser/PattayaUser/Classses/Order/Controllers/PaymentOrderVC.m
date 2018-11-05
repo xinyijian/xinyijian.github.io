@@ -36,13 +36,13 @@
 @property (nonatomic, strong) UIButton *contactBT;//联系卖家
 @property (nonatomic, strong) UIButton *completeBT;//完成
 
-
-
-
-
 @end
 
 @implementation PaymentOrderVC
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,13 +50,19 @@
     
     [self netRequestData];
     [self setupUI];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paymentSuccess:) name:@"paymentsuccess" object:nil];
+
 
 }
 
 -(void)netRequestData{
-    for (ProductModel *model in _shopModel.goodsList) {
-        if ([model.selectCount intValue]>0) {
-            [self.dataArray addObject:model];
+    
+    for (NSArray *arr in _productArray) {
+        for (NewShopListModel *model in arr) {
+            if ([model.selectCount intValue]>0) {
+                [self.dataArray addObject:model];
+            }
         }
     }
 }
@@ -255,8 +261,8 @@
         _callStoreBT.width_attr.constant = bgView.width/2;
     }];
     
-    if (_shopModel.canBeCalling ) {
-    }
+//    if (_shopModel.canBeCalling ) {
+//    }
         _canUseLabel = [[UILabel alloc] init];
         _canUseLabel.text = @"*当前时段无法使用";
         _canUseLabel.font = UIBoldFont(10);
@@ -483,14 +489,21 @@
         _paymentActionSheetView = [[PaymentActionSheetView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, SCREEN_Height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT)];
         _paymentActionSheetView.payBusinessCode = _payBusinessCode;
         _paymentActionSheetView.hidden = YES;
-       // [_paymentActionSheetView.paymentBT addTarget:self action:@selector(goToPay) forControlEvents:UIControlEventTouchUpInside];
     }
     return _paymentActionSheetView;
 }
-//支付
--(void)goToPay{
-    self.paymentSuccessView.hidden = NO;
+
+#pragma mark - 支付成功
+-(void)paymentSuccess:(NSNotification *)notification{
+    
+    _paymentSuccessView.hidden = NO;
+    //隐藏返回按钮
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = nil;
+    //禁止滑动返回
+    self.isGestureRecognizerBack = NO;
 }
+
 
 #pragma mark - 支付成功视图
 - (PaymentSuccessView *)paymentSuccessView
@@ -511,7 +524,7 @@
 
 //支付完成
 -(void)completeClick{
-    self.paymentSuccessView.hidden = YES;
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - YBPopupMenuDelegate
