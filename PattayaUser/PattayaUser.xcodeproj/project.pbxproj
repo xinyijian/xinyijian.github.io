@@ -12,6 +12,7 @@
 		92BA567D201F0C2C0090BB2D /* PattayaUserUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BA567C201F0C2C0090BB2D /* PattayaUserUITests.m */; };
 		92BE478920552B8200391F33 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BE478820552B8200391F33 /* SystemConfiguration.framework */; };
 		92D10DB5202AEEB800B01DDF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92D10DB3202AEE9600B01DDF /* MapKit.framework */; };
+		92FE93DC218BF7EA00E02CB6 /* 开机页-2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 92FE93DB218BF7EA00E02CB6 /* 开机页-2.gif */; };
 		95140F3621708B46007380B6 /* NewShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2021708B46007380B6 /* NewShopModel.m */; };
 		95140F3721708B46007380B6 /* ShoppingCartOrderListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2221708B46007380B6 /* ShoppingCartOrderListInfo.m */; };
 		95140F3821708B46007380B6 /* NewShopListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2321708B46007380B6 /* NewShopListModel.m */; };
@@ -358,6 +359,7 @@
 		92BA567E201F0C2C0090BB2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92BE478820552B8200391F33 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		92D10DB3202AEE9600B01DDF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		92FE93DB218BF7EA00E02CB6 /* 开机页-2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "开机页-2.gif"; sourceTree = "<group>"; };
 		95140D1F21708B46007380B6 /* ShoppingCartOrderListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartOrderListInfo.h; sourceTree = "<group>"; };
 		95140D2021708B46007380B6 /* NewShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewShopModel.m; sourceTree = "<group>"; };
 		95140D2121708B46007380B6 /* NewShopListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewShopListModel.h; sourceTree = "<group>"; };
@@ -980,6 +982,7 @@
 				95140EAB21708B46007380B6 /* PattayaUser.entitlements */,
 				95140EA721708B46007380B6 /* AppDelegate.h */,
 				95140EB321708B46007380B6 /* AppDelegate.m */,
+				92FE93DB218BF7EA00E02CB6 /* 开机页-2.gif */,
 				95140EAC21708B46007380B6 /* main.m */,
 				95140D1C21708B46007380B6 /* Classses */,
 				95140E2321708B46007380B6 /* Tools */,
@@ -2344,6 +2347,7 @@
 				9514104321708B47007380B6 /* icon-place@3x.png in Resources */,
 				9514100021708B47007380B6 /* icon-重新定位@3x.png in Resources */,
 				95140FF821708B47007380B6 /* icon-Close@3x.png in Resources */,
+				92FE93DC218BF7EA00E02CB6 /* 开机页-2.gif in Resources */,
 				9514102E21708B47007380B6 /* icon-Search1@2x.png in Resources */,
 				9514100121708B47007380B6 /* icon-重新定位@2x.png in Resources */,
 				9514103721708B47007380B6 /* 订单详情-占位图@3x.png in Resources */,

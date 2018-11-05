@@ -221,6 +221,13 @@
                [self hiddenView];
             
                 if (_wechatSelectBT.selected) {
+                    
+//                 ret =   @{
+//                        @"resultCode": @"1",
+//                       @"message": @"",
+//                        @"data": @"{\"appid\":\"wx122211556959a8b4\",\"noncestr\":\"wLwSuEkvPDhCiJ43\",\"package\":\"Sign=WXPay\",\"partnerid\":\"1511150521\",\"prepayid\":\"wx021827387156551f87ae6cb83677751650\",\"sign\":\"B1BF8EF26D707B5DD35A42B383BBABE4\",\"timestamp\":\"1541154456\"}",
+//                        @"timestamp": @""
+//                        };
                     //微信支付
                    NSData *jsonData =  [ret[@"data"] dataUsingEncoding:NSUTF8StringEncoding];
                    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData

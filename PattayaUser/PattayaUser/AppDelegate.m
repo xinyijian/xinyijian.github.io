@@ -16,6 +16,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
 #import "AccountSafeVC.h"
+#import "NSObject+LBLaunchImage.h"
 
 //#import "DD_SpeechSynthesizer.h"
 NSString* APP_BASE_URL;
@@ -58,8 +59,13 @@ extern CFAbsoluteTime StartTime;
     [[AMapServices sharedServices] setEnableHTTPS:YES];
     [AMapServices sharedServices].apiKey = @"2118c4a0d309d4f493ab16ef0e9c360a";
     
-    BaseTabBarViewController *baseTabBarVC = [[BaseTabBarViewController alloc] init];
-    self.window.rootViewController = baseTabBarVC;
+    
+    
+  
+    
+    
+//    BaseTabBarViewController *baseTabBarVC = [[BaseTabBarViewController alloc] init];
+//    self.window.rootViewController = baseTabBarVC;
     [self.window makeKeyAndVisible];
     NSDictionary *resultDic = launchOptions[@"UIApplicationLaunchOptionsRemoteNotificationKey"];
     if (resultDic) {
@@ -71,6 +77,41 @@ extern CFAbsoluteTime StartTime;
         [self requestUserInfoOrder:pushNotificationKey];
     }
     _hegihtStats = [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+    __weak typeof(self) weakSelf = self;
+    [NSObject makeLBLaunchImageAdView:^(LBLaunchImageAdView *imgAdView) {
+        //设置广告的类型
+        imgAdView.getLBlaunchImageAdViewType(FullScreenAdType);
+        //设置本地启动图片
+        imgAdView.localAdImgName = @"开机页-2.gif";
+        //自定义跳过按钮
+        imgAdView.skipBtn.backgroundColor = [UIColor grayColor];
+        //各种点击事件的回调
+        imgAdView.isClickAdView = NO;
+        imgAdView.adTime = 6;
+        imgAdView.skipBtn.hidden = YES;
+        imgAdView.clickBlock = ^(clickType type){
+            switch (type) {
+                case skipAdType:{
+                    BaseTabBarViewController *baseTabBarVC = [[BaseTabBarViewController alloc] init];
+                    self.window.rootViewController = baseTabBarVC;
+                }
+                    NSLog(@"点击跳过回调");
+                    break;
+                case overtimeAdType:{
+                   
+                    BaseTabBarViewController *baseTabBarVC = [[BaseTabBarViewController alloc] init];
+                    self.window.rootViewController = baseTabBarVC;
+                }
+                 NSLog(@"倒计时完成后的回调");
+                    break;
+                default:
+                    break;
+            }
+        };
+        
+    }];
+    
  
     
     return YES;
