@@ -41,7 +41,6 @@
     // 自定义分页控件小圆标颜色
     cycleScrollView.pageDotImage = [UIImage imageNamed:@"banner_icon_dot"];
     cycleScrollView.currentPageDotImage = [UIImage imageNamed:@"banner_icon_currentdot"];
-
 //    cycleScrollView.currentPageDotColor = App_Nav_BarDefalutColor;
 //    cycleScrollView.pageDotColor = [App_Nav_BarDefalutColor colorWithAlphaComponent:0.3];
     cycleScrollView.pageControlDotSize = CGSizeMake(12, 5);
@@ -58,7 +57,7 @@
     self.cycleScrollView.imageURLStringsGroup = [[bannerArray.rac_sequence map:^id _Nullable(YLBannerModel *model) {
         return model.loadingUrl;
     }] array];
-   // self.cycleScrollView.localizationImageNamesGroup = @[@"banner_icon_dot",@"banner_icon_currentdot",@"banner_icon_currentdot",@"banner_icon_currentdot"];
+    self.cycleScrollView.localizationImageNamesGroup = @[@"banner"];
     self.cycleScrollView.autoScroll = bannerArray.count > 1;
 }
 

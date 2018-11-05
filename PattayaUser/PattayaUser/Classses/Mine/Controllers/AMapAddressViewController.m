@@ -30,6 +30,9 @@
 @property (nonatomic, strong) UITableView * searchTab;
 @property (assign, nonatomic) BOOL isChanged;
 
+@property (nonatomic, strong) NSString * adcode;
+
+
 @property int poiType;
 
 @end
@@ -221,6 +224,7 @@
         NSString *result = [NSString stringWithFormat:@"%@",response.regeocode.addressComponent];
         NSLog(@"逆地理编码结果:%@",result);
 //        self.centerAddressComponent = response.regeocode.addressComponent;
+        self.adcode = response.regeocode.addressComponent.adcode;
         self.searchSources  = [response.regeocode.pois mutableCopy];
         self.poiType = POI_TYPE_REGEO;
         if (self.searchSources.count > 0) {
@@ -311,10 +315,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
- 
-//    AMapAddressCell * mode = _addresslist.data[indexPath.row];
-//    [self editAddress:mode];
+    AMapPOI* dic = [self.searchSources objectAtIndex:indexPath.row];
+
+    BLOCK_EXEC(_addressBlock,dic,self.adcode);
     
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)locationBT:(UIButton *)btn{

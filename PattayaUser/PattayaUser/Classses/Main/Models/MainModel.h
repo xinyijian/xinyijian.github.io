@@ -43,6 +43,7 @@
 @property (nonatomic, strong) NSString <Optional>*canBeCalling;
 @property (nonatomic, strong) NSString <Optional>*geoDistance;
 @property (nonatomic, strong) NSString <Optional>*saleAmountMonth;
+@property (nonatomic, strong) NSString <Optional>*dbStoreId;
 
 @property (nonatomic, strong) NSMutableArray <Optional,ProductModel>*goodsList;
 

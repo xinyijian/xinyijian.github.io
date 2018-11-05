@@ -8,7 +8,8 @@
 
 #import "AddNewAddressVC.h"
 #import "AMapAddressViewController.h"
-
+#import "RouterObject.h"
+#import "AlerViewShowUI.h"
 #define TITLES @[@"联系人",@"",@"电话",@"地址",@"门牌号",@"标签"]
 #define SEXTITLES @[@"先生",@"女士"]
 #define TYPETITLES @[@"家",@"公司",@"学校"]
@@ -23,9 +24,12 @@
 @property(nonatomic, strong)UIButton *currentTypeBT;
 @property(nonatomic, strong)UILabel *addressLabel;
 
-@property(nonatomic, strong)UILabel *houseNumberLabel;
+@property(nonatomic, strong)UITextField *houseNumberTF;
 
 @property (nonatomic,strong) UIButton * saveBT;//保存
+
+@property (nonatomic,strong) AMapPOI * location;//保存
+@property (nonatomic,strong) NSString * adcode;//保存
 
 
 @end
@@ -40,8 +44,36 @@
 
 -(void)setupUI{
     [super setupUI];
-    self.navigationItem.title = @"新增地址";
+    self.navigationItem.title = _enterType == 0 ? @"新增地址" : @"编辑地址";
+    
+    if (_enterType == 1) {
+        [self rightBarButtonWithTitle:@"删除" barImage:nil action:^{
+            NSLog(@"删除");
+            [self deleteAddress];
+        }];
+    }
+    
 }
+
+- (void)deleteAddress{
+    
+    [RouterObject initWithDelegateRouter:[AlerViewShowUI alloc] EventType:AlerCallOrderDir AlerCallBlack:^(NSInteger index, NSString *titl) {
+        if (index == 0) {
+            [[PattayaUserServer singleton] deletedAddressRequest:_model.id Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+                NSLog(@"%@",ret);
+                if ([ResponseModel isData:ret]) {
+                    [YDProgressHUD showMessage:@"删除成功"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+                
+            }];
+        }
+    }];
+    
+}
+
+
 
 #pragma <UITableViewDataSource, UITableViewDelegate>
 
@@ -112,8 +144,7 @@
         self.nameTF.placeholder = @"姓名";
         self.nameTF.font = [UIFont systemFontOfSize:14];
         self.nameTF.delegate = self;
-        //self.nameTF.textAlignment = 2;
-        //self.nick.text = [self.personInfoDic objectForKey:@"nname"];
+        self.nameTF.text = _model ? _model.contactName : @"";
         [cell.contentView addSubview:self.nameTF];
         
     }
@@ -128,8 +159,28 @@
             [btn setTitle:SEXTITLES[i] forState:UIControlStateNormal];
             [btn setTitleColor:TextColor forState:UIControlStateNormal];
             btn.titleLabel.font = K_LABEL_SMALL_FONT_14;
+             btn.tag = i + 98000;
             [cell.contentView addSubview:btn];
-            btn.tag = i + 98000;
+            if (_model) {
+                //
+                UIButton * boy = [cell.contentView viewWithTag:98000];
+                UIButton * grol = [cell.contentView viewWithTag:1+98000];
+                if (_model.contactGender.integerValue == 0) {
+                    boy.selected = NO;
+                    grol.selected = YES;
+                    _currentSexBT = grol;
+                    [grol setTitleColor:UIColorWhite forState:UIControlStateNormal];
+                    
+                }else{
+                    boy.selected = YES;
+                    grol.selected = NO;
+                    _currentSexBT = boy;
+                    [boy setTitleColor:UIColorWhite forState:UIControlStateNormal];
+                    
+                }
+               //
+            }
+           
         }
        
     }
@@ -144,8 +195,7 @@
         self.phoneTF.placeholder = @"手机号码";
         self.phoneTF.font = [UIFont systemFontOfSize:14];
         self.phoneTF.delegate = self;
-        //self.nameTF.textAlignment = 2;
-        //self.nick.text = [self.personInfoDic objectForKey:@"nname"];
+        self.phoneTF.text = _model ? _model.contactMobile : @"";
         [cell.contentView addSubview:self.phoneTF];
         
         
@@ -153,7 +203,8 @@
     
     if (indexPath.row == 3) {
         _addressLabel = [[UILabel alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
-        _addressLabel.text = @"深兰人工智能大厦";
+        _addressLabel.text = @"";
+        _addressLabel.text = _model ? _model.formattedAddress : @"";
         _addressLabel.textColor = TextColor;
         _addressLabel.font = K_LABEL_SMALL_FONT_14;
         [cell.contentView addSubview:_addressLabel];
@@ -161,11 +212,13 @@
     }
     
     if (indexPath.row == 4) {
-        _houseNumberLabel = [[UILabel alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
-        _houseNumberLabel.text = @"03号楼609";
-        _houseNumberLabel.textColor = TextColor;
-        _houseNumberLabel.font = K_LABEL_SMALL_FONT_14;
-        [cell.contentView addSubview:_houseNumberLabel];
+        _houseNumberTF = [[UITextField alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
+        _houseNumberTF.text = _model ? _model.houseNumber : @"";
+        _houseNumberTF.textColor = TextColor;
+        _houseNumberTF.font = K_LABEL_SMALL_FONT_14;
+        _houseNumberTF.delegate = self;
+        self.houseNumberTF.text = _model ? _model.houseNumber : @"";
+        [cell.contentView addSubview:_houseNumberTF];
         
     }
     
@@ -179,6 +232,31 @@
             [btn setTitle:TYPETITLES[i] forState:UIControlStateNormal];
             [btn setTitleColor:TextColor forState:UIControlStateNormal];
             btn.titleLabel.font = K_LABEL_SMALL_FONT_14;
+            if (_model) {
+                //-----------
+                if ([_model.tagAlias isEqualToString:@"家"]) {
+                    if (i == 0) {
+                        btn.selected = YES;
+                        [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
+                        _currentTypeBT = btn;
+                    }
+                } else if ([_model.tagAlias isEqualToString:@"公司"]){
+                    if (i == 1) {
+                        btn.selected = YES;
+                        [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
+                        _currentTypeBT = btn;
+                        
+                    }
+                } else{
+                    if (i == 2) {
+                        btn.selected = YES;
+                        [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
+                        _currentTypeBT = btn;
+                    }
+                }
+                //-----------------
+                
+            }
             [cell.contentView addSubview:btn];
 
         }
@@ -190,11 +268,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   // [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.row == 3) {
         NSLog(@"选择地址");
         AMapAddressViewController * amap = [[AMapAddressViewController alloc] init];
         [self.navigationController pushViewController:amap animated:YES];
+        amap.addressBlock = ^(AMapPOI * _Nonnull location, NSString * _Nonnull adcode) {
+            _location = location;
+            _adcode = adcode;
+            _addressLabel.text = location.name;
+        } ;
+       
         
     }
    
@@ -206,13 +289,73 @@
     //没有跳转地图->需要连接一下
     //areaid == 是地图返回的 adcode
     //其他就是address 跟 lat lon
+    if (self.nameTF.text.length == 0) {
+        [YDProgressHUD showMessage:@"请输入姓名"];
+        return;
+    }
+    if (!_currentSexBT) {
+        [YDProgressHUD showMessage:@"请选择性别"];
+        return;
+    }
+    if (self.phoneTF.text.length == 0) {
+        [YDProgressHUD showMessage:@"请输入手机号"];
+        return;
+    }
     
-    NSDictionary * dic = @{@"areaId":@"310100",@"contactGender":[NSString stringWithFormat:@"%ld",_currentSexBT.tag - 98000],@"contactMobile":_phoneTF.text,@"contactName":_nameTF.text,@"formattedAddress":_addressLabel.text,@"latitude":[PattAmapLocationManager singleton].lat,@"longitude":[PattAmapLocationManager singleton].lng,@"tagAlias":_currentTypeBT.titleLabel.text,@"houseNumber":_houseNumberLabel.text};
+    if (![PattayaTool validateCellPhoneNumber:self.phoneTF.text]) {
+        [YDProgressHUD showMessage:@"手机号格式不正确"];
+        return;
+    }
+    
+    if (self.addressLabel.text.length == 0) {
+        [YDProgressHUD showMessage:@"请选择地址"];
+        return;
+    }
+    if (self.houseNumberTF.text.length == 0) {
+        [YDProgressHUD showMessage:@"请输入门牌号"];
+        return;
+    }
+    
+    if (!_currentTypeBT) {
+        [YDProgressHUD showMessage:@"请选择标签"];
+        return;
+    }
+    
+    NSDictionary * dic;
+    if (_enterType==0) {//新增
+                        dic = @{@"areaId":_location ? _adcode : _model.areaId,
+                               @"contactGender":[NSString stringWithFormat:@"%ld",_currentSexBT.tag - 98000],
+                               @"contactMobile":_phoneTF.text,
+                               @"contactName":_nameTF.text,
+                               @"formattedAddress":_addressLabel.text,
+                               @"latitude":_location ? [NSString stringWithFormat:@"%f",_location.location.latitude] : _model.latitude,
+                               @"longitude":_location ? [NSString stringWithFormat:@"%f",_location.location.longitude] : _model.longitude,
+                               @"tagAlias":_currentTypeBT.titleLabel.text,
+                               @"houseNumber":_houseNumberTF.text
+                                };
+    }else{
+        
+                        dic = @{@"areaId":_location ? _adcode : _model.areaId,
+                               @"contactGender":[NSString stringWithFormat:@"%ld",_currentSexBT.tag - 98000],
+                               @"contactMobile":_phoneTF.text,
+                               @"contactName":_nameTF.text,
+                               @"formattedAddress":_addressLabel.text,
+                               @"latitude":_location ? [NSString stringWithFormat:@"%f",_location.location.latitude] : _model.latitude,
+                               @"longitude":_location ? [NSString stringWithFormat:@"%f",_location.location.longitude] : _model.longitude,
+                               @"tagAlias":_currentTypeBT.titleLabel.text,
+                               @"houseNumber":_houseNumberTF.text,
+                               @"id":_model.id
+                                };
+        
+        
+    }
+   
+    
 //
     [[PattayaUserServer singleton] AddRessRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         NSLog(@"%@,=====",ret);
         if ([ResponseModel isData:ret]) {
-            [YDProgressHUD showMessage:@"添加成功"];
+            [YDProgressHUD showMessage:_enterType==0 ? @"添加成功" : @"修改成功"];
             [self.navigationController popViewControllerAnimated:YES];
         }
 
@@ -243,6 +386,10 @@
 
 #pragma 选择地址类型
 -(void)selectAddressType:(UIButton *)btn{
+    if (_currentTypeBT == btn) {
+        return;
+    };
+    
     btn.selected = YES;
     [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
     if (_currentTypeBT) {

@@ -39,8 +39,9 @@
                           @"pageSize":@(pageSize)
                           };
     [[PattayaUserServer singleton]getPushMessageRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+         NSLog(@"%@",ret);
         if ([ResponseModel isData:ret]) {
-            NSLog(@"%@",ret);
+           
             if (self.pageNumber == startPage) {
                 [self.dataArray removeAllObjects];
             }
@@ -59,7 +60,7 @@
         }
         [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-
+        
         [YDProgressHUD showHUD:@"网络异常，请重试！"];
 
     }];

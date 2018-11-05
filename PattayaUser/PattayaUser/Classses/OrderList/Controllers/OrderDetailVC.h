@@ -12,7 +12,7 @@
 @interface OrderDetailVC : YDBaseTBController
 
 @property (nonatomic,assign) NSInteger enterType;
-@property (nonatomic,strong) ListOrderModel * list;
+@property (nonatomic,strong) ListOrderModel * orderModel;
 //@property (nonatomic,strong) NSString * list;
 
 

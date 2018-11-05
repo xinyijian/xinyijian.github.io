@@ -93,6 +93,13 @@
         _addressLabel.text = model.formattedAddress;
         _subAddressLabel.text = model.houseNumber;
         _userNameMobl.text = [NSString stringWithFormat:@"%@ %@",model.contactName,model.contactMobile];
+        if ([model.tagAlias isEqualToString:@"家"]) {
+            _addressTypeImg.image = [UIImage imageNamed:@"address_type1"];
+        }else if ([model.tagAlias isEqualToString:@"公司"]) {
+            _addressTypeImg.image = [UIImage imageNamed:@"address_type2"];
+        }else if ([model.tagAlias isEqualToString:@"学校"]) {
+            _addressTypeImg.image = [UIImage imageNamed:@"address_type3"];
+        }
         
     }
 }

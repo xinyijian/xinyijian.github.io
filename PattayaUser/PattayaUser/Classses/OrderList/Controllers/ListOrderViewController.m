@@ -20,18 +20,27 @@
 @property (nonatomic,assign) NSInteger pageSize;
 @property (nonatomic,strong) UILabel *scrollLab;//可移动的底部滑竿
 @property (nonatomic,strong) UIButton *currentBT;
+
+@property (nonatomic,strong) NSMutableArray *allArray;
+@property (nonatomic,strong) NSMutableArray *processingArray;
+@property (nonatomic,strong) NSMutableArray *cancelArray;
+@property (nonatomic,strong) NSMutableArray *refundArray;
+
+@property (nonatomic,assign) NSInteger requestType;
+
 @end
 
 @implementation ListOrderViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _requestType = 0;
     [self setupUI];
     
 }
 
 -(void)setupUI{
+    self.refreshMode = YDRefreshModeAll;
     [super setupUI];
     _pageSize = 1;
     self.navigationItem.title = @"我的订单";
@@ -39,18 +48,99 @@
     [self.tableView setSeparatorColor:App_TotalGrayWhite];
     //创建顶部菜单视图
     [self createTopMenuView];
-    [self ConsumeOrderHttp];
+    
+    [self netRequestData];
+    //[self ConsumeOrderHttp];
 }
+
+-(void)setupData{
+    
+    [super setupData];
+    
+    self.refreshMode = YDRefreshModeAll;
+    
+}
+
+
 - (void)netRequestData{
+    switch (_requestType) {
+        case 0:
+            [self getConsumeOrderRequest];
+            break;
+        case 1:
+            [self getProcessingOrderRequest];
+            break;
+        case 2:
+            [self getCancelOrderRequest];
+            break;
+        case 3:
+            [self getRefundOrderRequest];
+            break;
+            
+        default:
+            break;
+    }
+    
+}
+
+#pragma mark - 全部订单
+-(void)getConsumeOrderRequest{
+    
+    [[PattayaUserServer singleton] getConsumeOrderRequest:@{@"pageNum":[NSNumber numberWithInteger:_pageSize],@"pageSize":@"5"} Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        NSLog(@"%@",ret);
+        if ([ResponseModel isData:ret]) {
+            if (self.pageNumber == startPage) {
+                [self.allArray removeAllObjects];
+            }
+            _listModel = [[OrderListModel alloc] initWithDictionary:ret[@"data"] error:nil];
+            for (ListOrderModel *model in _listModel.list) {
+                [self.allArray addObject:model];
+            }
+            
+            if (self.allArray.count > 0) {
+                _groundView.hidden = YES;
+            } else
+            {
+                _groundView.hidden = NO;
+            }
+            
+            [YDRefresh yd_endRefreshing:self.tableView next:_listModel.list.count == pageSize];
+            
+        } else
+        {
+            [YDProgressHUD showHUD:@"message"];
+        }
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        [self handleNetReslut:YDNetResultFaiure];
+       // [YDProgressHUD showHUD:@"网络异常，请重试！"];
+    }];
+    
+}
+#pragma mark -进行中订单
+- (void)getProcessingOrderRequest
+{
     [[PattayaUserServer singleton] getProcessingOrderRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         NSLog(@"detailListModel = %@",ret);
         detailListModel * model = [[detailListModel alloc] initWithDictionary:ret error:nil];
         NSLog(@"model = = %@",model);
-        
+
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        
+
     }];
+    
 }
+#pragma mark - 取消订单
+- (void)getCancelOrderRequest{
+    
+}
+
+#pragma mark - 退款订单
+- (void)getRefundOrderRequest{
+    
+}
+
 #pragma mark - 创建顶部菜单视图
 //创建顶部菜单视图
 - (void)createTopMenuView{
@@ -79,84 +169,28 @@
     _scrollLab = [[UILabel alloc]init];
     _scrollLab.backgroundColor = App_Nav_BarDefalutColor;
     [self.view addSubview:_scrollLab];
-    [_scrollLab activateConstraints:^{
-        [_scrollLab.top_attr equalTo:_currentBT.bottom_attr];
-        _scrollLab.centerX_attr = _currentBT.centerX_attr;
-        _scrollLab.width_attr.constant = IPhone_7_Scale_Width(65);
-        _scrollLab.height_attr.constant = 2;
-    }];
+    _scrollLab.frame = CGRectMake(_currentBT.YD_x + (_currentBT.YD_width - IPhone_7_Scale_Width(65))/2, _currentBT.YD_bottom, IPhone_7_Scale_Width(65), 2);
+
     
 }
 
 //选择
 -(void)btnClick:(UIButton*)btn{
+   
     [_currentBT setTitleColor: UIColorFromRGB(0x5A5A5A) forState:UIControlStateNormal];
     _currentBT = btn;
     [btn setTitleColor:App_Nav_BarDefalutColor forState:UIControlStateNormal];
-    [self selectButton:btn.tag];
     [UIView animateWithDuration:0.3 animations:^{
         _scrollLab.frame = CGRectMake(btn.YD_x + (btn.YD_width - IPhone_7_Scale_Width(65))/2, btn.YD_bottom, IPhone_7_Scale_Width(65), 2);
-
-//        }];
         
+    } completion:^(BOOL finished) {
+        _requestType = btn.tag;
+        self.pageNumber = startPage;
+        [self netRequestData];
     }];
     
+    
 }
-- (void)selectButton:(NSInteger)tags{
-    if (tags == 1) {
-        [self netRequestData];
-
-    } else{
-        
-    }
-}
-
-- (void)ConsumeOrderHttp
-{
-    if (_pageSize == 1) {
-        _listModel = [[OrderListModel alloc] init];
-        _listModel.list = [NSMutableArray array];
-    }
-    [[PattayaUserServer singleton] getConsumeOrderRequest:@{@"pageNum":[NSNumber numberWithInteger:_pageSize],@"pageSize":@"5"} Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
-        NSLog(@"%@",ret);
-        if ([ResponseModel isData:ret]) {
-            OrderListModel * model = [[OrderListModel alloc] initWithDictionary:ret[@"data"] error:nil];
-            for (ListOrderModel * mode in model.list) {
-                [mode imagesUrlinit];
-            }
-            [_listModel.list addObjectsFromArray:model.list];
-            if (_listModel.list.count > 0) {
-                _groundView.hidden = YES;
-            } else
-            {
-                _groundView.hidden = NO;
-            }
-            if (_listModel.list.count >= model.total.integerValue) {
-                [self.tableView reloadData];
-                [self.tableView.mj_header endRefreshing];
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                NSLog(@"没用更多");
-                    return;
-                    }
-
-            
-        } else
-        {
-           // [self showToast:ret[@"messages"]];
-        }
-        
-       
-        
-        [self.tableView reloadData];
-        [self.tableView.mj_header endRefreshing];
-        [self.tableView.mj_footer endRefreshing];
-
-    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        [self.tableView.mj_header endRefreshing];
-        [self.tableView.mj_footer endRefreshing];
-    }];
-}
-
 
 - (void)backgroundViewTableview
 {
@@ -209,7 +243,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _listModel.list.count;
+    return self.allArray.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -243,33 +277,23 @@
         cell = [[ListOrderTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ListOrderTableViewCell"];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    if (indexPath.row == 1) {
-//        cell.arrayImage = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5",@"5",@"5",@"5",@"5", nil];
-//    }else
-//    {
-//         cell.arrayImage = [NSMutableArray array];
-//    }
-    if (_listModel.list.count > 0) {
-        
-        cell.model = _listModel.list[indexPath.row];
-    }
-    //    cell.textLabel.text = @"ghjk";
+    
+    cell.model = self.allArray[indexPath.row];
+ 
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OrderDetailVC * vc = [[OrderDetailVC alloc]init];
-    ListOrderModel * detail =_listModel.list[indexPath.row];
-    if (detail.detailList.count < 0 || detail.detailList.count == 0) {
+    ListOrderModel * orderModel = self.allArray[indexPath.row];
+    if (orderModel.detailList.count < 0 || orderModel.detailList.count == 0) {
         vc.enterType = 1;
     } else{
         vc.enterType = 0;
     }
         
-    
-//    vc.enterType = indexPath.row;
-    vc.list =_listModel.list[indexPath.row];
+    vc.orderModel = orderModel;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
@@ -277,14 +301,42 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - 懒加载
+
+-(NSMutableArray *)allArray{
+    if (!_allArray) {
+        _allArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    return _allArray;
 }
-*/
+
+-(NSMutableArray *)processingArray{
+    if (!_processingArray) {
+        _processingArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    return _processingArray;
+}
+
+
+-(NSMutableArray *)cancelArray{
+    if (!_cancelArray) {
+        _cancelArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    return _cancelArray;
+}
+
+
+-(NSMutableArray *)refundArray{
+    if (!_refundArray) {
+        _refundArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    return _refundArray;
+}
+
 
 @end

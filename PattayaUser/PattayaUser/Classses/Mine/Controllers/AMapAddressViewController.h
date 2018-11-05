@@ -9,8 +9,12 @@
 #import "YDBaseController.h"
 
 NS_ASSUME_NONNULL_BEGIN
+typedef void(^AddressBlock)(AMapPOI *location,NSString *adcode);
 
 @interface AMapAddressViewController : YDBaseTBController
+
+@property (nonatomic, copy) AddressBlock addressBlock;
+
 
 @end
 

@@ -24,7 +24,7 @@
     
     _headImg = [[UIImageView alloc] init];
     [self.contentView addSubview:_headImg];
-    _headImg.image = [UIImage imageNamed:@"shoplist_cell_bg"];
+    _headImg.image = [UIImage imageNamed:@"AppIcon"];
     [_headImg activateConstraints:^{
         [_headImg.left_attr equalTo:self.contentView.left_attr constant:12];
         _headImg.height_attr.constant = 48;

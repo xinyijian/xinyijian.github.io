@@ -33,35 +33,13 @@
     [super viewDidLoad];
     
     [self setupUI];
-    [self rightBarButtonWithTitle:@"删除" barImage:nil action:^{
-        NSLog(@"删除");
-        [self netRequestData];
-    }];
+   
 }
 
 -(void)setupUI{
     [super setupUI];
     self.navigationItem.title = @"编辑地址";
 }
-- (void)netRequestData{
-    
-    [RouterObject initWithDelegateRouter:[AlerViewShowUI alloc] EventType:AlerCallOrderDir AlerCallBlack:^(NSInteger index, NSString *titl) {
-        if (index == 0) {
-            [[PattayaUserServer singleton] deletedAddressRequest:_model.id Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
-                NSLog(@"%@",ret);
-                if ([ResponseModel isData:ret]) {
-                    [YDProgressHUD showMessage:@"删除成功"];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-            } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-                
-            }];
-        }
-    }];
-    
-   
-}
-
 
 #pragma <UITableViewDataSource, UITableViewDelegate>
 

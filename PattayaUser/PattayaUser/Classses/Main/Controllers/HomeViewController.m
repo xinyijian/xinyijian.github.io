@@ -187,13 +187,7 @@
         _cycleSV.backgroundColor = [UIColor redColor];
         YLBannerModel *model1 = [[YLBannerModel alloc]init];
         model1.loadingUrl = @"234";
-        YLBannerModel *model2 = [[YLBannerModel alloc]init];
-        model2.loadingUrl = @"234";
-        YLBannerModel *model3 = [[YLBannerModel alloc]init];
-        model3.loadingUrl = @"234";
-        YLBannerModel *model4 = [[YLBannerModel alloc]init];
-        model4.loadingUrl = @"234";
-        _cycleSV.bannerArray = @[model1,model2,model3,model4];
+        _cycleSV.bannerArray = @[model1];
     }
     return _cycleSV;
 }

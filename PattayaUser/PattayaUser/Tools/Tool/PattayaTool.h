@@ -42,4 +42,7 @@
 + (NSString *)ConvertStrToTime:(NSString *)timeStr Fromatter:(NSString *)foramt;
 + (CGSize)sizeWithString:(NSString *)string font:(UIFont *)font sizemake:(CGSize) withsize;
 
+//验证手机号
++ (BOOL)validateCellPhoneNumber:(NSString *)cellNum;
+
 @end

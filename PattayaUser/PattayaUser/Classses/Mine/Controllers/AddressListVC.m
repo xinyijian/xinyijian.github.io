@@ -20,6 +20,10 @@
 
 @implementation AddressListVC
 
+-(void)viewWillAppear:(BOOL)animated{
+     [self netRequestData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -32,11 +36,15 @@
     
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 0);
     //导航栏
-    UIBarButtonItem *rightitem=[[UIBarButtonItem alloc]initWithTitle:@"新增地址" style:UIBarButtonItemStylePlain target:self action:@selector(addNewAddress)];
-    self.navigationItem.rightBarButtonItem=rightitem;
+    
+    [self rightBarButtonWithTitle:@"新增地址" barImage:nil action:^{
+        NSLog(@"新增地址");
+        [self addNewAddress];
+    }];
      self.navigationItem.title = @"常用地址";
-    [self netRequestData];
+   
 }
+
 - (void)netRequestData{
     [[PattayaUserServer singleton] GetAddRessRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         _addresslist = [[AddressListModel alloc] initWithDictionary:ret error:nil];
@@ -94,12 +102,16 @@
 #pragma mark - 新增地址
 -(void)addNewAddress{
     AddNewAddressVC *vc = [[AddNewAddressVC alloc]init];
+    vc.enterType = 0;
     [self.navigationController pushViewController:vc animated:YES];
     
 }
 
+#pragma mark - 编辑地址
 - (void)editAddress:(AddressModel *)mode{
-    SelcetAddressVC * vc = [[SelcetAddressVC alloc] init];
+    
+    AddNewAddressVC *vc = [[AddNewAddressVC alloc]init];
+    vc.enterType = 1;
     vc.model = mode;
     [self.navigationController pushViewController:vc animated:YES];
 }

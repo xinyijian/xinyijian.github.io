@@ -53,13 +53,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"订单详情";
-//    NSString * orderTotal = [NSString stringWithFormat:@"¥%.2f",_list.orderTotal.floatValue];
-    NSString * paymentDESC = [PattayaTool isNull:_list.paymentTypeIdDESC] ? @"" : _list.paymentTypeIdDESC;
-//    NSString * orderPrice = [NSString stringWithFormat:@"¥%.2f",_list.orderPrice.floatValue];
+    NSString * paymentDESC = [PattayaTool isNull:_orderModel.paymentTypeIdDESC] ? @"" : _orderModel.paymentTypeIdDESC;
     
-    _arrdata = @[_list.id,[PattayaTool ConvertStrToTime:_list.createTime],paymentDESC,
-                 _list.storeName,];
-//    _arrTiltle = @[@[],@[NSLocalizedString(@"订单编号",nil),NSLocalizedString(@"购买时间",nil),NSLocalizedString(@"支付方式",nil)],@[NSLocalizedString(@"商品总金额",nil),NSLocalizedString(@"服务费",nil),NSLocalizedString(@"总计",nil)]];
+    _arrdata = @[_orderModel.id,[PattayaTool ConvertStrToTime:_orderModel.createTime],paymentDESC,
+                 _orderModel.storeName,];
+
     _arrTiltle = @[@"订单编号",@"下单时间",@"支付方式",@"收款商家"];
     [self setupUI];
     
@@ -89,7 +87,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return self.enterType == 1 ? 1 : _list.detailList.count;
+        return self.enterType == 1 ? 1 : _orderModel.detailList.count;
     }else if (section == 1){
         return 4;
     }
@@ -444,7 +442,7 @@
         countLab.font = K_LABEL_SMALL_FONT_14;
         countLab.textColor = TextGrayColor;
 //        countLab.text = @"（2项商品）";
-        countLab.text = [NSString stringWithFormat:@"（%ld项商品）",_list.detailList.count];
+        countLab.text = [NSString stringWithFormat:@"（%ld项商品）",_orderModel.detailList.count];
         [countLab sizeToFit];
         [bgView2 addSubview:countLab];
         if (self.enterType == 1) {
@@ -517,7 +515,7 @@
             }
            
         }
-        paymentCell.item = _list.detailList[indexPath.row];
+        paymentCell.item = _orderModel.detailList[indexPath.row];
         
         cell = paymentCell;
     }else{
