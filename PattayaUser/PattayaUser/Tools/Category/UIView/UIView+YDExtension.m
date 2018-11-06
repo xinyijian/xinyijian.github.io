@@ -156,6 +156,18 @@
     
     return nil;
 }
+- (void)addShadowToView:(UIView *)theView withColor:(UIColor *)theColor {
+    theView.layer.shadowColor = theColor.CGColor;
+    theView.layer.shadowOffset = CGSizeMake(0,3);
+    theView.layer.shadowOpacity = 0.5;
+    theView.layer.shadowRadius = 3;
+//    // 单边阴影 顶边
+//    float shadowPathWidth = theView.layer.shadowRadius;
+//    CGRect shadowRect = CGRectMake(0, 20, theView.bounds.size.width, shadowPathWidth);
+//    UIBezierPath *path = [UIBezierPath bezierPathWithRect:shadowRect];
+//    theView.layer.shadowPath = path.CGPath;
+    
+}
 
 
 @end

@@ -24,7 +24,7 @@
 
 - (BOOL)isShowingOnKeyWindow;
 -(UIViewController *)getController;
-
+- (void)addShadowToView:(UIView *)theView withColor:(UIColor *)theColor;
 @end
 
 
