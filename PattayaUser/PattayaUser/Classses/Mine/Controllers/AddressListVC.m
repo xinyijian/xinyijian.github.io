@@ -46,6 +46,7 @@
 }
 
 - (void)netRequestData{
+    
     [[PattayaUserServer singleton] GetAddRessRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         _addresslist = [[AddressListModel alloc] initWithDictionary:ret error:nil];
         NSLog(@"%@====",_addresslist);

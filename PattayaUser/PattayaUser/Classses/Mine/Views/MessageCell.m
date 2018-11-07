@@ -72,7 +72,7 @@
 
 -(void)setMessageModel:(PushMessageModel *)messageModel{
     _titleLabel.text = messageModel.title;
-    _timeLabel.text = messageModel.lastUpdateDate;
+    _timeLabel.text = [PattayaTool ConvertStrToTime:messageModel.lastUpdateDate];
     _messageLabel.text = messageModel.message;
     
 }

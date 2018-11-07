@@ -370,7 +370,7 @@
 
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-    [YDProgressHUD showMessage:@"网络异常，请重试"];
+    //[YDProgressHUD showMessage:@"请登录"];
         
     }];
 }

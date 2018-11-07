@@ -535,7 +535,11 @@
 
 #pragma mark - 导航跳转
 -(void)goToShopAddress:(UITapGestureRecognizer *)tap{
-    [PattayaTool goNavtionMap:_shopModel.lat log:_shopModel.lon];
+    //[PattayaTool goNavtionMap:_shopModel.lat log:_shopModel.lon];
+    
+   UIAlertController * alert = [PattayaTool showMapNavigationViewFormcurrentLatitude:[PattAmapLocationManager singleton].lat.doubleValue currentLongitute:[PattAmapLocationManager singleton].lng.doubleValue TotargetLatitude:_shopModel.lat.doubleValue targetLongitute:_shopModel.lon.doubleValue toName:_shopModel.name];
+    [self presentViewController:alert animated:YES completion:nil];
+
 }
 
 //支付完成

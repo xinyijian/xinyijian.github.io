@@ -31,9 +31,18 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    if (!_requestType) {
+        _requestType = 0;
+    }
+    self.pageNumber = startPage;
+    [self netRequestData];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadOrderList) name:@"reloadOrderList" object:nil];
     
     _requestType = 0;
     [self setupUI];
@@ -50,7 +59,7 @@
     //创建顶部菜单视图
     [self createTopMenuView];
     
-    [self netRequestData];
+   
 }
 
 -(void)setupData{
@@ -63,7 +72,10 @@
 
 
 - (void)netRequestData{
-    [self.dataArray removeAllObjects];
+    
+    if (self.pageNumber == startPage) {
+        [self.dataArray removeAllObjects];
+    }
     
     if (_requestType == 1) {
         [self getProcessingOrderRequest];
@@ -72,12 +84,6 @@
 
     }
 
-}
-
-#pragma mark - 通知刷新列表
--(void)reloadOrderList{
-    
-    [self btnClick:_currentBT];
 }
 
 #pragma mark - 全部订单
@@ -317,13 +323,13 @@
     
     if (_requestType == 1) {
         //召唤订单 无购物打店
-         vc.enterType = 0;
+        
          vc.proccesingModel = self.dataArray[indexPath.row];
     }else{
-        vc.enterType = 1;
         vc.orderModel = self.dataArray[indexPath.row];
     }
-   
+    vc.enterType = _requestType;
+
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
