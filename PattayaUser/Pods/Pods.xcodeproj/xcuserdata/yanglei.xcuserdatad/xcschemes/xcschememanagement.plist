@@ -28,7 +28,7 @@
 		<key>FLAnimatedImage.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>21</integer>
+			<integer>22</integer>
 		</dict>
 		<key>HappyDNS.xcscheme</key>
 		<dict>
@@ -61,7 +61,7 @@
 		<key>LBLaunchImageAd.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>22</integer>
+			<integer>23</integer>
 		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>

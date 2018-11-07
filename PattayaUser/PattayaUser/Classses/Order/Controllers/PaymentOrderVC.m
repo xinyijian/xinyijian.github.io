@@ -13,6 +13,10 @@
 #import "PaymentSuccessView.h"
 
 @interface PaymentOrderVC ()<YBPopupMenuDelegate>
+{
+    float costPrice;//原价
+    float marketPrice;//售价
+}
 //导航栏pop按钮
 @property (nonatomic, strong) UIButton *rightPopBT;
 //头部视图
@@ -57,11 +61,15 @@
 }
 
 -(void)netRequestData{
-    
+    costPrice = 0.0;
+    marketPrice = 0.0;
     for (NSArray *arr in _productArray) {
         for (NewShopListModel *model in arr) {
             if ([model.selectCount intValue]>0) {
                 [self.dataArray addObject:model];
+                marketPrice = [model.selectCount intValue] * [model.marketPrice floatValue] + marketPrice;
+                costPrice = [model.selectCount intValue] * [model.costPrice floatValue] + costPrice;
+                
             }
         }
     }
@@ -348,7 +356,7 @@
     }];
     _textlabe.font = fontStely(@"PingFangSC-Regular", 16);
     _textlabe.textColor = App_Nav_BarDefalutColor;
-    NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:@"自取预留电话：13888888888"];
+    NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"自取预留电话：%@",[PattayaTool mobileDri]] ];
     [aString addAttribute:NSForegroundColorAttributeName value:TextColor range:NSMakeRange(0,7)];
     _textlabe.attributedText = aString;
     _textlabe.textAlignment = NSTextAlignmentCenter;
@@ -439,7 +447,9 @@
 - (void)textLaberAction:(UITapGestureRecognizer *)tap
 {
     NSLog(@"打电话");
-    NSMutableString * string = [[NSMutableString alloc] initWithFormat:@"tel:%@",@"13888888888"];UIWebView * callWebview = [[UIWebView alloc] init];[callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:string]]];[self.view addSubview:callWebview];
+    NSMutableString * string = [[NSMutableString alloc] initWithFormat:@"tel:%@",[PattayaTool mobileDri]];
+    UIWebView * callWebview = [[UIWebView alloc] init];[callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:string]]];
+    [self.view addSubview:callWebview];
     
 }
 
@@ -469,6 +479,10 @@
 {
     if (!_bottomView) {
         _bottomView = [[PaymentBottomView alloc]initWithFrame:CGRectMake(0, SCREEN_Height - BottomH - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT, SCREEN_Width, BottomH + SafeAreaBottomHeight)];
+     
+        _bottomView.discountLabel.text = [NSString stringWithFormat:@"已优惠￥%0.2f",costPrice - marketPrice];
+        _bottomView.totalAmountLabel.text = [NSString stringWithFormat:@"￥%0.2f",marketPrice];
+
         [_bottomView.paymentBT addTarget:self action:@selector(paymentClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _bottomView;
@@ -488,6 +502,7 @@
     if (!_paymentActionSheetView) {
         _paymentActionSheetView = [[PaymentActionSheetView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, SCREEN_Height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT)];
         _paymentActionSheetView.payBusinessCode = _payBusinessCode;
+        _paymentActionSheetView.totalAmountLabel.text = [NSString stringWithFormat:@"￥%0.2f",marketPrice];
         _paymentActionSheetView.hidden = YES;
     }
     return _paymentActionSheetView;
@@ -511,6 +526,7 @@
     if (!_paymentSuccessView) {
         _paymentSuccessView = [[PaymentSuccessView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, SCREEN_Height - TopBarHeight)];
         _paymentSuccessView.hidden = YES;
+        _paymentSuccessView.totalAmountLabel.text = [NSString stringWithFormat:@"￥%0.2f",marketPrice];
         [_paymentSuccessView.completeBT addTarget:self action:@selector(completeClick) forControlEvents:UIControlEventTouchUpInside];
 
     }

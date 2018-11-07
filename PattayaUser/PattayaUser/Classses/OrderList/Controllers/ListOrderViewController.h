@@ -10,5 +10,4 @@
 
 @interface ListOrderViewController : YDBaseTBController
 
--(void)ConsumeOrderHttp;
 @end

@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSString <Optional>*productBarcode;
 @property (nonatomic, strong) NSString <Optional>*gdsName;
 @property (nonatomic, strong) NSString <Optional>*marketPrice;
-@property (nonatomic, strong) NSString <Optional>*salePrice;
+@property (nonatomic, strong) NSString <Optional>*costPrice;
 @property (nonatomic, strong) NSString <Optional>*productStock;
 @property (nonatomic, strong) NSString <Optional>*createTime;
 @property (nonatomic, strong) NSString <Optional>*updateTime;

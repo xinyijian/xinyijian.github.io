@@ -221,11 +221,11 @@
                [self hiddenView];
             
                 if (_wechatSelectBT.selected) {
-                    
+//
 //                 ret =   @{
 //                        @"resultCode": @"1",
 //                       @"message": @"",
-//                        @"data": @"{\"appid\":\"wx122211556959a8b4\",\"noncestr\":\"wLwSuEkvPDhCiJ43\",\"package\":\"Sign=WXPay\",\"partnerid\":\"1511150521\",\"prepayid\":\"wx021827387156551f87ae6cb83677751650\",\"sign\":\"B1BF8EF26D707B5DD35A42B383BBABE4\",\"timestamp\":\"1541154456\"}",
+//                        @"data": @"{\"appid\":\"wx122211556959a8b4\",\"noncestr\":\"r4O7oThX4AS8iHQE\",\"package\":\"Sign=WXPay\",\"partnerid\":\"1511150521\",\"prepayid\":\"wx0616583150204835c5e51f824049562375\",\"sign\":\"A03267FDC76D906DF4EDF108510F75A1\",\"timestamp\":\"1541494710\"}",
 //                        @"timestamp": @""
 //                        };
                     //微信支付
@@ -285,6 +285,7 @@
     // NOTE: 将签名成功字符串格式化为订单字符串,请严格按照该格式
     //    NSString *orderString = [NSString stringWithFormat:@"%@&sign=%@",
     //                             orderInfoEncoded, signedString];
+//    data = @"alipay_sdk=alipay-sdk-java-3.0.52.ALL&app_id=2017070307630291&biz_content=%7B%22body%22%3A%22app%E6%94%AF%E4%BB%98%22%2C%22out_trade_no%22%3A%2200327f201811060016%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22App%E6%94%AF%E4%BB%98%E8%AE%A2%E5%8D%9500327f201811060016%22%2C%22timeout_express%22%3A%2230m%22%2C%22total_amount%22%3A%220.01%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=https%3A%2F%2Fapi.quixmart.com%2Fquixmart-api%2FcallBack%2FaliPay%2FsweepCode&sign=V9f1FLh9ZCZhKOxeSEl6nl3MzKaHdUDgMNw7oWbT1ezpW6aocJUALEq49pZECrKFFxsrnFrrD38BrwO2XtuQe8AVh%2FIcV4jOmCw0lJVut94xEmLaKijH5M3swD3Q1DqDgXvASJOteR%2B6qMzGxTIGqcgeZE99PtGAdfQFcrTkwQJY1BQJohlDnHjnyR7r7yLasJss5WXot%2FvYOqMmwYHYVZ3rmPEtqKzlvHy3z%2Fi1QDIrzEj%2F%2F%2F8P2Iqj8TJLANLuIeflxpwSuVzs99OuxtnLq%2FSRhg%2Box%2F9F2AinDG2mME%2BlT7kLFculMU0sGy65w41jnOqfOrgBsLCPZWgfoM%2BowQ%3D%3D&sign_type=RSA2&timestamp=2018-11-06+15%3A07%3A43&version=1.0";
     [[AlipaySDK defaultService] payOrder:data fromScheme:@"pattayaUserPay" callback:^(NSDictionary *resultDic) {
         NSLog(@"%@",resultDic);
     }];

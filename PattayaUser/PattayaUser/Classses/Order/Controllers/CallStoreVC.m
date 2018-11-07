@@ -300,6 +300,8 @@
 {
     if (!_bottomView) {
         _bottomView = [[PaymentBottomView alloc]initWithFrame:CGRectMake(0, SCREEN_Height - BottomH - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT, SCREEN_Width, BottomH + SafeAreaBottomHeight)];
+        _bottomView.discountLabel.text = @"已优惠￥9.00";
+        _bottomView.totalAmountLabel.text = @"￥0.00";
         [_bottomView.paymentBT addTarget:self action:@selector(paymentClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _bottomView;
@@ -308,7 +310,23 @@
 #pragma mark - 去支付
 -(void)paymentClick:(UIButton*)btn{
     
-    [_paymentActionSheetView showView];
+    //[_paymentActionSheetView showView];
+    WEAK_SELF;
+  NSDictionary *  dic = @{@"userCallFormattedAddress":@"杨磊的地址",@"userCallLatitude":@"31.21432",@"userCallLongitude":@"121.3852",@"vehicleId":_shopModel.dbStoreId,@"userMobile":@"17621224265",@"userName":@"杨磊",@"orderType":@"NORMAL"};
+    [[PattayaUserServer singleton] callOrderRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        
+        if ([ResponseModel isData:ret ]) {
+            [YDProgressHUD showMessage:@"下单成功，等待接单"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadOrderList" object:nil];
+            [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+        }else{
+             [YDProgressHUD showMessage:@"下单失败，请重试"];
+        }
+       
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        [YDProgressHUD showMessage:@"下单失败，请重试"];
+    }];
+    
     
 }
 
@@ -317,6 +335,7 @@
 {
     if (!_paymentActionSheetView) {
         _paymentActionSheetView = [[PaymentActionSheetView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, SCREEN_Height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT)];
+        
         //_paymentActionSheetView.payBusinessCode = _payBusinessCode;
         _paymentActionSheetView.hidden = YES;
         // [_paymentActionSheetView.paymentBT addTarget:self action:@selector(goToPay) forControlEvents:UIControlEventTouchUpInside];

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OrderListModel.h"
+#import "ProccesingModel.h"
 @interface ListOrderTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel * storeName;//商店名称
@@ -20,5 +21,8 @@
 
 @property (nonatomic, strong) NSMutableArray * arrayImage;
 @property (nonatomic, strong) ListOrderModel * model;
+
+@property (nonatomic, strong) ProccesingModel * proccesingModel;
+
 
 @end

@@ -14,6 +14,8 @@
 @property (nonatomic, assign) BOOL isImage;
 @property (nonatomic, strong) NSMutableArray * storeImageArray;
 
+@property (nonatomic, strong) UIView *bgView;
+
 @end
 @implementation ListOrderTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -32,16 +34,16 @@
     _arrayLaber = [NSMutableArray array];
     
     //白色背景
-    UIView *bgView = [[UIView alloc]init];
-    bgView.backgroundColor = UIColorWhite;
-    bgView.layer.cornerRadius = 5;
-    bgView.layer.masksToBounds = YES;
-    [self.contentView addSubview:bgView];
-    [bgView activateConstraints:^{
-        [bgView.top_attr equalTo:self.contentView.top_attr constant:10];
-        [bgView.left_attr equalTo:self.contentView.left_attr constant:8];
-        [bgView.right_attr equalTo:self.contentView.right_attr constant:-8];
-        bgView.height_attr.constant = 140;
+    _bgView = [[UIView alloc]init];
+    _bgView.backgroundColor = UIColorWhite;
+    _bgView.layer.cornerRadius = 5;
+    _bgView.layer.masksToBounds = YES;
+    [self.contentView addSubview:_bgView];
+    [_bgView activateConstraints:^{
+        [_bgView.top_attr equalTo:self.contentView.top_attr constant:10];
+        [_bgView.left_attr equalTo:self.contentView.left_attr constant:8];
+        [_bgView.right_attr equalTo:self.contentView.right_attr constant:-8];
+        _bgView.height_attr.constant = 140;
     }];
     
     _storeName = [[UILabel alloc] init];
@@ -49,10 +51,10 @@
     _storeName.font = fontStely(@"PingFangSC-Medium", 16);
     _storeName.textColor = TextColor;
     [_storeName sizeToFit];
-    [bgView addSubview:_storeName];
+    [_bgView addSubview:_storeName];
     [_storeName activateConstraints:^{
-        [_storeName.top_attr equalTo:bgView.top_attr constant:16];
-        [_storeName.left_attr equalTo:bgView.left_attr constant:12];
+        [_storeName.top_attr equalTo:_bgView.top_attr constant:16];
+        [_storeName.left_attr equalTo:_bgView.left_attr constant:12];
         _storeName.height_attr.constant = 22;
     }];
 
@@ -61,7 +63,7 @@
     _timeText.text = @"2018.08.31 14：30";
     _timeText.font = fontStely(@"PingFangSC-Regular", 14);
     _timeText.textColor = UIColorFromRGB(0x4A4A4A);
-    [bgView addSubview:_timeText];
+    [_bgView addSubview:_timeText];
     [_timeText activateConstraints:^{
         _timeText.centerY_attr = _storeName.centerY_attr;
         [_timeText.left_attr equalTo:self.storeName.right_attr constant:13];
@@ -73,20 +75,20 @@
     _statusLabel.text = @"等待接单";
     _statusLabel.font = UIBoldFont(14);
     _statusLabel.textColor = App_Nav_BarDefalutColor;
-    [bgView addSubview:_statusLabel];
+    [_bgView addSubview:_statusLabel];
     [_statusLabel activateConstraints:^{
         _statusLabel.centerY_attr = _storeName.centerY_attr;
-        [_statusLabel.right_attr equalTo:bgView.right_attr constant:-14];
+        [_statusLabel.right_attr equalTo:_bgView.right_attr constant:-14];
         _statusLabel.height_attr.constant = 14;
     }];
    
     //分割线
     _lineView = [[UIView alloc] init];
     _lineView.backgroundColor = UIColorFromRGB(0xF3F3F3);
-    [bgView addSubview:_lineView];
+    [_bgView addSubview:_lineView];
     [_lineView activateConstraints:^{
-        [_lineView.right_attr equalTo:bgView.right_attr];
-        [_lineView.left_attr equalTo:bgView.left_attr];
+        [_lineView.right_attr equalTo:_bgView.right_attr];
+        [_lineView.left_attr equalTo:_bgView.left_attr];
         [_lineView.top_attr equalTo:_storeName.bottom_attr constant:14];
         _lineView.height_attr.constant = 1;
     }];
@@ -94,11 +96,9 @@
     //商品图片。最多五个
     for (int i = 0; i < 5; i++) {
         UIImageView * image = [[UIImageView alloc]init];
-//        image.image = [UIImage imageNamed:@"orderlist_cell_bg"];
-       // image.frame = CGRectMake(13 + (15+34)*i , _lineView.YD_bottom + 10, 34, 34);
-        [bgView addSubview:image];
+        [_bgView addSubview:image];
         [image activateConstraints:^{
-            [image.left_attr equalTo:bgView.left_attr constant:13 + (15+34)*i];
+            [image.left_attr equalTo:_bgView.left_attr constant:13 + (15+34)*i];
             [image.top_attr equalTo:_lineView.bottom_attr constant:10];
             image.height_attr.constant = 34;
             image.width_attr.constant = 34;
@@ -109,9 +109,9 @@
     //arrow
     UIImageView *arrow = [[UIImageView alloc]init];
     arrow.image = [UIImage imageNamed:@"arrow"];
-    [bgView addSubview:arrow];
+    [_bgView addSubview:arrow];
     [arrow activateConstraints:^{
-        [arrow.right_attr equalTo:bgView.right_attr constant:-13];
+        [arrow.right_attr equalTo:_bgView.right_attr constant:-13];
         [arrow.top_attr equalTo:_lineView.bottom_attr constant:22];
         arrow.height_attr.constant = IPhone_7_Scale_Width(11);
         arrow.width_attr.constant = IPhone_7_Scale_Width(11);
@@ -123,7 +123,7 @@
     _countLabel.font = K_LABEL_SMALL_FONT_12;
     _countLabel.textColor = UIColorFromRGB(0x4A4A4A);
     [_countLabel sizeToFit];
-    [bgView addSubview:_countLabel];
+    [_bgView addSubview:_countLabel];
     [_countLabel activateConstraints:^{
         _countLabel.centerY_attr = arrow.centerY_attr;
         [_countLabel.right_attr equalTo:arrow.left_attr constant:-12];
@@ -136,10 +136,10 @@
     _picesLabel.font = fontStely(@"PingFangSC-Regular", 19);
     [_picesLabel sizeToFit];
     _picesLabel.textColor = UIColorBlack;
-    [bgView addSubview:_picesLabel];
+    [_bgView addSubview:_picesLabel];
     [_picesLabel activateConstraints:^{
-        [_picesLabel.bottom_attr equalTo:bgView.bottom_attr constant:-12];
-        [_picesLabel.right_attr equalTo:bgView.right_attr constant:-13];
+        [_picesLabel.bottom_attr equalTo:_bgView.bottom_attr constant:-12];
+        [_picesLabel.right_attr equalTo:_bgView.right_attr constant:-13];
         _picesLabel.height_attr.constant = 27;
     }];
     
@@ -149,7 +149,7 @@
     shifu.font = fontStely(@"PingFangSC-Regular", 12);
     [shifu sizeToFit];
     shifu.textColor = UIColorFromRGB(0x4a4a4a);
-    [bgView addSubview:shifu];
+    [_bgView addSubview:shifu];
     [shifu activateConstraints:^{
         [shifu.right_attr equalTo:_picesLabel.left_attr constant:-3];
         shifu.height_attr.constant = 17;
@@ -194,14 +194,12 @@
             [image sd_setImageWithURL:[NSURL URLWithString:arrayImage[i]] placeholderImage:[UIImage imageNamed:@"orderlist_cell_bg"]];
             image.hidden = NO;
         }
-        
+
     } else
     {
         for (UIImageView * image in _arrayLaber) {
             image.hidden = YES;
         }
-        
-        
     }
 }
 
@@ -210,6 +208,7 @@
     _model = model;
     if (model) {
         _storeName.text = model.storeName;
+        _statusLabel.text = @"已完成";
         long long time = [model.createTime longLongValue];
         
         NSDate *d = [[NSDate alloc]initWithTimeIntervalSince1970:time/1000.0];
@@ -220,19 +219,38 @@
         
         NSString*timeString=[formatter stringFromDate:d];
         _timeText.text =timeString;
-        NSString * st1 = NSLocalizedString(@"共",nil);
-        NSString * st2 = NSLocalizedString(@"件商品",nil);
-        NSString * st3 = NSLocalizedString(@"实付",nil);
-        NSString * st4 = NSLocalizedString(@"元",nil);
+      
         _countLabel.text = [NSString stringWithFormat:@"共%ld件商品",_model.detailList.count];
-        _picesLabel.text = [NSString stringWithFormat:@"%@%ld%@，%@%.2f%@",st1,
-                            _model.detailList.count,st2,st3,
-                            _model.orderTotal.doubleValue,st4];
-//        for (UIImageView * imageTyp in _arrayLaber) {
-//            [imageTyp removeFromSuperview];
-//        }
-//
-        self.arrayImage = model.gseImgUrl;
+
+        _picesLabel.text = [NSString stringWithFormat:@"￥%.2f",_model.orderPrice.doubleValue];
+        
+         self.arrayImage = model.gseImgUrl;
+    }
+}
+
+
+-(void)setProccesingModel:(ProccesingModel *)proccesingModel{
+    if (proccesingModel) {
+        _storeName.text =  [proccesingModel.status isEqualToString:@"CALLING"] ? @"派单中" : @"已接单";
+        _statusLabel.text =  [proccesingModel.status isEqualToString:@"CALLING"] ? @"等待接单" : @"配送中";
+
+        long long time = [proccesingModel.timeCreated longLongValue];
+        NSDate *d = [[NSDate alloc]initWithTimeIntervalSince1970:time/1000.0];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+        NSString*timeString=[formatter stringFromDate:d];
+        _timeText.text =timeString;
+        
+        _countLabel.text = @"共1件商品";
+        _picesLabel.text = @"￥0.00";
+        
+        for (int i = 0; i < self.arrayLaber.count; i++) {
+            UIImageView *imageView = self.arrayLaber[i];
+            if (i==0) {
+                imageView.hidden = NO;
+                imageView.image = [UIImage imageNamed:@"image_service_fee"];
+            }
+        }
     }
 }
 

@@ -55,11 +55,19 @@
     self.title = @"订单详情";
     NSString * paymentDESC = [PattayaTool isNull:_orderModel.paymentTypeIdDESC] ? @"" : _orderModel.paymentTypeIdDESC;
     
-    _arrdata = @[_orderModel.id,[PattayaTool ConvertStrToTime:_orderModel.createTime],paymentDESC,
-                 _orderModel.storeName,];
-
-    _arrTiltle = @[@"订单编号",@"下单时间",@"支付方式",@"收款商家"];
+    if (_enterType == 0) {
+        _arrdata = @[[PattayaTool ConvertStrToTime:_orderModel.createTime]];
+        _arrTiltle = @[@"下单时间"];
+    }else if (_enterType == 1) {
+        _arrdata = @[_orderModel.id,[PattayaTool ConvertStrToTime:_orderModel.createTime],paymentDESC,
+                     _orderModel.storeName];
+        _arrTiltle = @[@"订单编号",@"下单时间",@"支付方式",@"收款商家"];
+    }
+   
+    
     [self setupUI];
+    
+    [self netRequestData];
     
 }
 
@@ -67,16 +75,21 @@
     [super setupUI];
     
     //导航栏
-    UIBarButtonItem *rightitem=[[UIBarButtonItem alloc]initWithCustomView:self.rightPopBT];
-    self.navigationItem.rightBarButtonItem=rightitem;
+    if (_enterType != 0) {
+        UIBarButtonItem *rightitem=[[UIBarButtonItem alloc]initWithCustomView:self.rightPopBT];
+        self.navigationItem.rightBarButtonItem=rightitem;
+    }
+   
     [self.tableView setSeparatorColor:UIColorWhite];
-    //[self.view addSubview:self.bottomView];
-    //[self.view addSubview:self.paymentActionSheetView];
  
 }
 
-
-
+-(void)netRequestData{
+    if (_enterType == 0) {
+        [self checkCreateOrderRequest];
+    }
+    
+}
 
 #pragma mark - tableView datasource && delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -87,9 +100,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return self.enterType == 1 ? 1 : _orderModel.detailList.count;
+        return self.enterType == 0 ? 1 : _orderModel.detailList.count;
     }else if (section == 1){
-        return 4;
+        return _arrTiltle.count;
     }
     return 0;
 }
@@ -112,10 +125,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        return self.enterType == 1 ? IPhone_7_Scale_Height(64): IPhone_7_Scale_Height(136);
+        return IPhone_7_Scale_Height(136);
     }
    
-    return 0;
+    return  0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -138,7 +151,7 @@
 //footerBgView模式1
 -(void)createFooterBgviewMode1{
     
-    _footerBgViewMode1 = [[UIView alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(8), 1, SCREEN_Width - IPhone_7_Scale_Width(8*2), self.enterType == 1 ? IPhone_7_Scale_Height(64): IPhone_7_Scale_Height(136))];
+    _footerBgViewMode1 = [[UIView alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(8), 1, SCREEN_Width - IPhone_7_Scale_Width(8*2),  IPhone_7_Scale_Height(136))];
     _footerBgViewMode1.backgroundColor = UIColorWhite;
     //[footView addSubview:_footerBgViewMode1];
     
@@ -148,8 +161,10 @@
     maskLayer.path = maskPath.CGPath;
     _footerBgViewMode1.layer.mask = maskLayer;
     
+   
     if (self.enterType != 1) {
         
+    }
         UIImageView *discountImg = [[UIImageView alloc]init];
         discountImg.image = [UIImage imageNamed:@"tag_jianmian"];
         [_footerBgViewMode1 addSubview:discountImg];
@@ -157,45 +172,45 @@
             [discountImg.left_attr equalTo:_footerBgViewMode1.left_attr constant:IPhone_7_Scale_Width(12)];
             discountImg.height_attr.constant = IPhone_7_Scale_Height(21);
             discountImg.width_attr.constant = IPhone_7_Scale_Height(52);
-            [discountImg.top_attr equalTo:_footerBgViewMode1.top_attr constant:IPhone_7_Scale_Height(10)];
+            [discountImg.top_attr equalTo:_footerBgViewMode1.top_attr constant:IPhone_7_Scale_Height(23.5)];
             
         }];
         
-        UIImageView *firstRedPacketImg = [[UIImageView alloc]init];
-        firstRedPacketImg.image = [UIImage imageNamed:@"tag_discount"];
-        [_footerBgViewMode1 addSubview:firstRedPacketImg];
-        [firstRedPacketImg activateConstraints:^{
-            [firstRedPacketImg.left_attr equalTo:_footerBgViewMode1.left_attr constant:IPhone_7_Scale_Width(12)];
-            firstRedPacketImg.height_attr.constant = IPhone_7_Scale_Height(21);
-            firstRedPacketImg.width_attr.constant = IPhone_7_Scale_Height(52);
-            [firstRedPacketImg.top_attr equalTo:discountImg.bottom_attr constant:IPhone_7_Scale_Height(9)];
-            
-        }];
-        
+//        UIImageView *firstRedPacketImg = [[UIImageView alloc]init];
+//        firstRedPacketImg.image = [UIImage imageNamed:@"tag_discount"];
+//        [_footerBgViewMode1 addSubview:firstRedPacketImg];
+//        [firstRedPacketImg activateConstraints:^{
+//            [firstRedPacketImg.left_attr equalTo:_footerBgViewMode1.left_attr constant:IPhone_7_Scale_Width(12)];
+//            firstRedPacketImg.height_attr.constant = IPhone_7_Scale_Height(21);
+//            firstRedPacketImg.width_attr.constant = IPhone_7_Scale_Height(52);
+//            [firstRedPacketImg.top_attr equalTo:discountImg.bottom_attr constant:IPhone_7_Scale_Height(9)];
+//
+//        }];
+    
         _discountLabel = [[UILabel alloc] init];
-        _discountLabel.text = @"-￥10.00";
+        _discountLabel.text = @"-￥9.00";
         _discountLabel.font = K_LABEL_SMALL_FONT_14;
         _discountLabel.textColor = UIColorFromRGB(0xF55E23);
         [_discountLabel sizeToFit];
         [_footerBgViewMode1 addSubview: _discountLabel];
         [_discountLabel activateConstraints:^{
             [_discountLabel.right_attr equalTo:_footerBgViewMode1.right_attr constant:IPhone_7_Scale_Width(-13)];
-            [_discountLabel.top_attr equalTo:_footerBgViewMode1.top_attr constant:IPhone_7_Scale_Height(10)];
+            [_discountLabel.top_attr equalTo:_footerBgViewMode1.top_attr constant:IPhone_7_Scale_Height(23)];
             _discountLabel.height_attr.constant = IPhone_7_Scale_Height(22);
         }];
         
-        _redPacketLabel = [[UILabel alloc] init];
-        _redPacketLabel.text = @"-￥6.00";
-        _redPacketLabel.font = K_LABEL_SMALL_FONT_14;
-        _redPacketLabel.textColor = UIColorFromRGB(0xF55E23);
-        [_redPacketLabel sizeToFit];
-        [_footerBgViewMode1 addSubview: _redPacketLabel];
-        [_redPacketLabel activateConstraints:^{
-            [_redPacketLabel.right_attr equalTo:_footerBgViewMode1.right_attr constant:IPhone_7_Scale_Width(-13)];
-            [_redPacketLabel.top_attr equalTo:_discountLabel.bottom_attr constant:IPhone_7_Scale_Height(10)];
-            _redPacketLabel.height_attr.constant = IPhone_7_Scale_Height(22);
-        }];
-        
+//        _redPacketLabel = [[UILabel alloc] init];
+//        _redPacketLabel.text = @"-￥6.00";
+//        _redPacketLabel.font = K_LABEL_SMALL_FONT_14;
+//        _redPacketLabel.textColor = UIColorFromRGB(0xF55E23);
+//        [_redPacketLabel sizeToFit];
+//        [_footerBgViewMode1 addSubview: _redPacketLabel];
+//        [_redPacketLabel activateConstraints:^{
+//            [_redPacketLabel.right_attr equalTo:_footerBgViewMode1.right_attr constant:IPhone_7_Scale_Width(-13)];
+//            [_redPacketLabel.top_attr equalTo:_discountLabel.bottom_attr constant:IPhone_7_Scale_Height(10)];
+//            _redPacketLabel.height_attr.constant = IPhone_7_Scale_Height(22);
+//        }];
+    
         //分割线
         _lineView = [[UIView alloc] init];
         _lineView.backgroundColor = UIColorFromRGB(0xEBEBEB);
@@ -203,29 +218,23 @@
         [_lineView activateConstraints:^{
             [_lineView.right_attr equalTo:_footerBgViewMode1.right_attr];
             [_lineView.left_attr equalTo:_footerBgViewMode1.left_attr];
-            [_lineView.top_attr equalTo:_redPacketLabel.bottom_attr constant:IPhone_7_Scale_Height(9)];
+            [_lineView.top_attr equalTo:_discountLabel.bottom_attr constant:IPhone_7_Scale_Height(23)];
             _lineView.height_attr.constant = 1;
         }];
-        
-    }
+    
+    
    
 
     //价格
     _picesLabel= [[UILabel alloc] init];
-    _picesLabel.text = @"￥10.00";
+    _picesLabel.text = @"￥0.00";
     _picesLabel.font = fontStely(@"PingFangSC-Regular", 19);
     [_picesLabel sizeToFit];
     _picesLabel.textColor = UIColorBlack;
     [_footerBgViewMode1 addSubview:_picesLabel];
     [_picesLabel activateConstraints:^{
-        if (self.enterType == 1) {
-            [_picesLabel.top_attr equalTo:_footerBgViewMode1.top_attr constant:IPhone_7_Scale_Height(10)];
-
-        }else{
-            [_picesLabel.top_attr equalTo:_lineView.bottom_attr constant:IPhone_7_Scale_Height(10)];
-
-        }
-        
+       
+        [_picesLabel.top_attr equalTo:_lineView.bottom_attr constant:IPhone_7_Scale_Height(10)];
         [_picesLabel.right_attr equalTo:_footerBgViewMode1.right_attr constant:IPhone_7_Scale_Width(-13)];
         _picesLabel.height_attr.constant = IPhone_7_Scale_Height(27);
     }];
@@ -245,7 +254,7 @@
     
     //以优惠
     _totalDiscountLabel= [[UILabel alloc] init];
-    _totalDiscountLabel.text = @"已优惠￥16.00";
+    _totalDiscountLabel.text = @"已优惠￥9.00";
     _totalDiscountLabel.font = fontStely(@"PingFangSC-Regular", 12);
     [_totalDiscountLabel sizeToFit];
     _totalDiscountLabel.textColor = TextGrayColor;
@@ -311,7 +320,7 @@
         [headView addSubview:bgView];
         //
         _label1 = [[UILabel alloc] init];
-        _label1.text = @"您已完成支付，请及时取走商品";
+        _label1.text = _enterType == 0 ? ([_proccesingModel.status isEqualToString:@"CALLING"] ? @"您已支付完成，正在通知门店接单" : @"门店已经接单，正在前往指定地点") : @"您已完成支付，请及时取走商品";
         _label1.font = K_LABEL_SMALL_FONT_16;
         _label1.textColor = TextColor;
         [_label1 sizeToFit];
@@ -325,7 +334,7 @@
         
         //
         _label2 = [[UILabel alloc] init];
-        _label2.text = @"若部分产品缺货，您可申请部分退款";
+        _label2.text = _enterType == 0 ? @"  " : @"若部分产品缺货，您可申请部分退款";
         _label2.font = K_LABEL_SMALL_FONT_14;
         _label2.textColor = UIColorFromRGB(0x4A4A4A);
         [_label2 sizeToFit];
@@ -365,7 +374,7 @@
         }
         
         _orderStatusLabel = [[UILabel alloc] init];
-        _orderStatusLabel.text = @"等待接单";
+        _orderStatusLabel.text = _enterType == 0 ? ([_proccesingModel.status isEqualToString:@"CALLING"] ? @"等待接单" : @"已接单") : @"已完成";
         _orderStatusLabel.textColor =App_Nav_BarDefalutColor;
         [_orderStatusLabel sizeToFit];
         _orderStatusLabel.font = fontStely(@"PingFangSC-Regular", 14);
@@ -380,7 +389,7 @@
         //评价订单
         _evaluateOrderBT = [UIButton buttonWithType:UIButtonTypeCustom];
         [_evaluateOrderBT
-         setTitle:@"评价订单" forState:UIControlStateNormal];
+         setTitle:@"取消订单" forState:UIControlStateNormal];
         [_evaluateOrderBT setTitleColor:UIColorWhite forState:UIControlStateNormal];
         _evaluateOrderBT.titleLabel.font = K_LABEL_SMALL_FONT_10;
         _evaluateOrderBT.backgroundColor = App_Nav_BarDefalutColor;
@@ -396,25 +405,25 @@
             
         }];
         
-        //再来一单
-        _againOrderBT = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_againOrderBT setTitle:@"再来一单" forState:UIControlStateNormal];
-        [_againOrderBT setTitleColor:App_Nav_BarDefalutColor forState:UIControlStateNormal];
-        _againOrderBT.titleLabel.font = K_LABEL_SMALL_FONT_10;
-        _againOrderBT.backgroundColor = App_TotalGrayWhite;
-        _againOrderBT.layer.cornerRadius = 3;
-        _againOrderBT.layer.masksToBounds = YES;
-        _againOrderBT.layer.borderWidth = 1.5;
-        _againOrderBT.layer.borderColor = App_Nav_BarDefalutColor.CGColor;
-        [_againOrderBT addTarget:self action:@selector(againOrder) forControlEvents:UIControlEventTouchUpInside];
-        [headView addSubview:_againOrderBT];
-        [_againOrderBT activateConstraints:^{
-            [_againOrderBT.right_attr equalTo:_evaluateOrderBT.left_attr constant:IPhone_7_Scale_Width(-10)];
-            _againOrderBT.height_attr.constant = IPhone_7_Scale_Width(24);
-            _againOrderBT.width_attr.constant = IPhone_7_Scale_Width(46);
-            [_againOrderBT.top_attr equalTo:bgView.bottom_attr constant:IPhone_7_Scale_Height(10)];
-            
-        }];
+//        //再来一单
+//        _againOrderBT = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_againOrderBT setTitle:@"再来一单" forState:UIControlStateNormal];
+//        [_againOrderBT setTitleColor:App_Nav_BarDefalutColor forState:UIControlStateNormal];
+//        _againOrderBT.titleLabel.font = K_LABEL_SMALL_FONT_10;
+//        _againOrderBT.backgroundColor = App_TotalGrayWhite;
+//        _againOrderBT.layer.cornerRadius = 3;
+//        _againOrderBT.layer.masksToBounds = YES;
+//        _againOrderBT.layer.borderWidth = 1.5;
+//        _againOrderBT.layer.borderColor = App_Nav_BarDefalutColor.CGColor;
+//        [_againOrderBT addTarget:self action:@selector(againOrder) forControlEvents:UIControlEventTouchUpInside];
+//        [headView addSubview:_againOrderBT];
+//        [_againOrderBT activateConstraints:^{
+//            [_againOrderBT.right_attr equalTo:_evaluateOrderBT.left_attr constant:IPhone_7_Scale_Width(-10)];
+//            _againOrderBT.height_attr.constant = IPhone_7_Scale_Width(24);
+//            _againOrderBT.width_attr.constant = IPhone_7_Scale_Width(46);
+//            [_againOrderBT.top_attr equalTo:bgView.bottom_attr constant:IPhone_7_Scale_Height(10)];
+//
+//        }];
         
         UIView *bgView2 = [[UIView alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(8), self.enterType == 1 ? (iPhoneX ? IPhone_7_Scale_Height(287-53)-1 : IPhone_7_Scale_Height(267-44)-1 ): IPhone_7_Scale_Height(136)-1, SCREEN_Width - IPhone_7_Scale_Width(8*2), IPhone_7_Scale_Height(51))];
         bgView2.backgroundColor = UIColorWhite;
@@ -485,10 +494,33 @@
 
     return headView;
 }
-  //评价订单
+#pragma mark - 叫店模式下 取消订单 （原评价订单）
 -(void)evaluateOrder{
-    EvaluateOrderVC *vc = [[EvaluateOrderVC alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+//    EvaluateOrderVC *vc = [[EvaluateOrderVC alloc]init];
+//    [self.navigationController pushViewController:vc animated:YES];
+    WEAK_SELF;
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定取消订单吗？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [[PattayaUserServer singleton] PUTcallorderRequest:_proccesingModel.id Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+            if ([ResponseModel isData:ret]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadOrderList" object:nil];
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+            
+        }];
+        
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alertController addAction:sureAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+   
     
 }
 //再来一单
@@ -507,15 +539,20 @@
             paymentCell.selectionStyle = UITableViewCellSelectionStyleNone;
             paymentCell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0 );
             
-            if (self.enterType == 1) {
+            if (self.enterType == 0) {
                  [paymentCell hiddenSomeViews];
+                paymentCell.productImgView.image = [UIImage imageNamed:@"image_service_fee"];
                  paymentCell.productNameLabel.text =@"叫店服务费";
-                 paymentCell.priceLabel.text = @"￥8.00";
+                 paymentCell.priceLabel.text = @"￥9.00";
                 
             }
            
         }
-        paymentCell.item = _orderModel.detailList[indexPath.row];
+        
+        if (self.enterType != 0) {
+             paymentCell.item = _orderModel.detailList[indexPath.row];
+        }
+       
         
         cell = paymentCell;
     }else{
@@ -609,15 +646,44 @@
         
          NSLog(@"联系客服");
         
+        NSMutableString * string = [[NSMutableString alloc] initWithFormat:@"tel:%@",@"4001177928"];
+        UIWebView * callWebview = [[UIWebView alloc] init];[callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:string]]];
+        [self.view addSubview:callWebview];
         
-    }else if (index == 3){
         
+    }else if (index == 2){
         NSLog(@"删除订单");
+        WEAK_SELF;
+        [[PattayaUserServer singleton] orderCancelRequest:_orderModel.id storeId:_orderModel.storeId success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadOrderList" object:nil];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+            
+        }];
+        
     }
-
-   
 }
 
+- (void)checkCreateOrderRequest
+{
+    
+    WS(weakSelf);
+    [[PattayaUserServer singleton] checkCreateOrderRequest:@{@"endLatitude":_proccesingModel.userCallLatitude,@"endLongitude":_proccesingModel.userCallLongitude,@"startLatitude":@"30",@"startLongitude":@"120"} Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        if ([ResponseModel isData:ret]) {//_proccesingModel.driverAcceptedLatitude//_proccesingModel.driverAcceptedLongitude
+            NSString * st1= NSLocalizedString(@"距离：",nil);
+            NSString * st2= NSLocalizedString(@"大约需要",nil);
+            NSString * st3= NSLocalizedString(@"分钟",nil);
+            self.label2.text = [NSString stringWithFormat:@"%@%@      %@%@%@",st1,ret[@"data"][@"Distance"],st2,ret[@"data"][@"Duration"],st3];
+            
+        } else
+        {
+            [YDProgressHUD showMessage:ret[@"message"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+    }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

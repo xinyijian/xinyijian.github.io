@@ -300,6 +300,7 @@
 		95183A462181B7450052F59F /* AddNewAddressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 95183A452181B7450052F59F /* AddNewAddressVC.m */; };
 		95183A492181D04C0052F59F /* SelcetAddressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 95183A482181D04C0052F59F /* SelcetAddressVC.m */; };
 		95183A4C2181D5570052F59F /* AboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 95183A4B2181D5570052F59F /* AboutVC.m */; };
+		9519A27D219130D20095F792 /* ProccesingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9519A27C219130D20095F792 /* ProccesingModel.m */; };
 		952105D7217586C300C7EFD0 /* PaymentSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 952105D6217586C300C7EFD0 /* PaymentSuccessView.m */; };
 		952105DA2175D4D100C7EFD0 /* MineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 952105D92175D4D100C7EFD0 /* MineVC.m */; };
 		9539FDC92182AF1700E55941 /* AccountSafeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDC82182AF1700E55941 /* AccountSafeVC.m */; };
@@ -827,6 +828,8 @@
 		95183A482181D04C0052F59F /* SelcetAddressVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelcetAddressVC.m; sourceTree = "<group>"; };
 		95183A4A2181D5570052F59F /* AboutVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutVC.h; sourceTree = "<group>"; };
 		95183A4B2181D5570052F59F /* AboutVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutVC.m; sourceTree = "<group>"; };
+		9519A27B219130D20095F792 /* ProccesingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProccesingModel.h; sourceTree = "<group>"; };
+		9519A27C219130D20095F792 /* ProccesingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProccesingModel.m; sourceTree = "<group>"; };
 		952105D5217586C300C7EFD0 /* PaymentSuccessView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentSuccessView.h; sourceTree = "<group>"; };
 		952105D6217586C300C7EFD0 /* PaymentSuccessView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentSuccessView.m; sourceTree = "<group>"; };
 		952105D82175D4D100C7EFD0 /* MineVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineVC.h; sourceTree = "<group>"; };
@@ -1206,18 +1209,11 @@
 		95140D5321708B46007380B6 /* OrderList */ = {
 			isa = PBXGroup;
 			children = (
-				95140D5421708B46007380B6 /* Models */,
+				9519A27A2191307C0095F792 /* Models */,
 				95140D5521708B46007380B6 /* Controllers */,
 				95140D5A21708B46007380B6 /* Views */,
 			);
 			path = OrderList;
-			sourceTree = "<group>";
-		};
-		95140D5421708B46007380B6 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		95140D5521708B46007380B6 /* Controllers */ = {
@@ -2120,6 +2116,15 @@
 			path = "发现";
 			sourceTree = "<group>";
 		};
+		9519A27A2191307C0095F792 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9519A27B219130D20095F792 /* ProccesingModel.h */,
+				9519A27C219130D20095F792 /* ProccesingModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		956BE0BC218BE8A900A4B4BB /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -2529,6 +2534,7 @@
 				95140F3D21708B46007380B6 /* LJDynamicItem.m in Sources */,
 				95140F8D21708B47007380B6 /* CarDetailsTitleTableViewCell.m in Sources */,
 				95140F5F21708B46007380B6 /* UserTableViewCell.m in Sources */,
+				9519A27D219130D20095F792 /* ProccesingModel.m in Sources */,
 				95140FD521708B47007380B6 /* YDProgressHUD.m in Sources */,
 				95140F9621708B47007380B6 /* WeChatViewController.m in Sources */,
 				95140F6F21708B46007380B6 /* ListCityNameViewController.m in Sources */,

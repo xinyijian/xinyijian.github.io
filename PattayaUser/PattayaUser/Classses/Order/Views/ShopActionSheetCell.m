@@ -177,7 +177,9 @@
     _productModel = productModel;
     
     _productNameLabel.text = productModel.gdsName;
-    _priceLabel.text = productModel.salePrice;
+    _priceLabel.text = productModel.marketPrice;
+    _originalPriceLabel.text = productModel.costPrice;
+    
     _countLab.text = productModel.selectCount;
     _count = [productModel.selectCount intValue];
     _reduceBT.hidden = _count > 0 ? NO : YES;

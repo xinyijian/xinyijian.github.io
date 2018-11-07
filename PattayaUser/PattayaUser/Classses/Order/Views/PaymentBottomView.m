@@ -34,7 +34,7 @@
     _discountLabel = [[UILabel alloc] init];
     _discountLabel.font = K_LABEL_SMALL_FONT_10;
     _discountLabel.textColor = UIColorFromRGB(0xB5B5B5);
-    _discountLabel.text = @"已优惠￥6.00";
+    _discountLabel.text = @"已优惠￥9.00";
     _discountLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview: _discountLabel];
     [_discountLabel activateConstraints:^{

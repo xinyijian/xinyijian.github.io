@@ -11,7 +11,7 @@
 #import "OrderViewController.h"
 #import "OrderListModel.h"
 #import "OrderDetailVC.h"
-
+#import "ProccesingModel.h"
 #define TITLES @[@"全部订单", @"进行中",@"已取消",@"退款订单"]
 @interface ListOrderViewController ()
 
@@ -21,19 +21,20 @@
 @property (nonatomic,strong) UILabel *scrollLab;//可移动的底部滑竿
 @property (nonatomic,strong) UIButton *currentBT;
 
-@property (nonatomic,strong) NSMutableArray *allArray;
-@property (nonatomic,strong) NSMutableArray *processingArray;
-@property (nonatomic,strong) NSMutableArray *cancelArray;
-@property (nonatomic,strong) NSMutableArray *refundArray;
-
 @property (nonatomic,assign) NSInteger requestType;
 
 @end
 
 @implementation ListOrderViewController
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadOrderList) name:@"reloadOrderList" object:nil];
+    
     _requestType = 0;
     [self setupUI];
     
@@ -50,7 +51,6 @@
     [self createTopMenuView];
     
     [self netRequestData];
-    //[self ConsumeOrderHttp];
 }
 
 -(void)setupData{
@@ -63,41 +63,41 @@
 
 
 - (void)netRequestData{
-    switch (_requestType) {
-        case 0:
-            [self getConsumeOrderRequest];
-            break;
-        case 1:
-            [self getProcessingOrderRequest];
-            break;
-        case 2:
-            [self getCancelOrderRequest];
-            break;
-        case 3:
-            [self getRefundOrderRequest];
-            break;
-            
-        default:
-            break;
-    }
+    [self.dataArray removeAllObjects];
     
+    if (_requestType == 1) {
+        [self getProcessingOrderRequest];
+    }else{
+        [self getConsumeOrderRequest];
+
+    }
+
+}
+
+#pragma mark - 通知刷新列表
+-(void)reloadOrderList{
+    
+    [self btnClick:_currentBT];
 }
 
 #pragma mark - 全部订单
 -(void)getConsumeOrderRequest{
     
-    [[PattayaUserServer singleton] getConsumeOrderRequest:@{@"pageNum":[NSNumber numberWithInteger:_pageSize],@"pageSize":@"5"} Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+    @weakify(self);
+    [[PattayaUserServer singleton] getConsumeOrderRequest:@{@"pageNum":[NSNumber numberWithInteger:_pageSize],@"pageSize":@"5",@"status":[NSNumber numberWithInteger:_requestType]} Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        @strongify(self);
         NSLog(@"%@",ret);
         if ([ResponseModel isData:ret]) {
+            
             if (self.pageNumber == startPage) {
-                [self.allArray removeAllObjects];
+                [self.dataArray removeAllObjects];
             }
             _listModel = [[OrderListModel alloc] initWithDictionary:ret[@"data"] error:nil];
             for (ListOrderModel *model in _listModel.list) {
-                [self.allArray addObject:model];
+                [self.dataArray addObject:model];
             }
             
-            if (self.allArray.count > 0) {
+            if (self.dataArray.count > 0) {
                 _groundView.hidden = YES;
             } else
             {
@@ -105,16 +105,21 @@
             }
             
             [YDRefresh yd_endRefreshing:self.tableView next:_listModel.list.count == pageSize];
+             [self.tableView reloadData];
             
         } else
         {
-            [YDProgressHUD showHUD:@"message"];
+            [YDProgressHUD showMessage:ret[@"message"]];
+            [YDRefresh yd_endRefreshing:self.tableView next:_listModel.list.count == pageSize];
+
         }
-        [self.tableView reloadData];
         
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        [self handleNetReslut:YDNetResultFaiure];
-       // [YDProgressHUD showHUD:@"网络异常，请重试！"];
+         @strongify(self);
+        
+        [YDProgressHUD showMessage:@"网络异常，请重试！"];
+        [YDRefresh yd_endRefreshing:self.tableView next:YES];
+
     }];
     
 }
@@ -122,11 +127,30 @@
 - (void)getProcessingOrderRequest
 {
     [[PattayaUserServer singleton] getProcessingOrderRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
-        NSLog(@"detailListModel = %@",ret);
-        detailListModel * model = [[detailListModel alloc] initWithDictionary:ret error:nil];
-        NSLog(@"model = = %@",model);
-
+        NSLog(@"ProccesingModel = %@",ret);
+        if ([ResponseModel isData:ret]){
+            
+            ProccesingModel * model = [[ProccesingModel alloc] initWithDictionary:ret[@"data"] error:nil];
+            [self.dataArray addObject:model];
+            
+            if (self.dataArray.count > 0) {
+                _groundView.hidden = YES;
+            } else
+            {
+                _groundView.hidden = NO;
+            }
+            
+        }else{
+            [YDProgressHUD showMessage:ret[@"message"]];
+        }
+        
+        [self.tableView reloadData];
+        [YDRefresh yd_endRefreshing:self.tableView next:NO];
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+        [YDRefresh yd_endRefreshing:self.tableView next:NO];
+        [YDProgressHUD showMessage:@"网络异常，请重试！"];
+        [self.tableView reloadData];
 
     }];
     
@@ -243,7 +267,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.allArray.count;
+    return self.dataArray.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -278,65 +302,33 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    cell.model = self.allArray[indexPath.row];
- 
+    if (_requestType==1) {
+        cell.proccesingModel = self.dataArray[indexPath.row];
+    }else{
+        cell.model = self.dataArray[indexPath.row];
+    }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OrderDetailVC * vc = [[OrderDetailVC alloc]init];
-    ListOrderModel * orderModel = self.allArray[indexPath.row];
-    if (orderModel.detailList.count < 0 || orderModel.detailList.count == 0) {
+    
+    if (_requestType == 1) {
+        //召唤订单 无购物打店
+         vc.enterType = 0;
+         vc.proccesingModel = self.dataArray[indexPath.row];
+    }else{
         vc.enterType = 1;
-    } else{
-        vc.enterType = 0;
+        vc.orderModel = self.dataArray[indexPath.row];
     }
-        
-    vc.orderModel = orderModel;
+   
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-#pragma mark - 懒加载
-
--(NSMutableArray *)allArray{
-    if (!_allArray) {
-        _allArray = [NSMutableArray arrayWithCapacity:0];
-    }
-    
-    return _allArray;
-}
-
--(NSMutableArray *)processingArray{
-    if (!_processingArray) {
-        _processingArray = [NSMutableArray arrayWithCapacity:0];
-    }
-    
-    return _processingArray;
-}
-
-
--(NSMutableArray *)cancelArray{
-    if (!_cancelArray) {
-        _cancelArray = [NSMutableArray arrayWithCapacity:0];
-    }
-    
-    return _cancelArray;
-}
-
-
--(NSMutableArray *)refundArray{
-    if (!_refundArray) {
-        _refundArray = [NSMutableArray arrayWithCapacity:0];
-    }
-    
-    return _refundArray;
-}
-
 
 @end
