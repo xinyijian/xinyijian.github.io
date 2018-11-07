@@ -94,6 +94,7 @@
     _originalPriceLabel.text =  @"￥16.08";
     _originalPriceLabel.font = K_LABEL_SMALL_FONT_10;
     _originalPriceLabel.textColor =TextGrayColor;
+    _originalPriceLabel.textAlignment = NSTextAlignmentCenter;
     [_originalPriceLabel sizeToFit];
    // NSString *oldPrice = @"￥16.08";
    // NSMutableAttributedString *attri = [_originalPriceLabel addDeletingLineWithText:oldPrice deletingLinecolor:RGB(153, 153, 153)];
@@ -256,7 +257,8 @@
     
     _productModel = productModel;
     _productNameLabel.text = productModel.gdsName;
-    _priceLabel.text = productModel.salePrice;
+    _priceLabel.text = [NSString stringWithFormat:@"￥%@",productModel.marketPrice] ;
+    _originalPriceLabel.text = [NSString stringWithFormat:@"￥%@",productModel.costPrice];
     _countLab.text = productModel.selectCount;
     _count = [productModel.selectCount intValue];
     _countLab.hidden = _count >0 ? NO : YES;

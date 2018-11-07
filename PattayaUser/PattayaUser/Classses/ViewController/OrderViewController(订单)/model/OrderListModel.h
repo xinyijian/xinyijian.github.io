@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSString <Optional>*paymentStatusDESC;
 ///订单编号
 @property (nonatomic, strong) NSString <Optional>*id;
+@property (nonatomic, strong) NSString <Optional>*storeId;
 @property (nonatomic, strong) NSString <Optional>*paymentTypeId;
 ///支付方式
 @property (nonatomic, strong) NSString <Optional>*paymentTypeIdDESC;
@@ -49,6 +50,8 @@
 @protocol ListOrderModel
 @end
 @interface OrderListModel : JSONModel
+
+@property (nonatomic, strong) NSString <Optional> *id;
 @property (nonatomic, strong) NSNumber <Optional>*isLastPage;
 @property (nonatomic, strong) NSNumber <Optional>*isFirstPage;
 @property (nonatomic, strong) NSNumber <Optional>*total;

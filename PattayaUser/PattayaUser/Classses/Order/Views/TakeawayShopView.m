@@ -264,20 +264,12 @@
    
     NSDictionary *dic = @{
                           
+        @"userMobileNo":[PattayaTool mobileDri],
         @"deviceNo":_shopModel.deviceNo,
         @"barcodeInfos":_uploadArray
         
     };
     
-//   NSDictionary *dic  = @{
-//        @"deviceNo":@"WHH20170815001H",
-//        @"barcodeInfos":@[
-//                @{
-//            @"product_barcode":@"6921168509256",
-//            @"num":@1
-//            }
-//        ]
-//        };
     [[PattayaUserServer singleton] submitOrderRequest:dic success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         if ([ResponseModel isData:ret]){
          NSString *str = ret[@"data"][@"id"];

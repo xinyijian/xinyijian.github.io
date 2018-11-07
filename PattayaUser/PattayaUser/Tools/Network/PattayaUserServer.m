@@ -336,4 +336,14 @@
     }];
     
 }
+
+#pragma mark --- post /order/cancelOrder/{orderId}/{storeId} 删除订单
+- (void)orderCancelRequest:(NSString *)orderId storeId:(NSString *)storeId success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
+{
+    [[PattayaHttpRequest sharedHttpManager]postWithUrlPath:[NSString stringWithFormat:@"/order/order/cancelOrder/%@/%@",orderId,storeId] parameter:nil isNeedIndicator:NO success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
+        successResult(operation,responesObject);
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        failureResult(operation,error);
+    }];
+}
 @end

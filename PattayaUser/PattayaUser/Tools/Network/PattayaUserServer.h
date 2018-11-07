@@ -95,4 +95,6 @@
 #pragma mark ---GET /user/getPushMessage 获取消息列表
 - (void)getPushMessageRequest:(NSDictionary *)dic Success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
 
+#pragma mark --- post /order/cancelOrder/{orderId}/{storeId} 删除订单
+-(void)orderCancelRequest:(NSString *)orderId storeId:(NSString *)storeId success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult;
 @end

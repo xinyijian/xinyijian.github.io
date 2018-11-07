@@ -812,7 +812,7 @@
         for (UIView * views in arryaButn) {
             [views removeFromSuperview];
         }
-        [(ListOrderViewController*)views ConsumeOrderHttp];
+       // [(ListOrderViewController*)views ConsumeOrderHttp];
     }
 }
 

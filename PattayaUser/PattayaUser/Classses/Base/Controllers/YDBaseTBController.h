@@ -10,7 +10,7 @@
 
 // 网络第一次请求的初始值
 static NSInteger const startPage = 1;
-static NSInteger const pageSize  = 10;
+static NSInteger const pageSize  = 20;
 
 @interface YDBaseTBController : YDBaseController <UITableViewDataSource, UITableViewDelegate>
 

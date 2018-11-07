@@ -49,19 +49,20 @@
             for (NSDictionary *dic in array) {
                 PushMessageModel *model  = [[PushMessageModel alloc]initWithDictionary:dic error:nil];
                 [self.dataArray addObject:model];
-
             }
             
             [YDRefresh yd_endRefreshing:self.tableView next:array.count == pageSize];
-            
+             [self.tableView reloadData];
         } else
         {
-            [YDProgressHUD showHUD:@"message"];
+            [YDProgressHUD showMessage:ret[@"message"]];
+            [YDRefresh yd_endRefreshing:self.tableView next:YES];
         }
-        [self.tableView reloadData];
+       
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         
-        [YDProgressHUD showHUD:@"网络异常，请重试！"];
+        [YDProgressHUD showMessage:@"网络异常，请重试！"];
+        [YDRefresh yd_endRefreshing:self.tableView next:YES];
 
     }];
 }

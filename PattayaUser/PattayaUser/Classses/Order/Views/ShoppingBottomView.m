@@ -114,7 +114,7 @@
     for (NSArray *array in shopModel.productArray) {
         for (NewShopListModel *model in array) {
             count = [model.selectCount intValue] + count;
-            totalAmount = [model.selectCount intValue]*[model.salePrice floatValue]+totalAmount;
+            totalAmount = [model.selectCount intValue]*[model.marketPrice floatValue]+totalAmount;
         }
     }
     self.countLabel.hidden = (count == 0 ? YES : NO);
@@ -128,10 +128,6 @@
     
     self.settleAccountsBT.backgroundColor = (count == 0 ? UIColorFromRGB(0x707070) : App_Nav_BarDefalutColor);
     self.settleAccountsBT.enabled = (count == 0 ? NO : YES);
-
-
     
 }
-
-
 @end
