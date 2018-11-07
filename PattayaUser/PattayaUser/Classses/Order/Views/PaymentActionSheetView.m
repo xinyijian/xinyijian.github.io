@@ -177,6 +177,10 @@
         _paymentBT.width_attr.constant  = IPhone_7_Scale_Width(251);
     }];
     
+    
+    UITapGestureRecognizer *tap3 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap3:)];
+    [self addGestureRecognizer:tap3];
+    
 }
 
 -(void)tap1:(UITapGestureRecognizer *)tap{
@@ -188,6 +192,11 @@
 -(void)tap2:(UITapGestureRecognizer *)tap{
    
     [self selectlClick:_alipaySelectBT];
+    
+}
+-(void)tap3:(UITapGestureRecognizer *)tap{
+    
+    [self hiddenView];
     
 }
 

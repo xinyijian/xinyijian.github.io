@@ -49,6 +49,7 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
 @property (nonatomic, strong) UIImageView * tempImage;
 @property (nonatomic, assign) CLLocationCoordinate2D userLocation;
 @property (nonatomic, strong) MANaviRoute *naviRoute;
+@property (nonatomic, assign) BOOL isaddress;
 
 @end
 
@@ -91,6 +92,7 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
 }
 -(void)locationSucceed{
     if([PattAmapLocationManager singleton].lat.integerValue > 0){
+        self.isaddress = YES;
         CLLocationCoordinate2D center;
         center.longitude = [PattAmapLocationManager singleton].lng.doubleValue;
         center.latitude = [PattAmapLocationManager singleton].lat.doubleValue;
@@ -364,9 +366,12 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
         NSString *result = [NSString stringWithFormat:@"%@",response.regeocode.addressComponent];
         NSLog(@"逆地理编码结果:%@",result);
         self.addressLocation = [response.regeocode.pois firstObject];
-        _Component = response.regeocode.formattedAddress;
-        _destinationLabel.text = _Component;
-        _locationLabel.text = _Component;
+        if (self.isaddress) {
+            
+            _Component = response.regeocode.formattedAddress;
+            _destinationLabel.text = _Component;
+            _locationLabel.text = _Component;
+        }
         StorePointAnView *annotation = [[StorePointAnView alloc] init];
         annotation.coordinate = CLLocationCoordinate2DMake(_shopModel.lat.floatValue, _shopModel.lon.floatValue);
         annotation.lat = _shopModel.lat;
@@ -511,6 +516,7 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
     AddressListVC * addresVC = [[AddressListVC alloc] init];
     addresVC.isCallOrder = YES;
     addresVC.addressBlock = ^(AddressModel *model) {
+        self.isaddress = NO;
         _destinationLabel.text = model.formattedAddress;
         _numberLabel.text = [NSString stringWithFormat:@"%@ %@",model.contactName,model.contactMobile];
         _userLocation.latitude = model.latitude.floatValue;

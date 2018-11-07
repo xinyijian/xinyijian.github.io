@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void (^editSeletced)();
 @interface AddressListCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel * addressLabel;
@@ -15,7 +15,7 @@
 @property (nonatomic, strong) UILabel * userNameMobl;
 @property (nonatomic, strong) UIImageView * editBT;//编辑按钮
 @property (nonatomic, strong) UIImageView * addressTypeImg;//地址类型
-
+@property (nonatomic, copy) editSeletced Block;
 
 
 @property (nonatomic, strong) AddressModel * model;
