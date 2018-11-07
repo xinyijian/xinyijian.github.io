@@ -16,7 +16,8 @@
 #import "StorePointAnView.h"
 #import "UIImage+CircleCorner.h"
 #import "MANaviRoute.h"
-
+#import "AddressListVC.h"
+#import "locationPointAnView.h"
 static const NSInteger RoutePlanningPaddingEdge                    = 20;
 
 @interface CallStoreVC ()<MAMapViewDelegate,AMapSearchDelegate>
@@ -78,13 +79,13 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
         [self.mapView.bottom_attr equalTo:self.bottomView.top_attr];
     }];
     self.mapView.delegate = self;
-    self.mapView.showsUserLocation = YES;
+//    self.mapView.showsUserLocation = YES;
     [self.mapView setMapType:MAMapTypeStandard];
     self.mapView.showsCompass = NO;
     self.mapView.showsScale = NO;
 //    self.mapView.scrollEnabled = NO;
     self.mapView.rotateEnabled = NO;
-    self.mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
+//    self.mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
     [self locationSucceed];
     
 }
@@ -370,19 +371,23 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
         annotation.lat = _shopModel.lat;
         annotation.lon = _shopModel.lon;
 
-        MAPointAnnotation *UserAnnotation = [[MAPointAnnotation alloc] init];
-        UserAnnotation.coordinate = CLLocationCoordinate2DMake([PattAmapLocationManager singleton].lat.floatValue, [PattAmapLocationManager singleton].lng.floatValue);
-
-        [self.mapView addAnnotations:@[annotation]];
+        locationPointAnView *UserAnnotation = [[locationPointAnView alloc] init];
+        UserAnnotation.coordinate = CLLocationCoordinate2DMake(_userLocation.latitude, _userLocation.longitude);
+        [self.mapView removeOverlays:self.mapView.overlays];
+        [self.mapView removeAnnotations:self.mapView.annotations];
+        [self.mapView addAnnotations:@[annotation,UserAnnotation]];
         [self.mapView showAnnotations:@[UserAnnotation,annotation] animated:NO];
         [self searchRoutePlanningDrive];
+       
     }
 }
 
 
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
 {
-  if ([annotation isKindOfClass:[MAUserLocation class]])
+    
+
+  if ([annotation isKindOfClass:[locationPointAnView class]])
     {
         static NSString *customReuseIndetifier = @"DD_customReuseIndetifierConfirmation";
         MAPinAnnotationView *annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:customReuseIndetifier];
@@ -457,12 +462,23 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
     
     /* 缩放地图使其适应polylines的展示. */
     [self.mapView showOverlays:self.naviRoute.routePolylines edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge) animated:YES];
-//    AMapPath * p = route.paths[0];
+    AMapPath * p = route.paths[0];
     
-//    NSString * time = [NSString stringWithFormat:@"%ld", p.duration];
-//    NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:@"大约 16: 00 到达"];
-//    [aString addAttribute:NSForegroundColorAttributeName value:App_Nav_BarDefalutColor range:NSMakeRange(3,6)];
-//    _timeLabel.attributedText = aString;
+    
+    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
+    long long totalMilliseconds = interval + p.duration ;
+    NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[NSLocale currentLocale]];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    NSDate *d = [[NSDate alloc]initWithTimeIntervalSince1970:totalMilliseconds];
+    NSString*timeString=[dateFormatter stringFromDate:d];
+    NSLog(@"%@",timeString);
+
+    NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"大约 %@ 到达",timeString]];
+    [aString addAttribute:NSForegroundColorAttributeName value:App_Nav_BarDefalutColor range:NSMakeRange(3,timeString.length)];
+    _timeLabel.attributedText = aString;
+    
     
 }
 
@@ -491,5 +507,20 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
 
 - (void)pushLocation{
     //TODO 跳转 回调 userLocation 经纬度,赋值给这个属性
+    AddressListVC * addresVC = [[AddressListVC alloc] init];
+    addresVC.isCallOrder = YES;
+    addresVC.addressBlock = ^(AddressModel *model) {
+        _destinationLabel.text = model.formattedAddress;
+        _numberLabel.text = [NSString stringWithFormat:@"%@ %@",model.contactName,model.contactMobile];
+        _userLocation.latitude = model.latitude.floatValue;
+        _userLocation.longitude = model.longitude.floatValue;
+        _mapView.centerCoordinate = _userLocation;
+        AMapReGeocodeSearchRequest* request = [[AMapReGeocodeSearchRequest alloc]init];
+        request.location = [AMapGeoPoint locationWithLatitude: _userLocation.latitude longitude:_userLocation.longitude];
+        request.requireExtension = YES;
+        [self.search AMapReGoecodeSearch:request];
+
+    };
+    [self.navigationController pushViewController:addresVC animated:YES];
 }
 @end
