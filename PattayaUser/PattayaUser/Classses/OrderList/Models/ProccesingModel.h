@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString <Optional> *driverAcceptedFormattedAddress;
 @property (nonatomic, strong) NSString <Optional> *driverAcceptedLatitude;
 @property (nonatomic, strong) NSString <Optional> *driverAcceptedLongitude;
+@property (nonatomic, strong) NSString <Optional> *driverMobile;
 @property (nonatomic, strong) NSString <Optional> *driverId;
 @property (nonatomic, strong) NSString <Optional> *id;
 @property (nonatomic, strong) NSString <Optional> *orderType;

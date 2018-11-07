@@ -230,11 +230,11 @@
                [self hiddenView];
             
                 if (_wechatSelectBT.selected) {
-//
+
 //                 ret =   @{
 //                        @"resultCode": @"1",
 //                       @"message": @"",
-//                        @"data": @"{\"appid\":\"wx122211556959a8b4\",\"noncestr\":\"r4O7oThX4AS8iHQE\",\"package\":\"Sign=WXPay\",\"partnerid\":\"1511150521\",\"prepayid\":\"wx0616583150204835c5e51f824049562375\",\"sign\":\"A03267FDC76D906DF4EDF108510F75A1\",\"timestamp\":\"1541494710\"}",
+//                        @"data": @"{\"appid\":\"wx122211556959a8b4\",\"noncestr\":\"wEug7n8hWKuqcEfw\",\"package\":\"Sign=WXPay\",\"partnerid\":\"1511150521\",\"prepayid\":\"wx071101583980395ed588ac734221506155\",\"sign\":\"88596B02B0A4DA2996F9B7305EA7F2D3\",\"timestamp\":\"1541559769\"}",
 //                        @"timestamp": @""
 //                        };
                     //微信支付

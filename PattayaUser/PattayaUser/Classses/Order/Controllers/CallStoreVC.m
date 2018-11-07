@@ -332,7 +332,6 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
         
         if ([ResponseModel isData:ret ]) {
             [YDProgressHUD showMessage:@"下单成功，等待接单"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadOrderList" object:nil];
             [weakSelf.navigationController popToRootViewControllerAnimated:YES];
         }else{
              [YDProgressHUD showMessage:@"下单失败，请重试"];

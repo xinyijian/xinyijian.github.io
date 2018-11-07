@@ -11,7 +11,7 @@
 #import "ProccesingModel.h"
 @interface OrderDetailVC : YDBaseTBController
 
-@property (nonatomic,assign) NSInteger enterType; //0:召唤订单 1:
+@property (nonatomic,assign) NSInteger enterType; //0:全部订单 1:进行中2:已取消3退款订单
 
 @property (nonatomic,strong) ListOrderModel * orderModel;
 

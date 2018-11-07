@@ -13,8 +13,12 @@
 #import "PaymentDetailCell.h"
 #import "RefundVC.h"
 #import "EvaluateOrderVC.h"
-#define TITLES @[@"申请退款", @"联系客服",@"删除订单"]
-#define ICONS  @[@"icon_ refund",@"icon_phonecall",@"icon_deleteorder"]
+
+#define TITLES @[@"联系客服", @"申请退款",@"删除订单"]
+#define ICONS  @[@"icon_phonecall",@"icon_ refund",@"icon_deleteorder"]
+
+#define TITLES2 @[@"联系客服"]
+#define ICONS2  @[@"icon_phonecall"]
 
 
 @interface OrderDetailVC ()<YBPopupMenuDelegate>
@@ -46,6 +50,9 @@
 @property (nonatomic, strong) NSArray * arrdata;
 @property (nonatomic, strong) NSArray * arrTiltle;
 
+@property (nonatomic, assign) NSInteger timeNumber;//倒计时时间
+
+
 @end
 
 @implementation OrderDetailVC
@@ -55,10 +62,10 @@
     self.title = @"订单详情";
     NSString * paymentDESC = [PattayaTool isNull:_orderModel.paymentTypeIdDESC] ? @"" : _orderModel.paymentTypeIdDESC;
     
-    if (_enterType == 0) {
+    if (_enterType == 1) {
         _arrdata = @[[PattayaTool ConvertStrToTime:_orderModel.createTime]];
         _arrTiltle = @[@"下单时间"];
-    }else if (_enterType == 1) {
+    }else {
         _arrdata = @[_orderModel.id,[PattayaTool ConvertStrToTime:_orderModel.createTime],paymentDESC,
                      _orderModel.storeName];
         _arrTiltle = @[@"订单编号",@"下单时间",@"支付方式",@"收款商家"];
@@ -75,19 +82,26 @@
     [super setupUI];
     
     //导航栏
-    if (_enterType != 0) {
-        UIBarButtonItem *rightitem=[[UIBarButtonItem alloc]initWithCustomView:self.rightPopBT];
-        self.navigationItem.rightBarButtonItem=rightitem;
-    }
+   
+    UIBarButtonItem *rightitem=[[UIBarButtonItem alloc]initWithCustomView:self.rightPopBT];
+    self.navigationItem.rightBarButtonItem=rightitem;
+    
    
     [self.tableView setSeparatorColor:UIColorWhite];
  
 }
 
 -(void)netRequestData{
-    if (_enterType == 0) {
-        [self checkCreateOrderRequest];
+    if (_enterType == 1 ) {
+        if ( [_proccesingModel.status isEqualToString:@"CALLING"]) {
+            self.timeNumber = _proccesingModel.timeLeft ? [_proccesingModel.timeLeft integerValue] : 5;
+            [self timeNumss];
+        }else{
+             [self checkCreateOrderRequest];
+        }
+       
     }
+
     
 }
 
@@ -100,7 +114,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return self.enterType == 0 ? 1 : _orderModel.detailList.count;
+        return self.enterType == 1 ? 1 : _orderModel.detailList.count;
     }else if (section == 1){
         return _arrTiltle.count;
     }
@@ -227,7 +241,7 @@
 
     //价格
     _picesLabel= [[UILabel alloc] init];
-    _picesLabel.text = @"￥0.00";
+    _picesLabel.text = _enterType == 1 ? @"￥0.00" : [NSString stringWithFormat:@"￥%@",_orderModel.orderTotal];
     _picesLabel.font = fontStely(@"PingFangSC-Regular", 19);
     [_picesLabel sizeToFit];
     _picesLabel.textColor = UIColorBlack;
@@ -259,9 +273,11 @@
     [_totalDiscountLabel sizeToFit];
     _totalDiscountLabel.textColor = TextGrayColor;
     [_footerBgViewMode1 addSubview:_totalDiscountLabel];
-    if (self.enterType == 1) {
-        _totalDiscountLabel.hidden = YES;
+    if (self.enterType != 1) {
+        
     }
+        _totalDiscountLabel.hidden = YES;
+    
     [_totalDiscountLabel activateConstraints:^{
         [_totalDiscountLabel.top_attr equalTo:_picesLabel.bottom_attr];
         [_totalDiscountLabel.right_attr equalTo:_footerBgViewMode1.right_attr constant:IPhone_7_Scale_Width(-13)];
@@ -320,7 +336,17 @@
         [headView addSubview:bgView];
         //
         _label1 = [[UILabel alloc] init];
-        _label1.text = _enterType == 0 ? ([_proccesingModel.status isEqualToString:@"CALLING"] ? @"您已支付完成，正在通知门店接单" : @"门店已经接单，正在前往指定地点") : @"您已完成支付，请及时取走商品";
+        NSString *str;
+        if (_enterType == 0) {
+            str = @"您已完成支付，请及时取走商品";
+        }else if (_enterType == 1){
+            str = [_proccesingModel.status isEqualToString:@"CALLING"] ? @"您已支付完成，正在通知门店接单" : @"门店已经接单，正在前往指定地点";
+        }else if (_enterType == 2){
+            str = @"商家已收到退款申请";
+        }else if (_enterType == 3){
+            str = @"退款已完成";
+        }
+        _label1.text = str;
         _label1.font = K_LABEL_SMALL_FONT_16;
         _label1.textColor = TextColor;
         [_label1 sizeToFit];
@@ -334,7 +360,17 @@
         
         //
         _label2 = [[UILabel alloc] init];
-        _label2.text = _enterType == 0 ? @"  " : @"若部分产品缺货，您可申请部分退款";
+        NSString *str2;
+        if (_enterType == 0) {
+            str2 = @"  ";
+        }else if (_enterType == 1){
+            str2 = [_proccesingModel.status isEqualToString:@"CALLING"] ? @"若300s内未接单，订单将自动取消并退回款项及优惠券" : @"门店预计16:00到达，若超时未到达，您可以与卖家沟通";
+        }else if (_enterType == 2){
+            str2 = @"订单金额将原路退回您的资金账户，请注意查收";
+        }else if (_enterType == 3){
+            str2 = @"订单金额已原路退回您的资金账户";
+        }
+        _label2.text = str2;
         _label2.font = K_LABEL_SMALL_FONT_14;
         _label2.textColor = UIColorFromRGB(0x4A4A4A);
         [_label2 sizeToFit];
@@ -348,7 +384,7 @@
         if (self.enterType == 1) {
             
             _label3 = [[UILabel alloc] init];
-            _label3.text = @"目的地：长宁区1488弄99号113房";
+            _label3.text = [NSString stringWithFormat:@"目的地：%@",_proccesingModel.userCallFormattedAddress];
             _label3.font = UIBoldFont(14);
             _label3.textColor = UIColorFromRGB(0x4A4A4A);
             [_label3 sizeToFit];
@@ -360,7 +396,7 @@
             }];
             
             _label4 = [[UILabel alloc] init];
-            _label4.text = @"杨先生 15098767890";
+            _label4.text = [NSString stringWithFormat:@"%@ %@",_proccesingModel.userName,_proccesingModel.userMobile];
             _label4.font = K_LABEL_SMALL_FONT_14;
             _label4.textColor = UIColorFromRGB(0x4A4A4A);
             [_label4 sizeToFit];
@@ -374,7 +410,17 @@
         }
         
         _orderStatusLabel = [[UILabel alloc] init];
-        _orderStatusLabel.text = _enterType == 0 ? ([_proccesingModel.status isEqualToString:@"CALLING"] ? @"等待接单" : @"已接单") : @"已完成";
+        NSString *str3;
+        if (_enterType == 0) {
+            str3 = @"已完成";
+        }else if (_enterType == 1){
+            str3 = [_proccesingModel.status isEqualToString:@"CALLING"] ? @"等待接单" : @"已接单";
+        }else if (_enterType == 2){
+            str3 = @"退款中";
+        }else if (_enterType == 3){
+            str3 = @"已退款";
+        }
+        _orderStatusLabel.text = str3;
         _orderStatusLabel.textColor =App_Nav_BarDefalutColor;
         [_orderStatusLabel sizeToFit];
         _orderStatusLabel.font = fontStely(@"PingFangSC-Regular", 14);
@@ -386,24 +432,29 @@
             _orderStatusLabel.centerY_attr = _label1.centerY_attr;
         }];
         
-        //评价订单
-        _evaluateOrderBT = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_evaluateOrderBT
-         setTitle:@"取消订单" forState:UIControlStateNormal];
-        [_evaluateOrderBT setTitleColor:UIColorWhite forState:UIControlStateNormal];
-        _evaluateOrderBT.titleLabel.font = K_LABEL_SMALL_FONT_10;
-        _evaluateOrderBT.backgroundColor = App_Nav_BarDefalutColor;
-        _evaluateOrderBT.layer.cornerRadius = 3;
-        _evaluateOrderBT.layer.masksToBounds = YES;
-        [_evaluateOrderBT addTarget:self action:@selector(evaluateOrder) forControlEvents:UIControlEventTouchUpInside];
-        [headView addSubview:_evaluateOrderBT];
-        [_evaluateOrderBT activateConstraints:^{
-            [_evaluateOrderBT.right_attr equalTo:headView.right_attr constant:IPhone_7_Scale_Width(-20)];
-            _evaluateOrderBT.height_attr.constant = IPhone_7_Scale_Width(24);
-            _evaluateOrderBT.width_attr.constant = IPhone_7_Scale_Width(46);
-            [_evaluateOrderBT.top_attr equalTo:bgView.bottom_attr constant:IPhone_7_Scale_Height(10)];
+        
+        if (_enterType == 1) {
+            //评价订单
+            _evaluateOrderBT = [UIButton buttonWithType:UIButtonTypeCustom];
+            [_evaluateOrderBT
+             setTitle:[_proccesingModel.status isEqualToString:@"CALLING"] ? @"取消订单" : @"联系司机"  forState:UIControlStateNormal];
+            [_evaluateOrderBT setTitleColor:UIColorWhite forState:UIControlStateNormal];
+            _evaluateOrderBT.titleLabel.font = K_LABEL_SMALL_FONT_10;
+            _evaluateOrderBT.backgroundColor = App_Nav_BarDefalutColor;
+            _evaluateOrderBT.layer.cornerRadius = 3;
+            _evaluateOrderBT.layer.masksToBounds = YES;
+            [_evaluateOrderBT addTarget:self action:@selector(evaluateOrder) forControlEvents:UIControlEventTouchUpInside];
+            [headView addSubview:_evaluateOrderBT];
+            [_evaluateOrderBT activateConstraints:^{
+                [_evaluateOrderBT.right_attr equalTo:headView.right_attr constant:IPhone_7_Scale_Width(-20)];
+                _evaluateOrderBT.height_attr.constant = IPhone_7_Scale_Width(24);
+                _evaluateOrderBT.width_attr.constant = IPhone_7_Scale_Width(46);
+                [_evaluateOrderBT.top_attr equalTo:bgView.bottom_attr constant:IPhone_7_Scale_Height(10)];
+                
+            }];
             
-        }];
+        }
+       
         
 //        //再来一单
 //        _againOrderBT = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -494,31 +545,41 @@
 
     return headView;
 }
-#pragma mark - 叫店模式下 取消订单 （原评价订单）
+#pragma mark - 叫店模式下 取消订单 或 联系司机（原评价订单）
 -(void)evaluateOrder{
 //    EvaluateOrderVC *vc = [[EvaluateOrderVC alloc]init];
 //    [self.navigationController pushViewController:vc animated:YES];
-    WEAK_SELF;
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定取消订单吗？" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        [[PattayaUserServer singleton] PUTcallorderRequest:_proccesingModel.id Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
-            if ([ResponseModel isData:ret]) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadOrderList" object:nil];
-                [weakSelf.navigationController popViewControllerAnimated:YES];
-            }
-        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+    if ([_proccesingModel.status isEqualToString:@"CALLING"] ) {
+        //取消订单
+        WEAK_SELF;
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定取消订单吗？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            [[PattayaUserServer singleton] PUTcallorderRequest:_proccesingModel.id Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+                if ([ResponseModel isData:ret]) {
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+            } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+                
+            }];
             
         }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alertController addAction:sureAction];
+        [alertController addAction:cancelAction];
         
-    }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else{
         
-    }];
-    [alertController addAction:sureAction];
-    [alertController addAction:cancelAction];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
+        //联系司机
+        NSMutableString * string = [[NSMutableString alloc] initWithFormat:@"tel:%@",_proccesingModel.driverMobile];
+        UIWebView * callWebview = [[UIWebView alloc] init];[callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:string]]];
+        [self.view addSubview:callWebview];
+        
+    }
+   
     
    
     
@@ -539,18 +600,18 @@
             paymentCell.selectionStyle = UITableViewCellSelectionStyleNone;
             paymentCell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0 );
             
-            if (self.enterType == 0) {
-                 [paymentCell hiddenSomeViews];
-                paymentCell.productImgView.image = [UIImage imageNamed:@"image_service_fee"];
-                 paymentCell.productNameLabel.text =@"叫店服务费";
-                 paymentCell.priceLabel.text = @"￥9.00";
-                
-            }
+           
            
         }
-        
-        if (self.enterType != 0) {
+        if (self.enterType == 1) {
+            [paymentCell hiddenSomeViews];
+            paymentCell.productImgView.image = [UIImage imageNamed:@"image_service_fee"];
+            paymentCell.productNameLabel.text =@"叫店服务费";
+            paymentCell.priceLabel.text = @"￥9.00";
+            
+        }else{
              paymentCell.item = _orderModel.detailList[indexPath.row];
+             paymentCell.originalPriceLabel.hidden = YES;
         }
        
         
@@ -617,7 +678,7 @@
 
 -(void)rightPopMenu{
     
-    [YBPopupMenu showRelyOnView:self.rightPopBT titles:TITLES icons:ICONS menuWidth:130 otherSettings:^(YBPopupMenu *popupMenu) {
+    [YBPopupMenu showRelyOnView:self.rightPopBT titles:_enterType == 1 ? TITLES2 : TITLES icons:ICONS menuWidth:130 otherSettings:^(YBPopupMenu *popupMenu) {
         popupMenu.arrowHeight = 0;
         popupMenu.offset = 10;
         popupMenu.minSpace = 0;
@@ -637,25 +698,25 @@
     
    
     if (index == 0) {
-   
-        NSLog(@"申请退款");
-        RefundVC *vc = [[RefundVC alloc]init];
-        [self.navigationController pushViewController:vc animated:YES];
         
-    }else if (index == 1){
-        
-         NSLog(@"联系客服");
+        NSLog(@"联系客服");
         
         NSMutableString * string = [[NSMutableString alloc] initWithFormat:@"tel:%@",@"4001177928"];
         UIWebView * callWebview = [[UIWebView alloc] init];[callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:string]]];
         [self.view addSubview:callWebview];
+   
+       
         
+    }else if (index == 1){
+        
+        NSLog(@"申请退款");
+        RefundVC *vc = [[RefundVC alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
         
     }else if (index == 2){
         NSLog(@"删除订单");
         WEAK_SELF;
         [[PattayaUserServer singleton] orderCancelRequest:_orderModel.id storeId:_orderModel.storeId success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadOrderList" object:nil];
             [weakSelf.navigationController popViewControllerAnimated:YES];
         } failure:^(NSURLSessionDataTask *operation, NSError *error) {
             
@@ -683,6 +744,34 @@
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         
     }];
+}
+
+- (void)timeNumss{
+    __block NSInteger second = self.timeNumber;
+    //(1)
+    dispatch_queue_t quene = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    //(2)
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, quene);
+    //(3)
+    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
+    //(4)
+    dispatch_source_set_event_handler(timer, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (second == 0) {
+                [self.navigationController popViewControllerAnimated:YES];
+                second = _timeNumber;
+                //(6)
+                dispatch_cancel(timer);
+            } else {
+                
+                self.label2.text =[NSString stringWithFormat:@"若%lds内未接单，订单将自动取消并退回款项及优惠券",(long)second] ;
+                second--;
+            }
+        });
+    });
+    //(5)
+    dispatch_resume(timer);
+    
 }
 
 - (void)didReceiveMemoryWarning {

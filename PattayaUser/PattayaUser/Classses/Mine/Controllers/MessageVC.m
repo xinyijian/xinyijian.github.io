@@ -45,7 +45,7 @@
             if (self.pageNumber == startPage) {
                 [self.dataArray removeAllObjects];
             }
-           NSArray *array = ret[@"data"];
+            NSArray *array = ret[@"data"][@"list"];
             for (NSDictionary *dic in array) {
                 PushMessageModel *model  = [[PushMessageModel alloc]initWithDictionary:dic error:nil];
                 [self.dataArray addObject:model];
