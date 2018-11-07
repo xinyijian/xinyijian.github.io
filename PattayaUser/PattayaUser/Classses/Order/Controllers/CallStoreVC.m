@@ -12,6 +12,12 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <MAMapKit/MAMapKit.h>
+#import "StoreAnnptationView.h"
+#import "StorePointAnView.h"
+#import "UIImage+CircleCorner.h"
+#import "MANaviRoute.h"
+
+static const NSInteger RoutePlanningPaddingEdge                    = 20;
 
 @interface CallStoreVC ()<MAMapViewDelegate,AMapSearchDelegate>
 
@@ -39,6 +45,9 @@
 @property (nonatomic, strong) AMapSearchAPI *search;
 @property (nonatomic, strong) AMapPOI * addressLocation;
 @property (nonatomic, strong) NSString * Component;
+@property (nonatomic, strong) UIImageView * tempImage;
+@property (nonatomic, assign) CLLocationCoordinate2D userLocation;
+@property (nonatomic, strong) MANaviRoute *naviRoute;
 
 @end
 
@@ -47,7 +56,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"支付订单";
-    
+    self.search = [[AMapSearchAPI alloc] init];
+    self.search.delegate = self;
+    self.tempImage = [[UIImageView alloc] init];
    // [self netRequestData];
     [self setupUI];
     
@@ -55,8 +66,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.search = [[AMapSearchAPI alloc] init];
-    self.search.delegate = self;
+   
 }
 
 - (void)addMapviewUI:(UIView *)topView{
@@ -72,7 +82,7 @@
     [self.mapView setMapType:MAMapTypeStandard];
     self.mapView.showsCompass = NO;
     self.mapView.showsScale = NO;
-    self.mapView.scrollEnabled = NO;
+//    self.mapView.scrollEnabled = NO;
     self.mapView.rotateEnabled = NO;
     self.mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
     [self locationSucceed];
@@ -83,7 +93,7 @@
         CLLocationCoordinate2D center;
         center.longitude = [PattAmapLocationManager singleton].lng.doubleValue;
         center.latitude = [PattAmapLocationManager singleton].lat.doubleValue;
-//        _userCenter = center;
+        _userLocation = center;
         [self.mapView setCenterCoordinate:center animated:YES];
         [self.mapView setZoomLevel:16.5];
         AMapReGeocodeSearchRequest* request = [[AMapReGeocodeSearchRequest alloc]init];
@@ -131,6 +141,8 @@
     [self.view addSubview:self.paymentActionSheetView];
     [self addMapviewUI:headerView];
 
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushLocation)];
+    [self.pushView addGestureRecognizer:tap];
     
 
 }
@@ -335,10 +347,10 @@
 {
     if (!_paymentActionSheetView) {
         _paymentActionSheetView = [[PaymentActionSheetView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, SCREEN_Height - TopBarHeight - IPHONE_SAFEBOTTOMAREA_HEIGHT)];
-        
+
         //_paymentActionSheetView.payBusinessCode = _payBusinessCode;
+
         _paymentActionSheetView.hidden = YES;
-        // [_paymentActionSheetView.paymentBT addTarget:self action:@selector(goToPay) forControlEvents:UIControlEventTouchUpInside];
     }
     return _paymentActionSheetView;
 }
@@ -353,15 +365,18 @@
         self.addressLocation = [response.regeocode.pois firstObject];
         _Component = response.regeocode.formattedAddress;
         _destinationLabel.text = _Component;
-//                self.centerAddressComponent = response.regeocode.addressComponent;
-//        self.searchSources  = [response.regeocode.pois mutableCopy];
-//        self.poiType = POI_TYPE_REGEO;
-//        if (self.searchSources.count > 0) {
-//
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.tableView reloadData];
-//            });
-//        }
+        _locationLabel.text = _Component;
+        StorePointAnView *annotation = [[StorePointAnView alloc] init];
+        annotation.coordinate = CLLocationCoordinate2DMake(_shopModel.lat.floatValue, _shopModel.lon.floatValue);
+        annotation.lat = _shopModel.lat;
+        annotation.lon = _shopModel.lon;
+
+        MAPointAnnotation *UserAnnotation = [[MAPointAnnotation alloc] init];
+        UserAnnotation.coordinate = CLLocationCoordinate2DMake([PattAmapLocationManager singleton].lat.floatValue, [PattAmapLocationManager singleton].lng.floatValue);
+
+        [self.mapView addAnnotations:@[annotation]];
+        [self.mapView showAnnotations:@[UserAnnotation,annotation] animated:NO];
+        [self searchRoutePlanningDrive];
     }
 }
 
@@ -375,31 +390,107 @@
         if (annotationView == nil)
         {
             annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:customReuseIndetifier];
-            // must set to NO, so we can show the custom callout view.
-            //            annotationView.canShowCallout = NO;
-            //            annotationView.draggable = YES;
-            //            annotationView.calloutOffset = CGPointMake(0, -5);
         }
         annotationView.image = [UIImage imageNamed:@"icon_location"];
         return annotationView;
-        
     }
-//    else if ([annotation isKindOfClass:[DD_MAPointUserLocationView class]])
-//    {
-//        static NSString *customReuseIndetifier = @"DD_customReuseIndetifierConfirmation";
-//        MAPinAnnotationView *annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:customReuseIndetifier];
-//        if (annotationView == nil)
-//        {
-//            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:customReuseIndetifier];
-//            // must set to NO, so we can show the custom callout view.
-//            //            annotationView.canShowCallout = NO;
-//            //            annotationView.draggable = YES;
-//            //            annotationView.calloutOffset = CGPointMake(0, -5);
-//        }
-//        annotationView.image = [UIImage imageNamed:@"icon--"];
-//        return annotationView;
-//    }
+    else
+        if ([annotation isKindOfClass:[StorePointAnView class]])
+    {
+        static NSString *customReuseIndetifier = @"StoreAnnptationView";
+        MAAnnotationView *annotationView = (MAAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:customReuseIndetifier];
+        if (annotationView == nil)
+        {
+            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:customReuseIndetifier];
+            annotationView.calloutOffset = CGPointMake(0, -5);
+        }
+        [self.tempImage sd_setImageWithURL:[NSURL URLWithString:_shopModel.avatarURL] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            annotationView.image = [image circleImage:CGSizeMake(40, 40)];
+            [annotationView addShadowToView:annotationView withColor:TextColor];
+        }];
+//        annotationView.image = _tempImage.image;
+        return annotationView;
+    }
     return nil;
 }
 
+
+#pragma mark - do search
+- (void)searchRoutePlanningDrive
+{
+
+    AMapWalkingRouteSearchRequest *navi = [[AMapWalkingRouteSearchRequest alloc] init];
+
+    /* 出发点. */
+    navi.origin = [AMapGeoPoint locationWithLatitude:_userLocation.latitude
+                                           longitude:_userLocation.longitude];
+    /* 目的地. */
+    navi.destination = [AMapGeoPoint locationWithLatitude:_shopModel.lat.floatValue
+                                                longitude:_shopModel.lon.floatValue];
+    
+    [self.search AMapWalkingRouteSearch:navi];
+    
+    ///出发地 就是订单用户的经纬度
+    ///到达地址 就是司机的经纬度
+}
+
+/* 路径规划搜索回调. */
+- (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response
+{
+    //    [self hideLoading];
+    if (response.route == nil)
+    {
+        return;
+    }
+    if (response.count > 0)
+    {
+        [self presentCurrentCourse:response.route];
+    }
+}
+/* 展示当前路线方案. */
+- (void)presentCurrentCourse:(AMapRoute *)route
+{
+    MANaviAnnotationType type = MANaviAnnotationTypeDrive;
+    self.naviRoute = [MANaviRoute naviRouteForPath:route.paths[0] withNaviType:type showTraffic:YES startPoint:[AMapGeoPoint locationWithLatitude:_userLocation.latitude longitude:_userLocation.longitude] endPoint:[AMapGeoPoint locationWithLatitude:_shopModel.lat.floatValue longitude:_shopModel.lon.floatValue]];
+    [self.naviRoute addToMapView:self.mapView];
+    
+    self.naviRoute.multiPolylineColors = @[UIColorFromRGB(0xfd6568),UIColorFromRGB(0xf87762),UIColorFromRGB(0xf19659),UIColorFromRGB(0xecae53)];
+    
+    /* 缩放地图使其适应polylines的展示. */
+    [self.mapView showOverlays:self.naviRoute.routePolylines edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge) animated:YES];
+//    AMapPath * p = route.paths[0];
+    
+//    NSString * time = [NSString stringWithFormat:@"%ld", p.duration];
+//    NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:@"大约 16: 00 到达"];
+//    [aString addAttribute:NSForegroundColorAttributeName value:App_Nav_BarDefalutColor range:NSMakeRange(3,6)];
+//    _timeLabel.attributedText = aString;
+    
+}
+
+#pragma mark --设置折线代理方法
+- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
+{
+    if ([overlay isKindOfClass:[MAPolyline class]])
+    {
+        MAPolyline * line = (MAPolyline *)overlay;
+        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:line];
+        
+        polylineRenderer.lineWidth    = 12.f;
+        //设置轨迹颜色
+        //        polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
+        polylineRenderer.lineJoinType = kMALineJoinRound;
+        polylineRenderer.lineCapType  = kMALineCapRound;
+        polylineRenderer.strokeImage =[UIImage imageNamed:@"map_history"];
+        //将轨迹设置为自定义的样式
+//        [polylineRenderer loadStrokeTextureImage:[UIImage imageNamed:@"map_history"]];
+        
+        return polylineRenderer;
+    }
+    
+    return nil;
+}
+
+- (void)pushLocation{
+    //TODO 跳转 回调 userLocation 经纬度,赋值给这个属性
+}
 @end
