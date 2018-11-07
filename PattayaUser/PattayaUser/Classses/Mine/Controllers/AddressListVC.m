@@ -86,7 +86,9 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.model = _addresslist.data[indexPath.row];
-//    [cell.editBT addTarget:self action:@selector(editAddress:) forControlEvents:UIControlEventTouchUpInside];
+    cell.Block = ^{
+        [self editAddress:_addresslist.data[indexPath.row]];
+    };
     
     return cell;
 }

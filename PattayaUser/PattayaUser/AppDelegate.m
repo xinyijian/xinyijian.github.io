@@ -235,7 +235,7 @@ extern CFAbsoluteTime StartTime;
 - (void)requestUserInfoOrder:(NSDictionary * )info
 {
     
-    [self callOrderIdState:info];
+//    [self callOrderIdState:info];
     
 }
 - (void)callOrderIdState:(NSDictionary *)info

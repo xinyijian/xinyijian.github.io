@@ -71,6 +71,10 @@
         _editBT.width_attr.constant = 20;
     }];
     
+    UITapGestureRecognizer * tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(editImage)];
+    _editBT.userInteractionEnabled = YES;
+    [_editBT addGestureRecognizer:tapImage];
+    
     _addressTypeImg = [[UIImageView alloc]init];
     _addressTypeImg.image = [UIImage imageNamed:@"address_type2"];
     [self.contentView addSubview:_addressTypeImg];
@@ -102,6 +106,9 @@
         }
         
     }
+}
+- (void)editImage{
+    BLOCK_EXEC(_Block);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
