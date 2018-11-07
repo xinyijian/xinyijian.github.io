@@ -96,7 +96,15 @@
 //    //vc.model =_listModel.list[indexPath.row];
 //    [self.navigationController pushViewController:vc animated:YES];
     AddressModel * mode = _addresslist.data[indexPath.row];
-    [self editAddress:mode];
+    if (_isCallOrder) {
+        
+        BLOCK_EXEC(_addressBlock,mode);
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        
+        [self editAddress:mode];
+    }
+    
 }
 
 #pragma mark - 新增地址

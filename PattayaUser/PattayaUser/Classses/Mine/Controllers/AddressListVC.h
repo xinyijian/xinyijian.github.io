@@ -7,7 +7,10 @@
 //
 
 #import "YDBaseTBController.h"
+@class AddressModel;
+typedef void(^addressSeletecd)(AddressModel * model);
 
 @interface AddressListVC : YDBaseTBController
-
+@property (nonatomic, copy) addressSeletecd addressBlock;
+@property (nonatomic, assign) BOOL isCallOrder;
 @end

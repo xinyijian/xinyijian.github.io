@@ -19,6 +19,7 @@
 		92FE93EC219131B700E02CB6 /* StoreAnnptationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FE93EB219131B700E02CB6 /* StoreAnnptationView.m */; };
 		92FE93EF2191368000E02CB6 /* StorePointAnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FE93EE2191368000E02CB6 /* StorePointAnView.m */; };
 		92FE93F12191B4A000E02CB6 /* map_history.png in Resources */ = {isa = PBXBuildFile; fileRef = 92FE93F02191B49F00E02CB6 /* map_history.png */; };
+		92FE93F421928EBF00E02CB6 /* locationPointAnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FE93F321928EBF00E02CB6 /* locationPointAnView.m */; };
 		95140F3621708B46007380B6 /* NewShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2021708B46007380B6 /* NewShopModel.m */; };
 		95140F3721708B46007380B6 /* ShoppingCartOrderListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2221708B46007380B6 /* ShoppingCartOrderListInfo.m */; };
 		95140F3821708B46007380B6 /* NewShopListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 95140D2321708B46007380B6 /* NewShopListModel.m */; };
@@ -375,6 +376,8 @@
 		92FE93ED2191368000E02CB6 /* StorePointAnView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StorePointAnView.h; sourceTree = "<group>"; };
 		92FE93EE2191368000E02CB6 /* StorePointAnView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StorePointAnView.m; sourceTree = "<group>"; };
 		92FE93F02191B49F00E02CB6 /* map_history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_history.png; sourceTree = "<group>"; };
+		92FE93F221928EBF00E02CB6 /* locationPointAnView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = locationPointAnView.h; sourceTree = "<group>"; };
+		92FE93F321928EBF00E02CB6 /* locationPointAnView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = locationPointAnView.m; sourceTree = "<group>"; };
 		95140D1F21708B46007380B6 /* ShoppingCartOrderListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartOrderListInfo.h; sourceTree = "<group>"; };
 		95140D2021708B46007380B6 /* NewShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewShopModel.m; sourceTree = "<group>"; };
 		95140D2121708B46007380B6 /* NewShopListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewShopListModel.h; sourceTree = "<group>"; };
@@ -1104,6 +1107,8 @@
 				92FE93EB219131B700E02CB6 /* StoreAnnptationView.m */,
 				92FE93ED2191368000E02CB6 /* StorePointAnView.h */,
 				92FE93EE2191368000E02CB6 /* StorePointAnView.m */,
+				92FE93F221928EBF00E02CB6 /* locationPointAnView.h */,
+				92FE93F321928EBF00E02CB6 /* locationPointAnView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2626,6 +2631,7 @@
 				95140F4521708B46007380B6 /* PaymentBottomView.m in Sources */,
 				95140F5821708B46007380B6 /* MakeSureLocationViewController.m in Sources */,
 				92FE93EF2191368000E02CB6 /* StorePointAnView.m in Sources */,
+				92FE93F421928EBF00E02CB6 /* locationPointAnView.m in Sources */,
 				95140F7021708B46007380B6 /* NSMutableDictionary+SetModelRequest.m in Sources */,
 				95140F5521708B46007380B6 /* XLCardSwitchFlowLayout.m in Sources */,
 				95140FB621708B47007380B6 /* UIView+SDExtension.m in Sources */,
