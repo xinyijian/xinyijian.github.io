@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 @interface TakeawayShopView : UIView
 
+
 //店铺ID
 @property (nonatomic , copy) NSString *groupId;
 

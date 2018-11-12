@@ -310,6 +310,7 @@
 		9539FDC92182AF1700E55941 /* AccountSafeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDC82182AF1700E55941 /* AccountSafeVC.m */; };
 		9539FDCC2182CA1900E55941 /* MessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDCB2182CA1900E55941 /* MessageVC.m */; };
 		9539FDCF2182CAE900E55941 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9539FDCE2182CAE900E55941 /* MessageCell.m */; };
+		953E5F3C21956DD200C63520 /* EmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 953E5F3B21956DD200C63520 /* EmptyView.m */; };
 		955FEC46218AA0BB00416BF4 /* CallStoreVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 955FEC45218AA0BB00416BF4 /* CallStoreVC.m */; };
 		956BE0BF218BE8CA00A4B4BB /* PushMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 956BE0BE218BE8CA00A4B4BB /* PushMessageModel.m */; };
 		956BE0C5218BFE2400A4B4BB /* 启动页.png in Resources */ = {isa = PBXBuildFile; fileRef = 956BE0C4218BFE2300A4B4BB /* 启动页.png */; };
@@ -851,6 +852,8 @@
 		9539FDCB2182CA1900E55941 /* MessageVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageVC.m; sourceTree = "<group>"; };
 		9539FDCD2182CAE900E55941 /* MessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
 		9539FDCE2182CAE900E55941 /* MessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		953E5F3A21956DD200C63520 /* EmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmptyView.h; sourceTree = "<group>"; };
+		953E5F3B21956DD200C63520 /* EmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmptyView.m; sourceTree = "<group>"; };
 		955FEC44218AA0BB00416BF4 /* CallStoreVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallStoreVC.h; sourceTree = "<group>"; };
 		955FEC45218AA0BB00416BF4 /* CallStoreVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CallStoreVC.m; sourceTree = "<group>"; };
 		955FEC51218B21A600416BF4 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -1818,6 +1821,8 @@
 				95140E7621708B46007380B6 /* DD_HandlerEnterBackground.h */,
 				95140E6D21708B46007380B6 /* DD_HandlerEnterBackground.m */,
 				95140E7721708B46007380B6 /* JMButton */,
+				953E5F3A21956DD200C63520 /* EmptyView.h */,
+				953E5F3B21956DD200C63520 /* EmptyView.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2627,6 +2632,7 @@
 				95140F8721708B46007380B6 /* AlerViewShowUI.m in Sources */,
 				95140FD321708B47007380B6 /* YLFontSize.m in Sources */,
 				95140FA521708B47007380B6 /* YDRefresh.m in Sources */,
+				953E5F3C21956DD200C63520 /* EmptyView.m in Sources */,
 				95140F5421708B46007380B6 /* RecommendationCell.m in Sources */,
 				95183A462181B7450052F59F /* AddNewAddressVC.m in Sources */,
 				95140FB321708B47007380B6 /* YBPopupMenu.m in Sources */,

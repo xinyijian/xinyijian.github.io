@@ -11,6 +11,7 @@
 #import "HotModel.h"
 #import "StoreListCell.h"
 #import "ShopMainVC.h"
+#import "EmptyView.h"
 @interface SearchVC ()<UITextFieldDelegate>
 
 //导航栏pop按钮
@@ -18,6 +19,9 @@
 @property (nonatomic, strong) UIButton *searchBT;
 //搜索栏
 @property (nonatomic, strong) UITextField *searchTF;
+
+@property (nonatomic,strong) EmptyView *emptyView;//无数据视图
+
 
 //历史搜索 热门搜索
 @property (nonatomic, strong) newsreelView * sreelView;
@@ -48,6 +52,8 @@
     self.navigationItem.titleView = self.searchTF;
     
     [self.view addSubview:self.sreelView];
+    
+    [self.view addSubview:self.emptyView];
     
     [YDRefresh yd_headerRefresh:self.tableView headerBlock:^{
         NSLog(@"刷新");
@@ -106,19 +112,23 @@
 
 -(void)storeSearchWith:(NSString *)keyword{
     _mainModel = nil;
-    
+    @weakify(self);
     NSDictionary *dic = @{
                           @"keyword":keyword
                           };
     [[PattayaUserServer singleton] SeachStoreCodeRequest:dic success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+       
+        @strongify(self);
         NSLog(@"RET = %@",ret);
         if ([ResponseModel isData:ret]){
             
              _mainModel = [[MainModel alloc] initWithDictionary:ret[@"data"] error:nil];
             if (_mainModel.content.count > 0) {
                 self.tableView.hidden = NO;
+                self.emptyView.hidden = YES;
             }else{
                 self.tableView.hidden = YES;
+                _emptyView.hidden = NO;
                 //展示emptyView
             }
             [self.tableView reloadData];
@@ -337,6 +347,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+-(EmptyView *)emptyView{
+    WEAK_SELF;
+    if (!_emptyView) {
+        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"没有找到相应店铺,请点击刷新"];
+        _emptyView.block = ^{
+            [weakSelf storeSearchWith:weakSelf.searchTF.text];
+        };
+        _emptyView.hidden = YES;
+    }
+    return _emptyView;
+}
 
 
 @end

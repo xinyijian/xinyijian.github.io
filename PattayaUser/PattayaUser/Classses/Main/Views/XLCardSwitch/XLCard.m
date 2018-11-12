@@ -252,7 +252,12 @@
     _item = item;
     _nameLabel.text = item.name;
     [_headImage sd_setImageWithURL:[NSURL URLWithString:item.avatarURL] placeholderImage:[UIImage imageNamed:@"main_cell_headImg_bg"]];
-    _distance.text = [NSString stringWithFormat: @"距离%@米",item.geoDistance];
+    if (item.geoDistance) {
+         _distance.text = [NSString stringWithFormat: @"距离%@米",item.geoDistance];
+    }else{
+        _distance.hidden = YES;
+    }
+   
     [self.collectionView reloadData];
 }
 

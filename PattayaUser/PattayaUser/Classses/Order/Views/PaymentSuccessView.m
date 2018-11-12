@@ -17,6 +17,8 @@
         self.backgroundColor = App_TotalGrayWhite;
         [self initViews];
         
+        
+        
     }
     return self;
 }

@@ -12,6 +12,7 @@
 #import "OrderListModel.h"
 #import "OrderDetailVC.h"
 #import "ProccesingModel.h"
+#import "EmptyView.h"
 #define TITLES @[@"全部订单", @"进行中",@"已取消",@"退款订单"]
 @interface ListOrderViewController ()
 
@@ -20,6 +21,7 @@
 @property (nonatomic,assign) NSInteger pageSize;
 @property (nonatomic,strong) UILabel *scrollLab;//可移动的底部滑竿
 @property (nonatomic,strong) UIButton *currentBT;
+@property (nonatomic,strong) EmptyView *emptyView;//无数据视图
 
 @property (nonatomic,assign) NSInteger requestType;
 
@@ -58,6 +60,10 @@
     [self.tableView setSeparatorColor:App_TotalGrayWhite];
     //创建顶部菜单视图
     [self createTopMenuView];
+    
+    [self.view addSubview:self.emptyView];
+    
+    
     
    
 }
@@ -104,10 +110,10 @@
             }
             
             if (self.dataArray.count > 0) {
-                _groundView.hidden = YES;
+                _emptyView.hidden = YES;
             } else
             {
-                _groundView.hidden = NO;
+                _emptyView.hidden = NO;
             }
             
             [YDRefresh yd_endRefreshing:self.tableView next:_listModel.list.count == pageSize];
@@ -140,10 +146,10 @@
             [self.dataArray addObject:model];
             
             if (self.dataArray.count > 0) {
-                _groundView.hidden = YES;
+                _emptyView.hidden = YES;
             } else
             {
-                _groundView.hidden = NO;
+                _emptyView.hidden = NO;
             }
             
         }else{
@@ -308,10 +314,13 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (_requestType==1) {
-        cell.proccesingModel = self.dataArray[indexPath.row];
-    }else{
-        cell.model = self.dataArray[indexPath.row];
+    if (self.dataArray.count > 0) {
+        
+        if (_requestType==1) {
+            cell.proccesingModel = self.dataArray[indexPath.row];
+        }else{
+            cell.model = self.dataArray[indexPath.row];
+        }
     }
     
     return cell;
@@ -332,6 +341,20 @@
 
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+
+-(EmptyView *)emptyView{
+    WEAK_SELF;
+    if (!_emptyView) {
+        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, IPhone_7_Scale_Height(50), SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"无此类型订单"];
+        _emptyView.block = ^{
+            [weakSelf netRequestData];
+        };
+        _emptyView.hidden = YES;
+    }
+    return _emptyView;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

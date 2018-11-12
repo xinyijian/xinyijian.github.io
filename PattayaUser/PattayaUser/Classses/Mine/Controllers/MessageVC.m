@@ -9,7 +9,11 @@
 #import "MessageVC.h"
 #import "MessageCell.h"
 #import "PushMessageModel.h"
+#import "EmptyView.h"
 @interface MessageVC ()
+
+@property (nonatomic,strong) EmptyView *emptyView;//无数据视图
+
 
 @end
 
@@ -34,12 +38,14 @@
 
 -(void)netRequestData{
    // [self.dataArray removeAllObjects];
+    @weakify(self);
     NSDictionary *dic = @{
                           @"pageNum":@(self.pageNumber),
                           @"pageSize":@(pageSize)
                           };
     [[PattayaUserServer singleton]getPushMessageRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
          NSLog(@"%@",ret);
+        @strongify(self);
         if ([ResponseModel isData:ret]) {
            
             if (self.pageNumber == startPage) {
@@ -52,6 +58,11 @@
             }
             
             [YDRefresh yd_endRefreshing:self.tableView next:array.count == pageSize];
+            if (self.dataArray.count > 0 ) {
+                self.emptyView.hidden = YES;
+            }else{
+                self.emptyView.hidden = NO;
+            }
              [self.tableView reloadData];
         } else
         {
@@ -106,6 +117,20 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.messageModel = self.dataArray[indexPath.row];
     return cell;
+}
+
+
+
+-(EmptyView *)emptyView{
+    WEAK_SELF;
+    if (!_emptyView) {
+        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"还没有消息哦"];
+        _emptyView.block = ^{
+            [weakSelf netRequestData];
+        };
+        _emptyView.hidden = YES;
+    }
+    return _emptyView;
 }
 
 

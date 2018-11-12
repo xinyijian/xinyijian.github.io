@@ -11,11 +11,14 @@
 #import "AddNewAddressVC.h"
 #import "AddressModel.h"
 #import "SelcetAddressVC.h"
+#import "EmptyView.h"
 @interface AddressListVC ()
 
 //导航栏pop按钮
 @property (nonatomic, strong) UIButton *rightPopBT;
 @property (nonatomic, strong) AddressListModel * addresslist;
+@property (nonatomic,strong) EmptyView *emptyView;//无数据视图
+
 @end
 
 @implementation AddressListVC
@@ -46,10 +49,16 @@
 }
 
 - (void)netRequestData{
-    
+    @weakify(self);
     [[PattayaUserServer singleton] GetAddRessRequestSuccess:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        @strongify(self);
         _addresslist = [[AddressListModel alloc] initWithDictionary:ret error:nil];
         NSLog(@"%@====",_addresslist);
+        if (_addresslist.data.count > 0) {
+            self.emptyView.hidden = YES;
+        }else{
+             self.emptyView.hidden = NO;
+        }
         [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         [YDProgressHUD showMessage:@"网络异常，请重试！"];
@@ -128,6 +137,16 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-
+-(EmptyView *)emptyView{
+    WEAK_SELF;
+    if (!_emptyView) {
+        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"一个地址也没有哦"];
+        _emptyView.block = ^{
+            [weakSelf netRequestData];
+        };
+        _emptyView.hidden = YES;
+    }
+    return _emptyView;
+}
 
 @end

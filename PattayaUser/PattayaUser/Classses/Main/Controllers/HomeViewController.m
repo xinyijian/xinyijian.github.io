@@ -30,6 +30,8 @@
 //#import "NSMutableDictionary+SetModelRequest.h"
 #import "PattAmapLocationManager.h"
 #import "YDCycleScrollView.h"
+#import "EmptyView.h"
+
 @interface HomeViewController ()  <UIScrollViewDelegate,XLCardSwitchDelegate>
 
 //<UITableViewDelegate,UITableViewDataSource,UINavigationControllerDelegate,HomeViewHeadDelegate,AMapLocationManagerDelegate>
@@ -47,6 +49,7 @@
 @property (nonatomic, strong) UILabel *nearShopLabel;
 @property (nonatomic, strong) XLCardSwitch *cardSwitch;
 
+@property (nonatomic,strong) EmptyView *emptyView;//无数据视图
 
 @property (nonatomic,strong) MainModel * mainModel;
 
@@ -100,6 +103,9 @@
     
     [self.scrollView addSubview: self.nearShopLabel];
     
+    [self.scrollView addSubview:self.emptyView];
+    
+    
     [self.scrollView addSubview:self.cardSwitch];
    
     _scrollView.contentSize = CGSizeMake(SCREEN_Width,_cardSwitch.YD_bottom+ IPhone_7_Scale_Height(40));
@@ -131,7 +137,20 @@
         
        _mainModel = [[MainModel alloc]initWithDictionary:ret[@"data"] error:nil];
         _cardSwitch.items = _mainModel.content;
-        
+
+        if (_mainModel.content.count > 0) {
+            _advButton4.hidden = NO;
+            _nearShopLabel.hidden = NO;
+            _emptyView.hidden = YES;
+            _scrollView.contentSize = CGSizeMake(SCREEN_Width,_cardSwitch.YD_bottom+ IPhone_7_Scale_Height(40));
+        } else
+        {
+            _emptyView.hidden = NO;
+            _advButton4.hidden = YES;
+            _nearShopLabel.hidden = YES;
+            _scrollView.contentSize = self.view.bounds.size;
+        }
+       
         
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
           [self handleNetReslut:YDNetResultFaiure];
@@ -288,6 +307,19 @@
     }
     return _nearShopLabel;
 }
+
+-(EmptyView *)emptyView{
+    WEAK_SELF;
+    if (!_emptyView) {
+        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, self.locationLabel.YD_bottom, SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"当前无法定位，请点击刷新"];
+        _emptyView.block = ^{
+            [weakSelf netRequestData];
+        };
+        _emptyView.hidden = YES;
+    }
+    return _emptyView;
+}
+
 
 - (XLCardSwitch *)cardSwitch {
     if (!_cardSwitch) {
