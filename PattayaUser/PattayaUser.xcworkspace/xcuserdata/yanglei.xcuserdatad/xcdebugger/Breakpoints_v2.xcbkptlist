@@ -6,27 +6,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Tools/Network/PattayaHttpRequest.m"
-            timestampString = "562836963.382615"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "-isAccessToken:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Tools/Network/PattayaHttpRequest.m"
-            timestampString = "562836963.382672"
+            timestampString = "563966262.790578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "127"
@@ -42,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Tools/Network/PattayaHttpRequest.m"
-            timestampString = "562836963.3827111"
+            timestampString = "563966262.79092"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "176"
@@ -90,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Main/Views/XLCardSwitch/RecommendationCell.m"
-            timestampString = "562474537.028295"
+            timestampString = "564055436.01987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -122,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Base/Controllers/BaseTabBarViewController.m"
-            timestampString = "562165984.5078911"
+            timestampString = "564306918.795094"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "BaseTabBarViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -218,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Main/Views/XLCardSwitch/XLCard.m"
-            timestampString = "563449726.085382"
+            timestampString = "564055436.0200419"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "-setItem:"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Order/Views/ShopActionSheetCell.m"
-            timestampString = "563196697.6622649"
+            timestampString = "564306918.795295"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "185"
@@ -265,24 +249,8 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Classses/Order/Views/ShopActionSheetCell.m"
-            timestampString = "563196697.6623321"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "-btnClick:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Order/Views/ShopHomePageView.m"
-            timestampString = "562684823.221559"
+            timestampString = "564054471.6451091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "73"
@@ -297,28 +265,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Classses/Order/Views/ShoppingBottomView.m"
-            timestampString = "563196697.662408"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "-changeBottomUIWith:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Order/Views/TakeawayShopView.m"
-            timestampString = "563251909.296008"
+            timestampString = "564055436.020154"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "TakeawayShopView"
             landmarkType = "3">
          </BreakpointContent>
@@ -330,12 +282,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Order/Views/PaymentActionSheetView.m"
-            timestampString = "563270259.3101439"
+            timestampString = "563966262.791548"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "190"
             endingLineNumber = "190"
-            landmarkName = "-tap2:"
+            landmarkName = "-tap1:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -362,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Mine/Controllers/AccountSafeVC.m"
-            timestampString = "563269908.3994761"
+            timestampString = "564306918.795459"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549"
+            startingLineNumber = "558"
+            endingLineNumber = "558"
             landmarkName = "-deletedUnBind:"
             landmarkType = "7">
          </BreakpointContent>
@@ -377,24 +329,8 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PattayaUser/AppDelegate.m"
-            timestampString = "563680451.0844949"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
-            landmarkName = "-application:openURL:options:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "PattayaUser/Tools/Network/PattayaUserServer.m"
-            timestampString = "563196697.662649"
+            timestampString = "564304239.453817"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "118"
@@ -410,7 +346,7 @@
                   moduleName = "PattayaUser"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Tools/Network/PattayaUserServer.m"
-                  timestampString = "563443808.489133"
+                  timestampString = "564304448.422145"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "118"
@@ -425,7 +361,7 @@
                   moduleName = "PattayaUser"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Tools/Network/PattayaUserServer.m"
-                  timestampString = "563443808.491334"
+                  timestampString = "564304448.424239"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "118"
@@ -440,7 +376,7 @@
                   moduleName = "PattayaUser"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Tools/Network/PattayaUserServer.m"
-                  timestampString = "563443808.493811"
+                  timestampString = "564304448.426217"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "118"
@@ -457,7 +393,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Tools/Network/PattayaUserServer.m"
-            timestampString = "563196697.6627049"
+            timestampString = "564304239.453867"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
@@ -473,7 +409,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Tools/Network/PattayaUserServer.m"
-            timestampString = "563196697.662769"
+            timestampString = "564304239.453909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "121"
@@ -489,11 +425,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Mine/Controllers/AccountSafeVC.m"
-            timestampString = "563269908.399858"
+            timestampString = "564306918.795608"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
+            startingLineNumber = "449"
+            endingLineNumber = "449"
             landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
             landmarkType = "7">
          </BreakpointContent>
@@ -505,11 +441,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/AppDelegate.m"
-            timestampString = "563680451.086718"
+            timestampString = "564306918.795693"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
             landmarkName = "-callOrderIdState:"
             landmarkType = "7">
          </BreakpointContent>
@@ -521,7 +457,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Mine/Controllers/AMapAddressViewController.m"
-            timestampString = "563114363.860877"
+            timestampString = "564029836.491931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "320"
@@ -537,23 +473,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Mine/Controllers/AMapAddressViewController.m"
-            timestampString = "563114363.860935"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
-            landmarkName = "AMapAddressViewController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Classses/Mine/Controllers/AMapAddressViewController.m"
-            timestampString = "563114363.860976"
+            timestampString = "564029836.491968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "232"
@@ -569,7 +489,7 @@
                   moduleName = "PattayaUser"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Classses/Mine/Controllers/AMapAddressViewController.m"
-                  timestampString = "563443808.5271029"
+                  timestampString = "564304448.45254"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "232"
@@ -584,7 +504,7 @@
                   moduleName = "PattayaUser"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Classses/Mine/Controllers/AMapAddressViewController.m"
-                  timestampString = "563443808.529284"
+                  timestampString = "564304448.454502"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "232"
@@ -599,7 +519,7 @@
                   moduleName = "PattayaUser"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Classses/Mine/Controllers/AMapAddressViewController.m"
-                  timestampString = "563443808.531428"
+                  timestampString = "564304448.456453"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "232"
@@ -616,7 +536,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Mine/Controllers/AMapAddressViewController.m"
-            timestampString = "563114363.8610131"
+            timestampString = "564029836.492021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "230"
@@ -632,7 +552,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/Mine/Controllers/AMapAddressViewController.m"
-            timestampString = "563114363.86105"
+            timestampString = "564029836.4920551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "228"
@@ -647,103 +567,8 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Classses/Mine/Views/AddressListCell.m"
-            timestampString = "563114363.861088"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "-setModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Classses/Mine/Controllers/AddressListVC.m"
-            timestampString = "563449726.0858999"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "-netRequestData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Classses/OrderList/Controllers/OrderDetailVC.m"
-            timestampString = "563443161.715054"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "719"
-            endingLineNumber = "719"
-            landmarkName = "-ybPopupMenu:didSelectedAtIndex:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[OrderDetailVC ybPopupMenu:didSelectedAtIndex:]"
-                  moduleName = "PattayaUser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Classses/OrderList/Controllers/OrderDetailVC.m"
-                  timestampString = "563443808.556051"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "719"
-                  endingLineNumber = "719"
-                  offsetFromSymbolStart = "1488">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__48-[OrderDetailVC ybPopupMenu:didSelectedAtIndex:]_block_invoke"
-                  moduleName = "PattayaUser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Classses/OrderList/Controllers/OrderDetailVC.m"
-                  timestampString = "563443808.558942"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "720"
-                  endingLineNumber = "720"
-                  offsetFromSymbolStart = "75">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.511"
-                  moduleName = "PattayaUser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yanglei/xinyijian.github.io/PattayaUser/PattayaUser/Classses/OrderList/Controllers/OrderDetailVC.m"
-                  timestampString = "563443808.561416"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "719"
-                  endingLineNumber = "719"
-                  offsetFromSymbolStart = "12">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "PattayaUser/Tools/Tool/PattayaTool.m"
-            timestampString = "563270259.310623"
+            timestampString = "564301500.544805"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "409"
@@ -759,7 +584,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Tools/Tool/PattayaTool.m"
-            timestampString = "563270259.310979"
+            timestampString = "564301500.544866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "414"
@@ -784,13 +609,77 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Classses/OrderList/Controllers/ListOrderViewController.m"
-            timestampString = "563449726.08601"
+            filePath = "PattayaUser/Classses/Order/Controllers/PaymentOrderVC.m"
+            timestampString = "563704632.857513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
-            landmarkName = "-getConsumeOrderRequest"
+            startingLineNumber = "453"
+            endingLineNumber = "453"
+            landmarkName = "-textLaberAction:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Classses/Order/Views/TakeawayShopView.m"
+            timestampString = "564055436.020793"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "-settleAccountsClick:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Classses/ViewController/WebViewController/WebHelpViewController.m"
+            timestampString = "563704632.857655"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Classses/Login/LogInViewController.m"
+            timestampString = "564055436.020866"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
+            landmarkName = "-userInfoHttp"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Tools/Network/PattayaHttpRequest.m"
+            timestampString = "563966262.792418"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "-postWithUrlPath:parameter:isNeedIndicator:success:failure:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -801,12 +690,54 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PattayaUser/Classses/OrderList/Controllers/ListOrderViewController.m"
-            timestampString = "563449726.086081"
+            timestampString = "564305250.144645"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "-getConsumeOrderRequest"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Classses/Login/LogInViewController.m"
+            timestampString = "564055436.020995"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "312"
+            endingLineNumber = "312"
+            landmarkName = "-clikeCode"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Classses/OrderList/Views/ListOrderTableViewCell.m"
+            timestampString = "564306918.7959991"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "-setModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -816,13 +747,77 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PattayaUser/Classses/OrderList/Controllers/ListOrderViewController.m"
-            timestampString = "563449726.0861371"
+            filePath = "PattayaUser/Classses/Mine/Controllers/AddNewAddressVC.m"
+            timestampString = "564306918.796085"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "-getProcessingOrderRequest"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
+            landmarkName = "-houseNumberTF"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Classses/Order/Views/TakeawayProductListCell.m"
+            timestampString = "564304448.146524"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "-setProductModel:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Tools/Network/PattAmapLocationManager.m"
+            timestampString = "564055436.021275"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "-amapLocationManager:didUpdateLocation:reGeocode:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Classses/Mine/Controllers/ChangeNicknameVC.m"
+            timestampString = "564306918.796187"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "-saveClick"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PattayaUser/Tools/Tool/PattayaTool.m"
+            timestampString = "564301500.5451159"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
+            landmarkName = "+ConvertStrToTime:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

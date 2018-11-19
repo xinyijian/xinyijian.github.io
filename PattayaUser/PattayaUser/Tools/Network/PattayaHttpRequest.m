@@ -400,7 +400,7 @@ static PattayaHttpRequest *httpRequest = nil;
     {
    
     if ([code isEqualToString:@"INVALID_ACCESS_TOKEN"]) {
-//        [PattayaTool INVALID_ACCESS_TOKEN];
+        [PattayaTool INVALID_ACCESS_TOKEN];
         BaseViewController* vc= (BaseViewController*)[PattayaTool getCurrentVC];
         BaseNavigationViewController * nav = [[BaseNavigationViewController alloc] initWithRootViewController:[[LogInViewController alloc]init]];
         [vc presentViewController:nav animated:YES completion:nil];

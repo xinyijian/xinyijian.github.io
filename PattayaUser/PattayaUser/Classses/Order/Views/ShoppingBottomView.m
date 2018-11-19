@@ -100,7 +100,7 @@
 -(void)setShopModel:(ShopModel *)shopModel{
     
     count = 0;
-    for (ProductModel *model in shopModel.goodsList) {
+    for (ProductModel *model in shopModel.gdsCategoryList) {
         count = [model.selectCount intValue] + count;
     }
     _settleAccountsBT.enabled = count > 0 ? YES : NO;
@@ -120,10 +120,9 @@
     self.countLabel.hidden = (count == 0 ? YES : NO);
     self.countLabel.text = [NSString stringWithFormat:@"%d",count];
     
-    
     NSString * stringNumber =   [NSString stringWithFormat:@"%f",totalAmount];
     NSNumber * nsNumber = @(stringNumber.floatValue);
-    self.totalAmountLabel.text = [NSString stringWithFormat:@"%@",nsNumber];
+    self.totalAmountLabel.text = [NSString stringWithFormat:@"￥%@",nsNumber];
     
     
     self.settleAccountsBT.backgroundColor = (count == 0 ? UIColorFromRGB(0x707070) : App_Nav_BarDefalutColor);

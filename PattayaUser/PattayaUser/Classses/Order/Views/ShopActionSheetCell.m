@@ -177,8 +177,8 @@
     _productModel = productModel;
     
     _productNameLabel.text = productModel.gdsName;
-    _priceLabel.text = productModel.marketPrice;
-    _originalPriceLabel.text = productModel.costPrice;
+    _priceLabel.text = [NSString stringWithFormat:@"¥%@",productModel.marketPrice];
+    _originalPriceLabel.text =[NSString stringWithFormat:@"¥%@", productModel.costPrice];
     
     _countLab.text = productModel.selectCount;
     _count = [productModel.selectCount intValue];

@@ -398,6 +398,8 @@
     webVC.httpString = @"https://www.callstore.cn/policies/user-agreements/";
     webVC.title = NSLocalizedString(@"用户协议",nil);
     [self.navigationController pushViewController:webVC animated:YES];
+    
+    
 }
 ///第三方登录回调
 - (void)otherSuccess:(NSInteger)typ NSNotification:(NSDictionary *)info
@@ -407,16 +409,16 @@
         
         _wechatModel = [[UserModel alloc] initWithDictionary:info error:nil];
         _wechatModel.loginType = @"WECHAT";
-        [self loginHttp:@{@"loginType":_wechatModel.loginType,@"openId":_wechatModel.openId,@"nickName":_wechatModel.nickname,@"unionId":_wechatModel.unionId,@"headImgUrl":_wechatModel.headImgUrl,@"sex":_wechatModel.sex,@"deviceType":@"IOS"}];
+        [self loginHttp:@{@"loginType":_wechatModel.loginType,@"openId":_wechatModel.openId,@"nickName":_wechatModel.nickName,@"unionId":_wechatModel.unionId,@"headImgUrl":_wechatModel.headImgUrl,@"sex":_wechatModel.sex,@"deviceType":@"IOS"}];
         
     }else
     {
         _wechatModel = [[UserModel alloc] init];
         _wechatModel.loginType = @"QQ";
         _wechatModel.openId = GetAppDelegate.tencentOAuth.openId;
-        _wechatModel.nickname = info[@"nickname"];
+        _wechatModel.nickName = info[@"nickname"];
         _wechatModel.headImgUrl = info[@"headImgUrl"];
-        [self loginHttp:@{@"loginType":_wechatModel.loginType,@"openId":_wechatModel.openId,@"nickName":_wechatModel.nickname,@"headImgUrl":_wechatModel.headImgUrl,@"deviceType":@"IOS"}];
+        [self loginHttp:@{@"loginType":_wechatModel.loginType,@"openId":_wechatModel.openId,@"nickName":_wechatModel.nickName,@"headImgUrl":_wechatModel.headImgUrl,@"deviceType":@"IOS"}];
     }
 }
 

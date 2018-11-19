@@ -9,6 +9,7 @@
 #import "AccountSafeVC.h"
 #import "QNUploadManager.h"
 #import "QNConfiguration.h"
+#import "ChangeNicknameVC.h"
 #define HEADTITLES @[@"  基本信息",@"  账号绑定"]
 #define IMAGES @[@"icon_wechat",@"icon_QQ"]
 
@@ -205,9 +206,8 @@
 //            self.name.delegate = self;
 //            self.name.text = _userModel.mobile;
 //            [cell.contentView addSubview:self.name];
-//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-            cell.detailTextLabel.text = _userModel.userSocialLinks.count > 0 ? _userModel.userSocialLinks[0][@"nickName"] : _userModel.userName;;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.detailTextLabel.text = [PattayaTool isNull:_userModel.nickName] ? _userModel.userName : _userModel.nickName;
             cell.detailTextLabel.textColor = UIColorFromRGB(0x4A4A4A);
         }
         
@@ -251,10 +251,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    if (indexPath.row == 0 && indexPath.section == 0) {
-        NSLog(@"选择头像");
-        [self hideKeyBoard];
-        [self alterHeadPortrait];
+    if (indexPath.section == 0) {
+        
+        if (indexPath.row == 0) {
+            NSLog(@"选择头像");
+            [self hideKeyBoard];
+            [self alterHeadPortrait];
+        }else  if (indexPath.row == 2) {
+            
+            ChangeNicknameVC *vc = [[ChangeNicknameVC alloc]init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+       
         
     }else if (indexPath.section == 1){
         // NSLog(@"点击绑定");
@@ -623,7 +632,7 @@
              [[NSNotificationCenter defaultCenter] postNotificationName:@"KdUserInfoHtppLoad" object:nil];
         } else
         {
-            [YDProgressHUD showHUD:@"message"];
+            [YDProgressHUD showMessage:@"message"];
         }
         [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {

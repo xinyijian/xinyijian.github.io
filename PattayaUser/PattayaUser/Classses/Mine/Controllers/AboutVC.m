@@ -7,6 +7,7 @@
 //
 
 #import "AboutVC.h"
+#import "WebHelpViewController.h"
 
 @interface AboutVC ()
 
@@ -85,7 +86,13 @@
     
 }
 
+
 -(void)textLaberAction:(UITapGestureRecognizer *)tap{
+    
+    WebHelpViewController * webVC = [[WebHelpViewController alloc] init];
+    webVC.httpString = @"https://www.callstore.cn/policies/user-agreements/";
+    webVC.title = NSLocalizedString(@"用户协议",nil);
+    [self.navigationController pushViewController:webVC animated:YES];
     
 }
 

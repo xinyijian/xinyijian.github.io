@@ -82,6 +82,7 @@
         
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"KdUserInfoHtppLoad" object:nil];
     }];
     return YES;
 }

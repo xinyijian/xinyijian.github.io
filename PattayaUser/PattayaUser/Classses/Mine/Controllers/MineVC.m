@@ -198,7 +198,7 @@
         NSLog(@"%@",ret);
         if ([ResponseModel isData:ret]) {
             _userModel = [[UserModel alloc] initWithDictionary:ret[@"data"] error:nil];
-            self.nameLabel.text = _userModel.userSocialLinks.count>0 ? _userModel.userSocialLinks[0][@"nickName"] : _userModel.userName;
+            self.nameLabel.text = [PattayaTool isNull:_userModel.nickName] ? _userModel.userName : _userModel.nickName;
             self.numberLabel.text = _userModel.mobile;
             NSString *url = (_userModel.headImgUrl) ? (_userModel.headImgUrl) : (_userModel.userSocialLinks.count > 0 ? _userModel.userSocialLinks[0][@"headImgUrl"] : @"");
             [self.headImg sd_setImageWithURL:[NSURL URLWithString:url]  placeholderImage:[UIImage imageNamed:@"main_cell_headImg_bg"]];
@@ -211,6 +211,10 @@
             [YDProgressHUD showMessage:ret[@"message"]];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        self.nameLabel.text = @"";
+        self.numberLabel.text = @"";
+        self.headImg.image = [UIImage imageNamed:@"main_cell_headImg_bg"];
+        _userModel = nil;
         
     }];
 }

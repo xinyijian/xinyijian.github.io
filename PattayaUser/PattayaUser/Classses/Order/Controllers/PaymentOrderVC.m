@@ -333,7 +333,7 @@
     
     
     //添加跳转事件
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToShopAddress:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToShopAddress)];
     UIView *tapView = [[UIView alloc]init];
     [bgView addSubview:tapView];
     [tapView activateConstraints:^{
@@ -527,7 +527,9 @@
 {
     if (!_paymentSuccessView) {
         _paymentSuccessView = [[PaymentSuccessView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_Width, SCREEN_Height - TopBarHeight)];
+        _paymentSuccessView.driverMobile = _driverMobile;
         _paymentSuccessView.hidden = YES;
+        [_paymentSuccessView.contactBT addTarget:self action:@selector(goToShopAddress) forControlEvents:UIControlEventTouchUpInside];
         _paymentSuccessView.totalAmountLabel.text = [NSString stringWithFormat:@"￥%0.2f",marketPrice];
         [_paymentSuccessView.completeBT addTarget:self action:@selector(completeClick) forControlEvents:UIControlEventTouchUpInside];
 
@@ -536,7 +538,7 @@
 }
 
 #pragma mark - 导航跳转
--(void)goToShopAddress:(UITapGestureRecognizer *)tap{
+-(void)goToShopAddress{
     //[PattayaTool goNavtionMap:_shopModel.lat log:_shopModel.lon];
     
    UIAlertController * alert = [PattayaTool showMapNavigationViewFormcurrentLatitude:[PattAmapLocationManager singleton].lat.doubleValue currentLongitute:[PattAmapLocationManager singleton].lng.doubleValue TotargetLatitude:_shopModel.lat.doubleValue targetLongitute:_shopModel.lon.doubleValue toName:_shopModel.name];

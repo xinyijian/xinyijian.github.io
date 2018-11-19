@@ -35,7 +35,13 @@
         self.webView.left_attr = self.view.left_attr_safe;
     }];
     self.webView.backgroundColor = [UIColor whiteColor];
-    [self loadString:_httpString];
+    //[self loadString:_httpString];
+    
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"叮咚叫店APP协议20181026" ofType:@"html"];
+    NSString *htmlString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    NSURL *url = [[NSURL alloc] initWithString:filePath];
+    [self.webView loadHTMLString:htmlString baseURL:url];
     // Do any additional setup after loading the view.
 }
 

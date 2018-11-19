@@ -39,11 +39,28 @@ extern CFAbsoluteTime StartTime;
     //    double launchTime = (CFAbsoluteTimeGetCurrent() - StartTime);
 //    [PattayaTool INVALID_ACCESS_TOKEN];
     
-    AnimationViewController *KNVC = [[AnimationViewController alloc]init];
-    // 1、获取媒体资源地址
-    NSString *path =  [[NSBundle mainBundle] pathForResource:@"min.mp4" ofType:nil];
-    KNVC.movieURL = [NSURL fileURLWithPath:path];
-    self.window.rootViewController = KNVC;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];//取version版本
+    NSString *oldVersion = [userDefaults objectForKey:@"oldVersion"];
+    if ([self versionCompareFirst:currentVersion andVersionSecond:oldVersion]) {
+        // 更新版本时显示视频
+        
+        AnimationViewController *KNVC = [[AnimationViewController alloc]init];
+        // 1、获取媒体资源地址
+        NSString *path =  [[NSBundle mainBundle] pathForResource:@"min.mp4" ofType:nil];
+        KNVC.movieURL = [NSURL fileURLWithPath:path];
+        self.window.rootViewController = KNVC;
+        
+        [userDefaults setObject:currentVersion forKey:@"oldVersion"];
+        [userDefaults synchronize];
+    }else{
+        
+        [self getTabbarVC];
+        
+        [userDefaults setObject:currentVersion forKey:@"oldVersion"];
+        [userDefaults synchronize];
+    }
+  
     
     NSLog(@"---");
     application.applicationIconBadgeNumber = 0;
@@ -277,6 +294,69 @@ extern CFAbsoluteTime StartTime;
         
     }];
 }
+
+#pragma mark - 版本号比较 first > second return YES   否则 return NO
+// 方法调用
+- (BOOL)versionCompareFirst:(NSString *)first andVersionSecond: (NSString *)second
+{
+    NSArray *versions1 = [first componentsSeparatedByString:@"."];
+    NSArray *versions2 = [second componentsSeparatedByString:@"."];
+    NSMutableArray *ver1Array = [NSMutableArray arrayWithArray:versions1];
+    NSMutableArray *ver2Array = [NSMutableArray arrayWithArray:versions2];
+    // 确定最大数组
+    NSInteger a = (ver1Array.count> ver2Array.count)?ver1Array.count : ver2Array.count;
+    // 补成相同位数数组
+    if (ver1Array.count < a) {
+        for(NSInteger j = ver1Array.count; j < a; j++)
+        {
+            [ver1Array addObject:@"0"];
+        }
+    }
+    else
+    {
+        for(NSInteger j = ver2Array.count; j < a; j++)
+        {
+            [ver2Array addObject:@"0"];
+        }
+    }
+    // 比较版本号
+    int result = [self compareArray1:ver1Array andArray2:ver2Array];
+    if(result == 1)
+    {
+        NSLog(@"V1 > V2");
+        return YES;
+    }
+    else if (result == -1)
+    {
+        NSLog(@"V1 < V2");
+        return NO;
+    }
+    else if (result == 0)
+    {
+        NSLog(@"V1 = V2");
+        return NO;
+    }
+    return YES;
+}
+
+// 比较版本号
+- (int)compareArray1:(NSMutableArray *)array1 andArray2:(NSMutableArray *)array2
+{
+    for (int i = 0; i< array2.count; i++) {
+        NSInteger a = [[array1 objectAtIndex:i] integerValue];
+        NSInteger b = [[array2 objectAtIndex:i] integerValue];
+        if (a > b) {
+            return 1;
+        }
+        else if (a < b)
+        {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+
 
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

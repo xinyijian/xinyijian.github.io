@@ -13,6 +13,8 @@
 #import "PaymentOrderVC.h"
 #import "NewShopModel.h"
 #import "NewShopListModel.h"
+#import "BaseViewController.h"
+#import "LogInViewController.h"
 @interface TakeawayShopView()<ShopScrollViewDelegate,CAAnimationDelegate>
 {
     
@@ -181,7 +183,7 @@
 #pragma mark - 顶部视图
 -(void)setHeaderView{
     //顶部视图
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, IPhone_7_Scale_Height(10), self.width,ShopHeadH-IPhone_7_Scale_Height(20))];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, IPhone_7_Scale_Height(10), self.width,ShopHeadH-IPhone_7_Scale_Height(40))];
     headerView.backgroundColor = UIColorWhite;
     headerView.userInteractionEnabled = YES;
     [self addSubview:headerView];
@@ -200,9 +202,11 @@
     
     [self addSubview:self.promotionImg1];
     [self addSubview: self.promotionImg2];
+    self.promotionImg2.hidden = YES;
     [self addSubview:self.promotionLabel];
     [self addSubview:self.promotionLabel2];
-  
+    self.promotionLabel2.hidden = YES;
+    
 }
 #pragma mark - 商品
 - (ShopScrollView *)productListView
@@ -250,6 +254,16 @@
 
 #pragma mark -去结算
 -(void)settleAccountsClick:(UIButton *)btn{
+    if (![PattayaTool isUserLogin]) {
+        
+        BaseViewController* vc= (BaseViewController*)[PattayaTool getCurrentVC];
+        BaseNavigationViewController * nav = [[BaseNavigationViewController alloc] initWithRootViewController:[[LogInViewController alloc]init]];
+        [vc presentViewController:nav animated:YES completion:nil];
+        
+        return;
+
+    }
+   
     NSLog(@"去结算");
     [_uploadArray removeAllObjects];
     for (NSArray *array in _model.productArray) {
@@ -278,6 +292,7 @@
                 vc.productArray = _productArray;
                 vc.shopModel = _shopModel;
                 vc.payBusinessCode = str;
+                vc.driverMobile = ret[@"data"][@"driverMobile"];
                 [[self getController].navigationController pushViewController:vc animated:YES];
             }
         }else
@@ -373,7 +388,7 @@
         _licenseTag = [[UILabel alloc]initWithFrame:CGRectMake(self.hotImg.YD_right + IPhone_7_Scale_Width(10) ,self.nameLabel.YD_bottom+ IPhone_7_Scale_Height(10), 0, IPhone_7_Scale_Height(17))];
         _licenseTag.textColor = TextGrayColor;
         _licenseTag.font = K_LABEL_SMALL_FONT_12;
-        _licenseTag.text = _shopModel.deviceNo;
+        _licenseTag.text = _shopModel.licenceNo;
         [_licenseTag sizeToFit];
     }
     return _licenseTag;

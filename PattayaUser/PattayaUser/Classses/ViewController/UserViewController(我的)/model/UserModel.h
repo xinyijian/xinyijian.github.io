@@ -11,7 +11,7 @@
 @interface UserModel : JSONModel
 ///获取微信信息用的
 @property (nonatomic, strong) NSString <Optional>* openId;
-@property (nonatomic, strong) NSString <Optional>* nickname;
+@property (nonatomic, strong) NSString <Optional>* nickName;
 @property (nonatomic, strong) NSString <Optional>* headImgUrl;
 @property (nonatomic, strong) NSString <Optional>* unionId;
 @property (nonatomic, strong) NSString <Optional>* sex;

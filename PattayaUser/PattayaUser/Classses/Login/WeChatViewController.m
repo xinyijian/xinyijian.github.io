@@ -272,7 +272,8 @@
             return;
         }
         
-        [self loginHttp:@{@"loginType":_model.loginType,@"openId":_model.openId,@"nickName":_model.nickname,@"headImgUrl":_model.headImgUrl,@"mobile":_moblieName.text,@"messageAlias":@"PUB_SIGNIN",@"verifyCode":_codeField.text,@"deviceType":@"IOS",@"deviceToken":_moblieName.text}];
+        [self loginHttp:@{@"loginType":_model.loginType,@"openId":_model.openId,@"nickName":_model.nickName
+                          ,@"headImgUrl":_model.headImgUrl,@"mobile":_moblieName.text,@"messageAlias":@"PUB_SIGNIN",@"verifyCode":_codeField.text,@"deviceType":@"IOS",@"deviceToken":_moblieName.text}];
         
     } else
     {

@@ -14,8 +14,8 @@
 #import "RefundVC.h"
 #import "EvaluateOrderVC.h"
 
-#define TITLES @[@"联系客服", @"申请退款",@"删除订单"]
-#define ICONS  @[@"icon_phonecall",@"icon_ refund",@"icon_deleteorder"]
+#define TITLES @[@"联系客服",@"删除订单"]
+#define ICONS  @[@"icon_phonecall",@"icon_deleteorder"]
 
 #define TITLES2 @[@"联系客服"]
 #define ICONS2  @[@"icon_phonecall"]
@@ -63,7 +63,7 @@
     NSString * paymentDESC = [PattayaTool isNull:_orderModel.paymentTypeIdDESC] ? @"" : _orderModel.paymentTypeIdDESC;
     
     if (_enterType == 1) {
-        _arrdata = @[[PattayaTool ConvertStrToTime:_orderModel.createTime]];
+        _arrdata = @[[PattayaTool ConvertStrToTime:_proccesingModel.timeCreated]];
         _arrTiltle = @[@"下单时间"];
     }else {
         _arrdata = @[_orderModel.id,[PattayaTool ConvertStrToTime:_orderModel.createTime],paymentDESC,
@@ -93,12 +93,28 @@
 
 -(void)netRequestData{
     if (_enterType == 1 ) {
-        if ( [_proccesingModel.status isEqualToString:@"CALLING"]) {
-            self.timeNumber = _proccesingModel.timeLeft ? [_proccesingModel.timeLeft integerValue] : 5;
-            [self timeNumss];
-        }else{
-             [self checkCreateOrderRequest];
-        }
+        @weakify(self);
+        [[PattayaUserServer singleton] getcallorderRequest:_proccesingModel.id Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+            NSLog(@"%@",ret);
+            @strongify(self);
+            if ([ResponseModel isData:ret]) {
+                
+                if ( [ret[@"data"][@"status"] isEqualToString:@"CALLING"]) {
+                    self.timeNumber = ret[@"data"][@"timeLeft"] ? [ret[@"data"][@"timeLeft"] integerValue] : 300;
+                    [self timeNumss];
+                    
+                }else{
+                    [self checkCreateOrderRequest];
+                }
+
+            } else
+            {
+                [YDProgressHUD showMessage:ret[@"message"]];
+            }
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+            
+        }];
+        
        
     }
 
@@ -139,7 +155,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        return IPhone_7_Scale_Height(136);
+        return _enterType == 1 ?  IPhone_7_Scale_Height(136) : IPhone_7_Scale_Height(68);
     }
    
     return  0;
@@ -165,7 +181,7 @@
 //footerBgView模式1
 -(void)createFooterBgviewMode1{
     
-    _footerBgViewMode1 = [[UIView alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(8), 1, SCREEN_Width - IPhone_7_Scale_Width(8*2),  IPhone_7_Scale_Height(136))];
+    _footerBgViewMode1 = [[UIView alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(8), 1, SCREEN_Width - IPhone_7_Scale_Width(8*2),  _enterType == 1 ?  IPhone_7_Scale_Height(136) : IPhone_7_Scale_Height(68))];
     _footerBgViewMode1.backgroundColor = UIColorWhite;
     //[footView addSubview:_footerBgViewMode1];
     
@@ -176,9 +192,8 @@
     _footerBgViewMode1.layer.mask = maskLayer;
     
    
-    if (self.enterType != 1) {
+    if (self.enterType == 1) {
         
-    }
         UIImageView *discountImg = [[UIImageView alloc]init];
         discountImg.image = [UIImage imageNamed:@"tag_jianmian"];
         [_footerBgViewMode1 addSubview:discountImg];
@@ -190,17 +205,6 @@
             
         }];
         
-//        UIImageView *firstRedPacketImg = [[UIImageView alloc]init];
-//        firstRedPacketImg.image = [UIImage imageNamed:@"tag_discount"];
-//        [_footerBgViewMode1 addSubview:firstRedPacketImg];
-//        [firstRedPacketImg activateConstraints:^{
-//            [firstRedPacketImg.left_attr equalTo:_footerBgViewMode1.left_attr constant:IPhone_7_Scale_Width(12)];
-//            firstRedPacketImg.height_attr.constant = IPhone_7_Scale_Height(21);
-//            firstRedPacketImg.width_attr.constant = IPhone_7_Scale_Height(52);
-//            [firstRedPacketImg.top_attr equalTo:discountImg.bottom_attr constant:IPhone_7_Scale_Height(9)];
-//
-//        }];
-    
         _discountLabel = [[UILabel alloc] init];
         _discountLabel.text = @"-￥9.00";
         _discountLabel.font = K_LABEL_SMALL_FONT_14;
@@ -213,18 +217,6 @@
             _discountLabel.height_attr.constant = IPhone_7_Scale_Height(22);
         }];
         
-//        _redPacketLabel = [[UILabel alloc] init];
-//        _redPacketLabel.text = @"-￥6.00";
-//        _redPacketLabel.font = K_LABEL_SMALL_FONT_14;
-//        _redPacketLabel.textColor = UIColorFromRGB(0xF55E23);
-//        [_redPacketLabel sizeToFit];
-//        [_footerBgViewMode1 addSubview: _redPacketLabel];
-//        [_redPacketLabel activateConstraints:^{
-//            [_redPacketLabel.right_attr equalTo:_footerBgViewMode1.right_attr constant:IPhone_7_Scale_Width(-13)];
-//            [_redPacketLabel.top_attr equalTo:_discountLabel.bottom_attr constant:IPhone_7_Scale_Height(10)];
-//            _redPacketLabel.height_attr.constant = IPhone_7_Scale_Height(22);
-//        }];
-    
         //分割线
         _lineView = [[UIView alloc] init];
         _lineView.backgroundColor = UIColorFromRGB(0xEBEBEB);
@@ -235,9 +227,9 @@
             [_lineView.top_attr equalTo:_discountLabel.bottom_attr constant:IPhone_7_Scale_Height(23)];
             _lineView.height_attr.constant = 1;
         }];
-    
-    
-   
+        
+        
+    }
 
     //价格
     _picesLabel= [[UILabel alloc] init];
@@ -248,7 +240,7 @@
     [_footerBgViewMode1 addSubview:_picesLabel];
     [_picesLabel activateConstraints:^{
        
-        [_picesLabel.top_attr equalTo:_lineView.bottom_attr constant:IPhone_7_Scale_Height(10)];
+        [_picesLabel.top_attr equalTo:_enterType==1 ?_lineView.bottom_attr : _footerBgViewMode1.top_attr constant:IPhone_7_Scale_Height(10)];
         [_picesLabel.right_attr equalTo:_footerBgViewMode1.right_attr constant:IPhone_7_Scale_Width(-13)];
         _picesLabel.height_attr.constant = IPhone_7_Scale_Height(27);
     }];
@@ -276,7 +268,7 @@
     if (self.enterType != 1) {
         
     }
-        _totalDiscountLabel.hidden = YES;
+    _totalDiscountLabel.hidden = YES;
     
     [_totalDiscountLabel activateConstraints:^{
         [_totalDiscountLabel.top_attr equalTo:_picesLabel.bottom_attr];
@@ -372,6 +364,7 @@
         }
         _label2.text = str2;
         _label2.font = K_LABEL_SMALL_FONT_14;
+        
         _label2.textColor = UIColorFromRGB(0x4A4A4A);
         [_label2 sizeToFit];
         [bgView addSubview: _label2];
@@ -701,7 +694,7 @@
         
         NSLog(@"联系客服");
         
-        NSMutableString * string = [[NSMutableString alloc] initWithFormat:@"tel:%@",@"4001177928"];
+        NSMutableString * string = [[NSMutableString alloc] initWithFormat:@"tel:%@",@"021-52900810-8038"];
         UIWebView * callWebview = [[UIWebView alloc] init];[callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:string]]];
         [self.view addSubview:callWebview];
    
@@ -709,11 +702,10 @@
         
     }else if (index == 1){
         
-        NSLog(@"申请退款");
-        RefundVC *vc = [[RefundVC alloc]init];
-        [self.navigationController pushViewController:vc animated:YES];
+//        NSLog(@"申请退款");
+//        RefundVC *vc = [[RefundVC alloc]init];
+//        [self.navigationController pushViewController:vc animated:YES];
         
-    }else if (index == 2){
         NSLog(@"删除订单");
         WEAK_SELF;
         [[PattayaUserServer singleton] orderCancelRequest:_orderModel.id storeId:_orderModel.storeId success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
@@ -722,14 +714,18 @@
             
         }];
         
+    }else if (index == 2){
+       
+        
     }
 }
 
 - (void)checkCreateOrderRequest
 {
     
-    WS(weakSelf);
+   @weakify(self);
     [[PattayaUserServer singleton] checkCreateOrderRequest:@{@"endLatitude":_proccesingModel.userCallLatitude,@"endLongitude":_proccesingModel.userCallLongitude,@"startLatitude":@"30",@"startLongitude":@"120"} Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        @strongify(self);
         if ([ResponseModel isData:ret]) {//_proccesingModel.driverAcceptedLatitude//_proccesingModel.driverAcceptedLongitude
             NSString * st1= NSLocalizedString(@"距离：",nil);
             NSString * st2= NSLocalizedString(@"大约需要",nil);
@@ -758,7 +754,15 @@
     dispatch_source_set_event_handler(timer, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             if (second == 0) {
-                [self.navigationController popViewControllerAnimated:YES];
+                //自动取消订单
+                [[PattayaUserServer singleton] PUTcallorderRequest:_proccesingModel.id Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+                    if ([ResponseModel isData:ret]) {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+                    
+                }];
+                
                 second = _timeNumber;
                 //(6)
                 dispatch_cancel(timer);

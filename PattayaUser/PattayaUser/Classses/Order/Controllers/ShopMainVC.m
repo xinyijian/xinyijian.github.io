@@ -39,15 +39,15 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callStore:)];
     [self.shakeImg addGestureRecognizer:tap];
         
-    [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction animations:^{
-        self.shakeImg.frame = CGRectMake( IPhone_7_Scale_Width(258), - IPhone_7_Scale_Width(85)/90*150/2, IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(85)/90*150);
+    [UIView animateWithDuration:0.7 delay:0.0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction animations:^{
+        self.shakeImg.frame = CGRectMake( IPhone_7_Scale_Width(258), - IPhone_7_Scale_Width(85)/92*150/2 + IPhone_7_Scale_Height(10), IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(85)/92*150);
         
     } completion:^(BOOL finished) {
         
         //开始摆动动画
         CABasicAnimation *momAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-        momAnimation.fromValue = [NSNumber numberWithFloat:-0.3];
-        momAnimation.toValue = [NSNumber numberWithFloat:0.3];
+        momAnimation.fromValue = [NSNumber numberWithFloat:-0.1];
+        momAnimation.toValue = [NSNumber numberWithFloat:0.1];
         momAnimation.duration = 0.3;
         momAnimation.repeatCount = 2;
         momAnimation.autoreverses = YES;
@@ -62,7 +62,7 @@
 
 - (UIImageView *)shakeImg {
     if (!_shakeImg) {
-        _shakeImg = [[UIImageView alloc]initWithFrame:CGRectMake( IPhone_7_Scale_Width(258), -IPhone_7_Scale_Width(85)/90*150, IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(85)/90*150)];
+        _shakeImg = [[UIImageView alloc]initWithFrame:CGRectMake( IPhone_7_Scale_Width(258), -IPhone_7_Scale_Width(85)/92*150, IPhone_7_Scale_Width(85), IPhone_7_Scale_Width(85)/92*150)];
         _shakeImg.image = [UIImage imageNamed:@"shake"];
         _shakeImg.userInteractionEnabled = YES;
     }

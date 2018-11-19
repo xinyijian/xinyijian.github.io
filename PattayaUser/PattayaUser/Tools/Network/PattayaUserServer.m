@@ -346,4 +346,15 @@
         failureResult(operation,error);
     }];
 }
+
+
+#pragma mark ---PUT user/updateNikename 修改昵称
+- (void)PUTupdateNikenameRequest:(NSDictionary *)dic Success:(void (^)(NSURLSessionDataTask *operation,NSDictionary *ret))successResult failure:(void (^)(NSURLSessionDataTask *operation,NSError *error))failureResult
+{
+    [[PattayaHttpRequest sharedHttpManager] PUTWithUrlPath:[NSString stringWithFormat:@"user/"] parameter:dic isNeedIndicator:YES success:^(NSURLSessionDataTask *operation, NSDictionary *responesObject) {
+        successResult(operation,responesObject);
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        failureResult(operation,error);
+    }];
+}
 @end

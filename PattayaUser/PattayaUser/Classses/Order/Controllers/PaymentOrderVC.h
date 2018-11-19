@@ -20,4 +20,7 @@
 
 @property (nonatomic, strong) ShopModel *shopModel;
 
+@property (nonatomic,strong) NSString *driverMobile;
+
+
 @end

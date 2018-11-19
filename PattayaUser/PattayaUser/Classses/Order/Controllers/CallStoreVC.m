@@ -51,6 +51,9 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
 @property (nonatomic, strong) MANaviRoute *naviRoute;
 @property (nonatomic, assign) BOOL isaddress;
 
+@property (nonatomic, strong) AddressModel *addressModel;
+
+
 @end
 
 @implementation CallStoreVC
@@ -265,11 +268,11 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
 
 - (UILabel *)destinationLabel {
     if (!_destinationLabel) {
-        _destinationLabel = [[UILabel alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(25) ,IPhone_7_Scale_Height(17), 0, IPhone_7_Scale_Height(20))];
+        _destinationLabel = [[UILabel alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(25) ,IPhone_7_Scale_Height(17), 300, IPhone_7_Scale_Height(20))];
         _destinationLabel.text = @"目的地：长宁区1488弄99号113房";
         _destinationLabel.font = [UIFont boldSystemFontOfSize:14];
         _destinationLabel.textColor = TextColor;
-        [_destinationLabel sizeToFit];
+        //[_destinationLabel sizeToFit];
        
     }
     return _destinationLabel;
@@ -278,11 +281,11 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
 
 - (UILabel *)numberLabel {
     if (!_numberLabel) {
-        _numberLabel = [[UILabel alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(25) ,self.destinationLabel.YD_bottom+ IPhone_7_Scale_Height(12), 0, IPhone_7_Scale_Height(20))];
-        _numberLabel.text = @"杨先生 15098767890";
+        _numberLabel = [[UILabel alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(25) ,self.destinationLabel.YD_bottom+ IPhone_7_Scale_Height(12), 300, IPhone_7_Scale_Height(20))];
+        _numberLabel.text = [NSString stringWithFormat:@"%@ %@",[PattayaTool driName],[PattayaTool mobileDri]];
         _numberLabel.font = K_LABEL_SMALL_FONT_14;
         _numberLabel.textColor = TextColor;
-        [_numberLabel sizeToFit];
+       // [_numberLabel sizeToFit];
     }
     return _numberLabel;
 }
@@ -327,21 +330,31 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
     
     //[_paymentActionSheetView showView];
     WEAK_SELF;
-  NSDictionary *  dic = @{@"userCallFormattedAddress":@"杨磊的地址",@"userCallLatitude":@"31.21432",@"userCallLongitude":@"121.3852",@"vehicleId":_shopModel.dbStoreId,@"userMobile":@"17621224265",@"userName":@"杨磊",@"orderType":@"NORMAL"};
+    NSDictionary *  dic;
+    if (_addressModel) {
+        dic = @{@"userCallFormattedAddress":_addressModel.formattedAddress,@"userCallLatitude":_addressModel.latitude,@"userCallLongitude":_addressModel.longitude,@"vehicleId":_shopModel.dbStoreId,@"userMobile":_addressModel.contactMobile,@"userName":_addressModel.contactName,@"orderType":@"NORMAL"};
+        
+    }else{
+           dic = @{@"userCallFormattedAddress":_Component,@"userCallLatitude":[NSString stringWithFormat:@"%f",self.addressLocation.location.latitude],@"userCallLongitude":[NSString stringWithFormat:@"%f",self.addressLocation.location.longitude],@"vehicleId":_shopModel.dbStoreId,@"userMobile":[PattayaTool mobileDri],@"userName":[PattayaTool driName],@"orderType":@"NORMAL"};
+        
+    }
+  
+ 
+    
     [[PattayaUserServer singleton] callOrderRequest:dic Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         
         if ([ResponseModel isData:ret ]) {
             [YDProgressHUD showMessage:@"下单成功，等待接单"];
             [weakSelf.navigationController popToRootViewControllerAnimated:YES];
         }else{
-             [YDProgressHUD showMessage:@"下单失败，请重试"];
+             [YDProgressHUD showMessage:@"下单失败，请检查是否有进行中订单"];
         }
        
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         [YDProgressHUD showMessage:@"下单失败，请重试"];
     }];
     
-    
+
 }
 
 #pragma mark - 收缩视图
@@ -369,7 +382,7 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
             
             _Component = response.regeocode.formattedAddress;
             _destinationLabel.text = _Component;
-            _locationLabel.text = _Component;
+            //_locationLabel.text = _Component;
         }
         StorePointAnView *annotation = [[StorePointAnView alloc] init];
         annotation.coordinate = CLLocationCoordinate2DMake(_shopModel.lat.floatValue, _shopModel.lon.floatValue);
@@ -515,6 +528,7 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
     AddressListVC * addresVC = [[AddressListVC alloc] init];
     addresVC.isCallOrder = YES;
     addresVC.addressBlock = ^(AddressModel *model) {
+        _addressModel = model;
         self.isaddress = NO;
         _destinationLabel.text = model.formattedAddress;
         _numberLabel.text = [NSString stringWithFormat:@"%@ %@",model.contactName,model.contactMobile];

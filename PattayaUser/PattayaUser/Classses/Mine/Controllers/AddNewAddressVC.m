@@ -28,8 +28,8 @@
 
 @property (nonatomic,strong) UIButton * saveBT;//保存
 
-@property (nonatomic,strong) AMapPOI * location;//保存
-@property (nonatomic,strong) NSString * adcode;//保存
+@property (nonatomic,strong) AMapPOI * location;//
+@property (nonatomic,strong) NSString * adcode;//
 
 
 @end
@@ -129,24 +129,15 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-    }
+    
     cell.textLabel.text = TITLES[indexPath.row];
     cell.textLabel.font = K_LABEL_SMALL_FONT_14;
     cell.textLabel.textColor = TextColor;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+//---------------
     if (indexPath.row == 0) {
-       
         //修改姓名
-        self.nameTF = [[UITextField alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
-        self.nameTF.returnKeyType = UIReturnKeyDone;
-        self.nameTF.textColor = TextColor;
-        self.nameTF.placeholder = @"姓名";
-        self.nameTF.font = [UIFont systemFontOfSize:14];
-        self.nameTF.delegate = self;
-        self.nameTF.text = _model ? _model.contactName : @"";
         [cell.contentView addSubview:self.nameTF];
-        
     }
     
     if (indexPath.row == 1){
@@ -188,37 +179,21 @@
     if (indexPath.row == 2) {
         
         //电话
-        self.phoneTF = [[UITextField alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
-        self.phoneTF.returnKeyType = UIReturnKeyDone;
-        self.phoneTF.keyboardType = UIKeyboardTypeNumberPad;
-        self.phoneTF.textColor = TextColor;
-        self.phoneTF.placeholder = @"手机号码";
-        self.phoneTF.font = [UIFont systemFontOfSize:14];
-        self.phoneTF.delegate = self;
-        self.phoneTF.text = _model ? _model.contactMobile : @"";
+      
         [cell.contentView addSubview:self.phoneTF];
         
         
     }
     
     if (indexPath.row == 3) {
-        _addressLabel = [[UILabel alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
-        _addressLabel.text = @"";
-        _addressLabel.text = _model ? _model.formattedAddress : @"";
-        _addressLabel.textColor = TextColor;
-        _addressLabel.font = K_LABEL_SMALL_FONT_14;
-        [cell.contentView addSubview:_addressLabel];
+       
+        [cell.contentView addSubview:self.addressLabel];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     if (indexPath.row == 4) {
-        _houseNumberTF = [[UITextField alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
-        _houseNumberTF.text = _model ? _model.houseNumber : @"";
-        _houseNumberTF.textColor = TextColor;
-        _houseNumberTF.font = K_LABEL_SMALL_FONT_14;
-        _houseNumberTF.delegate = self;
-        self.houseNumberTF.text = _model ? _model.houseNumber : @"";
-        [cell.contentView addSubview:_houseNumberTF];
+       //
+        [cell.contentView addSubview:self.houseNumberTF];
         
     }
     
@@ -262,6 +237,8 @@
         }
         
     }
+//---------------------
+}
     
     return cell;
 }
@@ -389,7 +366,6 @@
     if (_currentTypeBT == btn) {
         return;
     };
-    
     btn.selected = YES;
     [btn setTitleColor:UIColorWhite forState:UIControlStateNormal];
     if (_currentTypeBT) {
@@ -403,6 +379,75 @@
 #pragma 保存
 -(void)saveClick{
     [self saveAddress];
+}
+
+
+#pragma 懒加载
+-(UITextField *)nameTF{
+    if (!_nameTF) {
+        
+        _nameTF = [[UITextField alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
+        _nameTF.returnKeyType = UIReturnKeyDone;
+        _nameTF.textColor = TextColor;
+        _nameTF.placeholder = @"姓名";
+        _nameTF.font = [UIFont systemFontOfSize:14];
+        _nameTF.delegate = self;
+        _nameTF.text = _model ? _model.contactName : @"";
+    }
+    
+    return _nameTF;
+}
+
+-(UITextField *)phoneTF{
+    if (!_phoneTF) {
+        
+       _phoneTF = [[UITextField alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
+       _phoneTF.returnKeyType = UIReturnKeyDone;
+       _phoneTF.keyboardType = UIKeyboardTypeNumberPad;
+       _phoneTF.textColor = TextColor;
+       _phoneTF.placeholder = @"手机号码";
+       _phoneTF.font = [UIFont systemFontOfSize:14];
+       _phoneTF.delegate = self;
+       _phoneTF.text = _model ? _model.contactMobile : @"";
+        
+    }
+    
+    return _phoneTF;
+}
+
+
+-(UITextField *)houseNumberTF{
+    if (!_houseNumberTF) {
+        
+        _houseNumberTF = [[UITextField alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
+        _houseNumberTF.returnKeyType = UIReturnKeyDone;
+        _houseNumberTF.text = _model ? _model.houseNumber : @"";
+        _houseNumberTF.textColor = TextColor;
+        _houseNumberTF.placeholder = @"例:5号楼609";
+        _houseNumberTF.font = K_LABEL_SMALL_FONT_14;
+        _houseNumberTF.delegate = self;
+        _houseNumberTF.text = _model ? _model.houseNumber : @"";
+        
+        
+    }
+    
+    return _houseNumberTF;
+}
+
+-(UILabel *)addressLabel{
+    
+    if (!_addressLabel) {
+        _addressLabel = [[UILabel alloc]initWithFrame:CGRectMake(IPhone_7_Scale_Width(85), 18, 200, 20)];
+        _addressLabel.text = @"";
+        _addressLabel.text = _model ? _model.formattedAddress : @"";
+        _addressLabel.textColor = TextColor;
+        _addressLabel.font = K_LABEL_SMALL_FONT_14;
+        
+    }
+    
+    return _addressLabel;
+    
+    
 }
 
 @end

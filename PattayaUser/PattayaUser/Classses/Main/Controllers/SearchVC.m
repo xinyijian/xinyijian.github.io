@@ -35,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    [self netRequestData];
+      [self netRequestData];
 }
 
 #pragma mark - 初始化UI
@@ -171,7 +171,7 @@
         
         [YDRefresh yd_endHeaderRefresh:self.tableView];
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-         [YDProgressHUD showMessage:@"网络异常，请重试！"];
+         //[YDProgressHUD showMessage:@"网络异常，请重试！"];
 //        [self.tableview.mj_header endRefreshing];
 //        [self.tableview.mj_footer endRefreshing];
         [YDRefresh yd_endHeaderRefresh:self.tableView];

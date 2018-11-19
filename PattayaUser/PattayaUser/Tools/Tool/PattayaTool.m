@@ -363,7 +363,7 @@
     long long time=[timeStr longLongValue];
     NSDate *d = [[NSDate alloc]initWithTimeIntervalSince1970:time/1000.0];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString*timeString=[formatter stringFromDate:d];
     return timeString;
 }
@@ -535,9 +535,9 @@
     
     /**
      15         * 中国联通：China Unicom
-     16         * 130,131,132,152,155,156,175,176,185,186
+     16         * 130,131,132,152,155,156,166,175,176,185,186
      17         */
-    NSString * CU = @"^1(3[0-2]|5[256]|7[56]|8[56])\\d{8}$";
+    NSString * CU = @"^1(3[0-2]|5[256]|6[6]|7[56]|8[56])\\d{8}$";
     
     /**
      20         * 中国电信：China Telecom

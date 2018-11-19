@@ -31,4 +31,7 @@
 /// 完成
 @property (nonatomic,strong) UIButton *completeBT;
 
+@property (nonatomic,strong) NSString *driverMobile;
+
+
 @end

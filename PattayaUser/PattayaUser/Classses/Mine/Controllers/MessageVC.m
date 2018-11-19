@@ -72,7 +72,7 @@
        
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         
-        [YDProgressHUD showMessage:@"网络异常，请重试！"];
+       // [YDProgressHUD showMessage:@"网络异常，请重试！"];
         [YDRefresh yd_endRefreshing:self.tableView next:YES];
 
     }];

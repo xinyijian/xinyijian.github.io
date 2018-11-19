@@ -88,7 +88,7 @@
     _reachTimeLabel = [[UILabel alloc] init];
     _reachTimeLabel.font = K_LABEL_SMALL_FONT_14;
     _reachTimeLabel.textColor = TextColor;
-    _reachTimeLabel.text = @"预计到达";
+    _reachTimeLabel.text = @"下单手机";
     _reachTimeLabel.textAlignment = NSTextAlignmentCenter;
     [self.bgView addSubview: _reachTimeLabel];
     [_reachTimeLabel activateConstraints:^{
@@ -103,7 +103,7 @@
     _contactLabel = [[UILabel alloc] init];
     _contactLabel.font = K_LABEL_SMALL_FONT_14;
     _contactLabel.textColor = TextColor;
-    _contactLabel.text = @"联系卖家";
+    _contactLabel.text = @"前往商店";
     _contactLabel.textAlignment = NSTextAlignmentCenter;
     [self.bgView addSubview: _contactLabel];
     [_contactLabel activateConstraints:^{
@@ -118,7 +118,7 @@
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.font = K_LABEL_SMALL_FONT_16;
     _timeLabel.textColor = App_Nav_BarDefalutColor;
-    _timeLabel.text = @"19：00";
+    _timeLabel.text = [PattayaTool mobileDri];
     [_timeLabel sizeToFit];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     [self.bgView addSubview: _timeLabel];
@@ -130,8 +130,9 @@
     
     //电话
     _contactBT = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_contactBT setImage:[UIImage imageNamed:@"phone"] forState:UIControlStateNormal];
-    [_contactBT setImage:[UIImage imageNamed:@"phone"]  forState:UIControlStateSelected];
+    [_contactBT setImage:[UIImage imageNamed:@"icon_go"] forState:UIControlStateNormal];
+    [_contactBT setImage:[UIImage imageNamed:@"icon_go"]  forState:UIControlStateSelected];
+    //[_contactBT addTarget:self action:@selector(contact) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_contactBT];
     [_contactBT activateConstraints:^{
         [_contactBT.top_attr equalTo:_contactLabel.bottom_attr constant:IPhone_7_Scale_Height(2)];
@@ -165,7 +166,16 @@
         _completeBT.centerX_attr = self.centerX_attr;
     }];
 
+}
 
+#pragma 联系卖家  前往商店
+-(void)contact{
+    
+//    NSMutableString * string = [[NSMutableString alloc] initWithFormat:@"tel:%@",_driverMobile];
+//    UIWebView * callWebview = [[UIWebView alloc] init];[callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:string]]];
+//    [self addSubview:callWebview];
+    
+ 
     
 }
 @end

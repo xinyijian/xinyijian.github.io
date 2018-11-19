@@ -254,8 +254,8 @@
 
 
 -(void)setProductModel:(NewShopListModel *)productModel{
-    
     _productModel = productModel;
+    [_productImgView sd_setImageWithURL:[NSURL URLWithString:productModel.gdsImagePath] placeholderImage:[UIImage imageNamed:@"shoplist_cell_bg"]];
     _productNameLabel.text = productModel.gdsName;
     _priceLabel.text = [NSString stringWithFormat:@"￥%@",productModel.marketPrice] ;
     _originalPriceLabel.text = [NSString stringWithFormat:@"￥%@",productModel.costPrice];

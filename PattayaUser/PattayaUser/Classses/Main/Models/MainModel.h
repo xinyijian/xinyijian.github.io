@@ -3,23 +3,16 @@
 
 @interface ProductModel : JSONModel
 
-@property (nonatomic, strong) NSString <Optional>* avatarURL;
-@property (nonatomic, strong) NSString <Optional>* barcode;
-@property (nonatomic, strong) NSString <Optional>* costPrice;
-@property (nonatomic, strong) NSString <Optional>* dbCargowayId;
-@property (nonatomic, strong) NSString <Optional>* dbGoodsId;
-@property (nonatomic, strong) NSString <Optional>* description;
-@property (nonatomic, strong) NSString <Optional>* Id;
-@property (nonatomic, strong) NSString <Optional>* identifyHarwareCode;
-@property (nonatomic, strong) NSString <Optional>* lowInventory;
-@property (nonatomic, strong) NSString <Optional>* name;
-@property (nonatomic, strong) NSString <Optional>* priceType;
-@property (nonatomic, strong) NSString <Optional>* salePrice;
-@property (nonatomic, strong) NSString <Optional>* quantity;
-@property (nonatomic, strong) NSString <Optional>* sku;
-@property (nonatomic, strong) NSString <Optional>* unit;
-@property (nonatomic, strong) NSString <Optional>* weight;
-@property (nonatomic, assign) NSString <Optional>*selectCount;
+@property (nonatomic, strong) NSString <Optional>*gdsType;
+@property (nonatomic, strong) NSString <Optional>*productBarcode;
+@property (nonatomic, strong) NSString <Optional>*gdsName;
+@property (nonatomic, strong) NSString <Optional>*marketPrice;
+@property (nonatomic, strong) NSString <Optional>*costPrice;
+@property (nonatomic, strong) NSString <Optional>*productStock;
+@property (nonatomic, strong) NSString <Optional>*createTime;
+@property (nonatomic, strong) NSString <Optional>*updateTime;
+@property (nonatomic, strong) NSString <Optional>*gdsImagePath;
+@property (nonatomic, strong) NSString <Optional>*selectCount;
 
 @end
 
@@ -36,6 +29,7 @@
 @property (nonatomic, strong) NSString <Optional>*bindingDriverId;
 @property (nonatomic, strong) NSString <Optional>*serviceFee;
 @property (nonatomic, strong) NSString <Optional>*storeAddress;
+@property (nonatomic, strong) NSString <Optional>*licenceNo;
 @property (nonatomic, strong) NSString <Optional>*enterType;
 @property (nonatomic, strong) NSString <Optional>*deviceNo;
 @property (nonatomic, strong) NSString <Optional>*Id;
@@ -45,7 +39,7 @@
 @property (nonatomic, strong) NSString <Optional>*saleAmountMonth;
 @property (nonatomic, strong) NSString <Optional>*dbStoreId;
 
-@property (nonatomic, strong) NSMutableArray <Optional,ProductModel>*goodsList;
+@property (nonatomic, strong) NSMutableArray <Optional,ProductModel>*gdsCategoryList;
 
 @end
 

@@ -38,9 +38,9 @@
 
 -(void)setItem:(ProductModel *)item {
     
-    _nameLabel.text = item.name;
-    _priceLabel.text = [NSString stringWithFormat:@"￥%@",item.salePrice];
-    [_headImage sd_setImageWithURL:[NSURL URLWithString:item.avatarURL] placeholderImage:[UIImage imageNamed:@"main_card_cell_bg"]];
+    _nameLabel.text = item.gdsName;
+    _priceLabel.text = [NSString stringWithFormat:@"￥%@",item.marketPrice];
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:item.gdsImagePath] placeholderImage:[UIImage imageNamed:@"main_card_cell_bg"]];
 }
 
 #pragma mark - 懒加载

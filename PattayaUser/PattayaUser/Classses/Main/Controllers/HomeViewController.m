@@ -123,21 +123,30 @@
 }
 
 -(void)netRequestData{
+    [PattAmapLocationManager singleton].isLocation = NO;//因为后台一直在定位，所以手动控制一下
     
     WS(weakSelf);
     [PattAmapLocationManager singleton].locationBlock = ^(CLLocation *location, NSString *address) {
         weakSelf.locationLabel.text = address;
-        //[weakSelf netRequestData];
+        [weakSelf searchStoreByLatitude:[NSString stringWithFormat:@"%f",location.coordinate.latitude] longitude:[NSString stringWithFormat:@"%f",location.coordinate.longitude]];
         
     };
     
-   
-    [[PattayaUserServer singleton]  SeachStoreCodeRequest:nil success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
-        NSLog(@"%@",ret);
-        
-       _mainModel = [[MainModel alloc]initWithDictionary:ret[@"data"] error:nil];
-        _cardSwitch.items = _mainModel.content;
+}
 
+-(void)searchStoreByLatitude:(NSString *)latitude longitude:(NSString *)longitude{
+    
+    NSDictionary *dic = @{
+                          @"latitude":latitude,
+                          @"longitude":longitude,
+                          
+                          };
+    
+    [[PattayaUserServer singleton]  SeachStoreCodeRequest:dic success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+        NSLog(@"%@",ret);
+        _mainModel = [[MainModel alloc]initWithDictionary:ret[@"data"] error:nil];
+        _cardSwitch.items = _mainModel.content;
+        
         if (_mainModel.content.count > 0) {
             _advButton4.hidden = NO;
             _nearShopLabel.hidden = NO;
@@ -150,12 +159,17 @@
             _nearShopLabel.hidden = YES;
             _scrollView.contentSize = self.view.bounds.size;
         }
-       
+        
         
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-          [self handleNetReslut:YDNetResultFaiure];
+        //        _emptyView.hidden = NO;
+        //        _advButton4.hidden = YES;
+        //        _nearShopLabel.hidden = YES;
+        //        _scrollView.contentSize = self.view.bounds.size;
+        //         _cardSwitch.items = @[];
+        [self handleNetReslut:YDNetResultFaiure];
     }];
-
+    
 }
 
 
@@ -202,7 +216,7 @@
 
 - (YDCycleScrollView *)cycleSV {
     if (!_cycleSV) {
-        _cycleSV = [[YDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_Width, IPhone_7_Scale_Width(175+TopBarHeight)) placehold:@"main_adv_1"];
+        _cycleSV = [[YDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_Width, IPhone_7_Scale_Width(195+TopBarHeight)) placehold:@"main_adv_1"];
         _cycleSV.backgroundColor = [UIColor redColor];
         YLBannerModel *model1 = [[YLBannerModel alloc]init];
         model1.loadingUrl = @"234";
@@ -272,7 +286,7 @@
 
 - (UILabel *)locationLabel {
     if (!_locationLabel) {
-        _locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.locationImg.YD_right+IPhone_7_Scale_Width(6), self.locationImg.YD_top-IPhone_7_Scale_Width(3.5), 200, IPhone_7_Scale_Width(22))];
+        _locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.locationImg.YD_right+IPhone_7_Scale_Width(6), self.locationImg.YD_top-IPhone_7_Scale_Width(3.5), 300, IPhone_7_Scale_Width(22))];
         _locationLabel.text = @"缤谷大厦";
         _locationLabel.textAlignment = NSTextAlignmentLeft;
     }
@@ -311,11 +325,10 @@
 -(EmptyView *)emptyView{
     WEAK_SELF;
     if (!_emptyView) {
-        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, self.locationLabel.YD_bottom, SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"当前无法定位，请点击刷新"];
+        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, self.locationLabel.YD_bottom, SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"暂无门店，请点击刷新"];
         _emptyView.block = ^{
             [weakSelf netRequestData];
         };
-        _emptyView.hidden = YES;
     }
     return _emptyView;
 }

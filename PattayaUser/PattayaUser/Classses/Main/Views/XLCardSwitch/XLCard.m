@@ -61,8 +61,10 @@
     
     [self addSubview:self.promotionImg1];
     [self addSubview: self.promotionImg2];
+    self.promotionImg2.hidden = YES;
     [self addSubview:self.promotionLabel];
     [self addSubview:self.promotionLabel2];
+    self.promotionLabel2.hidden = YES;
     [self addSubview:self.littleLabel];
     [self addSubview:self.recommendation];
     [self addSubview:self.searchAllBtn];
@@ -150,7 +152,7 @@
 
 - (UIImageView *)promotionImg1 {
     if (!_promotionImg1) {
-        _promotionImg1 = [[UIImageView alloc]initWithFrame:CGRectMake( IPhone_7_Scale_Width(17), self.cutLine.YD_bottom+ IPhone_7_Scale_Width(9), IPhone_7_Scale_Width(12), IPhone_7_Scale_Width(12))];
+        _promotionImg1 = [[UIImageView alloc]initWithFrame:CGRectMake( IPhone_7_Scale_Width(17), self.cutLine.YD_bottom+ IPhone_7_Scale_Width(19), IPhone_7_Scale_Width(12), IPhone_7_Scale_Width(12))];
         _promotionImg1.image = [UIImage imageNamed:@"main_cell_icon1"];
     }
     return _promotionImg1;
@@ -167,7 +169,7 @@
 
 - (UILabel *)promotionLabel {
     if (!_promotionLabel) {
-        _promotionLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.promotionImg1.YD_right + IPhone_7_Scale_Width(10) ,self.cutLine.YD_bottom+ IPhone_7_Scale_Width(7.5), IPhone_7_Scale_Width(200), IPhone_7_Scale_Width(15))];
+        _promotionLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.promotionImg1.YD_right + IPhone_7_Scale_Width(10) ,self.cutLine.YD_bottom+ IPhone_7_Scale_Width(17.5), IPhone_7_Scale_Width(200), IPhone_7_Scale_Width(15))];
         _promotionLabel.textColor = TextColor;
         _promotionLabel.font = K_LABEL_SMALL_FONT_10;
         _promotionLabel.text = @"推广期间，在线购物免打店服务费";
@@ -268,7 +270,7 @@
 //定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return  _item.goodsList.count < 6 ? _item.goodsList.count : 6;
+    return  _item.gdsCategoryList.count < 6 ? _item.gdsCategoryList.count : 6;
 }
 
 //定义展示的Section的个数
@@ -283,7 +285,7 @@
     static NSString *identify = @"RecommendationCell";
     RecommendationCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
     cell.
-    item = _item.goodsList[indexPath.row];
+    item = _item.gdsCategoryList[indexPath.row];
     return cell;
 }
 

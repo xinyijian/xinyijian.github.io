@@ -39,7 +39,9 @@
         _requestType = 0;
     }
     self.pageNumber = startPage;
-    [self netRequestData];
+    if ([PattayaTool isUserLogin]) {
+        [self netRequestData];
+    }
     
 }
 
@@ -128,8 +130,9 @@
         
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
          @strongify(self);
-        
-        [YDProgressHUD showMessage:@"网络异常，请重试！"];
+        _emptyView.hidden = NO;
+        [self.tableView reloadData];
+        //[YDProgressHUD showMessage:@"网络异常，请重试！"];
         [YDRefresh yd_endRefreshing:self.tableView next:YES];
 
     }];
@@ -153,6 +156,7 @@
             }
             
         }else{
+             _emptyView.hidden = NO;
             [YDProgressHUD showMessage:ret[@"message"]];
         }
         
@@ -161,7 +165,8 @@
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         
         [YDRefresh yd_endRefreshing:self.tableView next:NO];
-        [YDProgressHUD showMessage:@"网络异常，请重试！"];
+        _emptyView.hidden = NO;
+        //[YDProgressHUD showMessage:@"网络异常，请重试！"];
         [self.tableView reloadData];
 
     }];
@@ -346,11 +351,10 @@
 -(EmptyView *)emptyView{
     WEAK_SELF;
     if (!_emptyView) {
-        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, IPhone_7_Scale_Height(50), SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"无此类型订单"];
+        _emptyView = [[EmptyView alloc]initWithFrame:CGRectMake(0, IPhone_7_Scale_Height(50), SCREEN_Width, IPhone_7_Scale_Height(150)) withImage:@"main_cell_headImg_bg" withTitle:@"无此类型订单，请点击刷新"];
         _emptyView.block = ^{
             [weakSelf netRequestData];
         };
-        _emptyView.hidden = YES;
     }
     return _emptyView;
 }

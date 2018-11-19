@@ -191,7 +191,8 @@
                 break;
             }
             UIImageView * image = _arrayLaber[i];
-            [image sd_setImageWithURL:[NSURL URLWithString:arrayImage[i]] placeholderImage:[UIImage imageNamed:@"orderlist_cell_bg"]];
+            detailListModel *model = arrayImage[i];
+            [image sd_setImageWithURL:[NSURL URLWithString:model.gdsImagePath] placeholderImage:[UIImage imageNamed:@"orderlist_cell_bg"]];
             image.hidden = NO;
         }
 
@@ -209,22 +210,14 @@
     if (model) {
         _storeName.text = model.storeName;
         _statusLabel.text = @"已完成";
-        long long time = [model.createTime longLongValue];
-        
-        NSDate *d = [[NSDate alloc]initWithTimeIntervalSince1970:time/1000.0];
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-        
-        NSString*timeString=[formatter stringFromDate:d];
-        _timeText.text =timeString;
+       
+        _timeText.text = [PattayaTool ConvertStrToTime:model.createTime];
       
         _countLabel.text = [NSString stringWithFormat:@"共%ld件商品",_model.detailList.count];
 
         _picesLabel.text = [NSString stringWithFormat:@"￥%.2f",_model.orderPrice.doubleValue];
         
-         self.arrayImage = model.gseImgUrl;
+         self.arrayImage = model.detailList;
     }
 }
 
@@ -234,12 +227,7 @@
         _storeName.text =  [proccesingModel.status isEqualToString:@"CALLING"] ? @"派单中" : @"已接单";
         _statusLabel.text =  [proccesingModel.status isEqualToString:@"CALLING"] ? @"等待接单" : @"配送中";
 
-        long long time = [proccesingModel.timeCreated longLongValue];
-        NSDate *d = [[NSDate alloc]initWithTimeIntervalSince1970:time/1000.0];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-        NSString*timeString=[formatter stringFromDate:d];
-        _timeText.text =timeString;
+        _timeText.text = [PattayaTool ConvertStrToTime:proccesingModel.timeCreated];
         
         _countLabel.text = @"共1件商品";
         _picesLabel.text = @"￥0.00";
