@@ -51,11 +51,12 @@
     _detailLabel.text = @"#20188907777";
     _detailLabel.font = K_LABEL_SMALL_FONT_14;
     _detailLabel.textColor = TextColor;
-    [_detailLabel sizeToFit];
+    _detailLabel.textAlignment = NSTextAlignmentRight;
     [bgView addSubview:_detailLabel];
     [_detailLabel activateConstraints:^{
         [_detailLabel.right_attr equalTo:bgView.right_attr constant:IPhone_7_Scale_Width(-12)];
         _detailLabel.height_attr.constant = 22;
+        _detailLabel.width_attr.constant = IPhone_7_Scale_Width(200);
         _detailLabel.centerY_attr = bgView.centerY_attr;
     }];
     

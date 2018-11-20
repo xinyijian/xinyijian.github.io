@@ -392,7 +392,7 @@
     UILabel *countLab =  [[UILabel alloc]init];
     countLab.font = K_LABEL_SMALL_FONT_14;
     countLab.textColor = TextGrayColor;
-    countLab.text = [NSString stringWithFormat:@"（%lu项商品）",self.dataArray.count];
+    countLab.text = [NSString stringWithFormat:@"（%lu项商品）",(unsigned long)self.dataArray.count];
     [countLab sizeToFit];
     [bgView2 addSubview:countLab];
     [countLab activateConstraints:^{

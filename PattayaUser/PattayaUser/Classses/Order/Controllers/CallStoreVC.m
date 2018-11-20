@@ -351,7 +351,7 @@ static const NSInteger RoutePlanningPaddingEdge                    = 20;
         }
        
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        [YDProgressHUD showMessage:@"下单失败，请重试"];
+        //[YDProgressHUD showMessage:@"下单失败，请重试"];
     }];
     
 

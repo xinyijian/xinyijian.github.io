@@ -51,11 +51,11 @@
     _productNameLabel.text = @"日日鲜·小白菜150g";
     _productNameLabel.textColor = TextColor;
     _productNameLabel.font =  K_LABEL_SMALL_FONT_14;
-    [_productNameLabel sizeToFit];
     [self.contentView addSubview:_productNameLabel];
     [_productNameLabel activateConstraints:^{
         [_productNameLabel.left_attr equalTo:_productImgView.right_attr constant:IPhone_7_Scale_Width(14)];
         _productNameLabel.height_attr.constant = IPhone_7_Scale_Height(20);
+        _productNameLabel.width_attr.constant = IPhone_7_Scale_Width(200);
         _productNameLabel.top_attr = _productImgView.top_attr;
     }];
     
@@ -127,7 +127,7 @@
 //    _originalPriceLabel.attributedText = attrString;
 //    [_originalPriceLabel sizeToFit];
     [_productImgView sd_setImageWithURL:[NSURL URLWithString:item.gdsImagePath] placeholderImage:[UIImage imageNamed:@"orderlist_cell_bg"]];
-    _priceLabel.text = item.retailPriceShow;
+    _priceLabel.text = [NSString stringWithFormat:@"¥%@",item.productPrice];
     _countLab.text =[NSString stringWithFormat:@"x%@ %@",item.number,item.productUnit];
 
     NSLog(@"item = %@",item);

@@ -24,7 +24,11 @@
 @implementation AddressListVC
 
 -(void)viewWillAppear:(BOOL)animated{
-     [self netRequestData];
+    
+    if ([PattayaTool isUserLogin]){
+         [self netRequestData];
+    }
+    
 }
 
 - (void)viewDidLoad {
@@ -45,6 +49,8 @@
         [self addNewAddress];
     }];
      self.navigationItem.title = @"常用地址";
+    
+    [self.view addSubview:self.emptyView];
    
 }
 
@@ -144,7 +150,6 @@
         _emptyView.block = ^{
             [weakSelf netRequestData];
         };
-        _emptyView.hidden = YES;
     }
     return _emptyView;
 }

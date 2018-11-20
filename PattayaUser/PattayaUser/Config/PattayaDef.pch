@@ -93,8 +93,8 @@ static NSString* APP_TEST_URL  = @"http://apitest.callstore.cn/";
 static NSString* APP_JACKY_URL  = @"http://192.168.100.91:4000/";
 static NSString* APP_PROD_URL  = @"https://api.callstore.cn/";
 //static NSString* APP_PROD_URL  = @"http://tangna.s1.natapp.cc:80/";
-static NSString* TANGNA  = @"http://tangna.s1.natapp.cc:80/";
-//static NSString* TANGNA  = @"http://10.1.2.10:4000/";
+//static NSString* TANGNA  = @"http://tangna.s1.natapp.cc:80/";
+static NSString* TANGNA  = @"http://10.1.2.10:4000/";
 extern NSString* APP_BASE_URL;
 /**************************************************************************************************/
 #pragma mark 第三方SDK相关配置

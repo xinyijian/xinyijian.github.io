@@ -45,11 +45,11 @@
     _productNameLabel.text = @"日日鲜·小白菜150g";
     _productNameLabel.textColor = TextColor;
     _productNameLabel.font =  K_LABEL_SMALL_FONT_14;
-    [_productNameLabel sizeToFit];
     [self.contentView addSubview:_productNameLabel];
     [_productNameLabel activateConstraints:^{
         [_productNameLabel.left_attr equalTo:self.productImgView.right_attr constant:12];
         _productNameLabel.height_attr.constant = 20;
+        _productNameLabel.width_attr.constant = IPhone_7_Scale_Width(150);
         [_productNameLabel.top_attr equalTo:self.contentView.top_attr constant:10];
     }];
     

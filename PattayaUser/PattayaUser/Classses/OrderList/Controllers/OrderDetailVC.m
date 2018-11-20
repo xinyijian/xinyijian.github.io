@@ -99,8 +99,10 @@
             @strongify(self);
             if ([ResponseModel isData:ret]) {
                 
-                if ( [ret[@"data"][@"status"] isEqualToString:@"CALLING"]) {
-                    self.timeNumber = ret[@"data"][@"timeLeft"] ? [ret[@"data"][@"timeLeft"] integerValue] : 300;
+                _proccesingModel = [[ProccesingModel alloc] initWithDictionary:ret[@"data"] error:nil];
+
+                if ( [_proccesingModel.status isEqualToString:@"CALLING"]) {
+                    self.timeNumber = _proccesingModel.timeLeft ? [_proccesingModel.timeLeft integerValue] : 300;
                     [self timeNumss];
                     
                 }else{
@@ -572,10 +574,7 @@
         [self.view addSubview:callWebview];
         
     }
-   
-    
-   
-    
+
 }
 //再来一单
 -(void)againOrder{
@@ -724,7 +723,7 @@
 {
     
    @weakify(self);
-    [[PattayaUserServer singleton] checkCreateOrderRequest:@{@"endLatitude":_proccesingModel.userCallLatitude,@"endLongitude":_proccesingModel.userCallLongitude,@"startLatitude":@"30",@"startLongitude":@"120"} Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
+    [[PattayaUserServer singleton] checkCreateOrderRequest:@{@"endLatitude":_proccesingModel.userCallLatitude,@"endLongitude":_proccesingModel.userCallLongitude,@"startLatitude":_proccesingModel.driverAcceptedLatitude,@"startLongitude":_proccesingModel.driverAcceptedLongitude} Success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {
         @strongify(self);
         if ([ResponseModel isData:ret]) {//_proccesingModel.driverAcceptedLatitude//_proccesingModel.driverAcceptedLongitude
             NSString * st1= NSLocalizedString(@"距离：",nil);

@@ -338,11 +338,10 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.headImage.YD_right+IPhone_7_Scale_Width(14), IPhone_7_Scale_Height(22), 0, 22)];
+        _nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.headImage.YD_right+IPhone_7_Scale_Width(14), IPhone_7_Scale_Height(22), IPhone_7_Scale_Width(150), 22)];
         _nameLabel.textColor = TextColor;
         _nameLabel.font = K_LABEL_SMALL_FONT_16;
         _nameLabel.text = _shopModel.name;
-        [_nameLabel sizeToFit];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
     }
     return _nameLabel;
@@ -385,11 +384,10 @@
 
 - (UILabel *)licenseTag {
     if (!_licenseTag) {
-        _licenseTag = [[UILabel alloc]initWithFrame:CGRectMake(self.hotImg.YD_right + IPhone_7_Scale_Width(10) ,self.nameLabel.YD_bottom+ IPhone_7_Scale_Height(10), 0, IPhone_7_Scale_Height(17))];
+        _licenseTag = [[UILabel alloc]initWithFrame:CGRectMake(self.hotImg.YD_right + IPhone_7_Scale_Width(10) ,self.nameLabel.YD_bottom+ IPhone_7_Scale_Height(10), 80, IPhone_7_Scale_Height(17))];
         _licenseTag.textColor = TextGrayColor;
         _licenseTag.font = K_LABEL_SMALL_FONT_12;
         _licenseTag.text = _shopModel.licenceNo;
-        [_licenseTag sizeToFit];
     }
     return _licenseTag;
 }
@@ -415,11 +413,11 @@
 
 - (UILabel *)locationLabel {
     if (!_locationLabel) {
-        _locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.locationImg.YD_right + IPhone_7_Scale_Width(12) ,self.headImage.YD_bottom+ IPhone_7_Scale_Height(6), 0, IPhone_7_Scale_Height(20))];
+        _locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.locationImg.YD_right + IPhone_7_Scale_Width(12) ,self.headImage.YD_bottom+ IPhone_7_Scale_Height(6), IPhone_7_Scale_Width(200)
+, IPhone_7_Scale_Height(20))];
         _locationLabel.textColor = TextColor;
         _locationLabel.font = K_LABEL_SMALL_FONT_14;
         _locationLabel.text = [_shopModel.storeAddress isEqualToString:@""] ? @"定位失败" : _shopModel.storeAddress;
-        [_locationLabel sizeToFit];
     }
     return _locationLabel;
 }

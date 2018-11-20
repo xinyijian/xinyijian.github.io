@@ -139,7 +139,6 @@
     NSDictionary *dic = @{
                           @"latitude":latitude,
                           @"longitude":longitude,
-                          
                           };
     
     [[PattayaUserServer singleton]  SeachStoreCodeRequest:dic success:^(NSURLSessionDataTask *operation, NSDictionary *ret) {

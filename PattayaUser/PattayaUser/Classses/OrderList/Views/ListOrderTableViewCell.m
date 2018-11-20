@@ -50,12 +50,13 @@
     _storeName.text = @"九华时蔬";
     _storeName.font = fontStely(@"PingFangSC-Medium", 16);
     _storeName.textColor = TextColor;
-    [_storeName sizeToFit];
     [_bgView addSubview:_storeName];
     [_storeName activateConstraints:^{
         [_storeName.top_attr equalTo:_bgView.top_attr constant:16];
         [_storeName.left_attr equalTo:_bgView.left_attr constant:12];
         _storeName.height_attr.constant = 22;
+        _storeName.width_attr.constant = IPhone_7_Scale_Width(100);
+
     }];
 
     //时间
@@ -186,20 +187,18 @@
 {
     _arrayImage = arrayImage;
     if (arrayImage.count > 0) {
-        for (int i = 0; i < arrayImage.count; i ++) {
-            if (i == _arrayLaber.count) {
-                break;
-            }
+        for (int i = 0; i < _arrayLaber.count; i ++) {
+            
             UIImageView * image = _arrayLaber[i];
-            detailListModel *model = arrayImage[i];
-            [image sd_setImageWithURL:[NSURL URLWithString:model.gdsImagePath] placeholderImage:[UIImage imageNamed:@"orderlist_cell_bg"]];
-            image.hidden = NO;
-        }
-
-    } else
-    {
-        for (UIImageView * image in _arrayLaber) {
-            image.hidden = YES;
+            if (i < arrayImage.count) {
+               image.hidden = NO;
+                detailListModel *model = arrayImage[i];
+                [image sd_setImageWithURL:[NSURL URLWithString:model.gdsImagePath] placeholderImage:[UIImage imageNamed:@"orderlist_cell_bg"]];
+                
+            }else{
+                image.hidden = YES;
+            }
+           
         }
     }
 }
@@ -213,7 +212,8 @@
        
         _timeText.text = [PattayaTool ConvertStrToTime:model.createTime];
       
-        _countLabel.text = [NSString stringWithFormat:@"共%ld件商品",_model.detailList.count];
+        _countLabel.hidden = NO;
+        _countLabel.text = [NSString stringWithFormat:@"共%lu件商品",(unsigned long)_model.detailList.count];
 
         _picesLabel.text = [NSString stringWithFormat:@"￥%.2f",_model.orderPrice.doubleValue];
         
@@ -229,11 +229,13 @@
 
         _timeText.text = [PattayaTool ConvertStrToTime:proccesingModel.timeCreated];
         
-        _countLabel.text = @"共1件商品";
+        //_countLabel.text = @"共1件商品";
+        _countLabel.hidden = YES;
         _picesLabel.text = @"￥0.00";
         
         for (int i = 0; i < self.arrayLaber.count; i++) {
             UIImageView *imageView = self.arrayLaber[i];
+            imageView.hidden = YES;
             if (i==0) {
                 imageView.hidden = NO;
                 imageView.image = [UIImage imageNamed:@"image_service_fee"];

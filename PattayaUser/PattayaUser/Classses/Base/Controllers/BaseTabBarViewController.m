@@ -18,10 +18,15 @@
 @end
 
 @implementation BaseTabBarViewController
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeSelectedIndex) name:@"changeSelectedIndex" object:nil];
     NSDictionary *tabBarItemDict = [NSDictionary dictionaryWithObject:TextGrayColor forKey:NSForegroundColorAttributeName];
     HomeViewController *vc1 = [[HomeViewController alloc] init];
     [self configViewController:vc1 title:NSLocalizedString(@"首页",nil) image:@"icon_home" selectedImage:@"icon_home_sel" tabBarItem:tabBarItemDict];
@@ -85,6 +90,12 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"KdUserInfoHtppLoad" object:nil];
     }];
     return YES;
+}
+
+
+-(void)changeSelectedIndex{
+     self.selectedIndex = 0;
+    
 }
 
 - (void)didReceiveMemoryWarning {

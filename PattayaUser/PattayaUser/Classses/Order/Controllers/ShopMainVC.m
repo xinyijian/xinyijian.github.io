@@ -22,14 +22,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = _model.name;
+    self.title = _model.name.length > 8  ? [NSString stringWithFormat:@"%@...",[_model.name substringWithRange:NSMakeRange(0, 8)]] : _model.name;
     [self setupUI];
     
 }
 
 
 -(void)setupUI{
-    
     //在请求中携带店铺ID
     TakeawayShopView *shopView = [[TakeawayShopView alloc]initWithFrame:self.view.bounds withGroupID:_model.deviceNo withModel:_model];
     [self.view addSubview:shopView];
