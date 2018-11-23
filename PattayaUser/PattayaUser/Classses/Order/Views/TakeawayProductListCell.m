@@ -64,6 +64,7 @@
         _classImgView.width_attr.constant = 46;
         [_classImgView.top_attr equalTo:self.productNameLabel.bottom_attr constant:5];
     }];
+    _classImgView.hidden = YES;
     
     _haveSaleLabel = [[UILabel alloc] init];
     _haveSaleLabel.text = @"已售14";
@@ -257,6 +258,7 @@
     _productModel = productModel;
     [_productImgView sd_setImageWithURL:[NSURL URLWithString:productModel.gdsImagePath] placeholderImage:[UIImage imageNamed:@"shoplist_cell_bg"]];
     _productNameLabel.text = productModel.gdsName;
+    _haveSaleLabel.text = [NSString stringWithFormat:@"已售%@",productModel.soldNum];
     _priceLabel.text = [NSString stringWithFormat:@"￥%@",productModel.marketPrice] ;
     _originalPriceLabel.text = [NSString stringWithFormat:@"￥%@",productModel.costPrice];
     _countLab.text = productModel.selectCount;

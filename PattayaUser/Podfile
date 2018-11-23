@@ -30,5 +30,4 @@ pod 'UMCCommon'
 pod 'UMCAnalytics'
 pod 'GTSDK'
 pod 'MoxieSDK-iOS'
-pod 'LBLaunchImageAd','~> 1.0.9'
 end

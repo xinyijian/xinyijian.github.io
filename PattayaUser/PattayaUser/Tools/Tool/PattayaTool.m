@@ -308,16 +308,25 @@
 + (NSString *)loadUpToken
 {
     NSDictionary * dic = [self contentsOffile:@"token.plist"];
+    if (!dic) {
+        return @"";
+    }
     return dic[@"token"];
 }
 + (NSString *)userName
 {
     NSDictionary * dic = [self contentsOffile:@"userInfo.plist"];
+    if (!dic) {
+        return @"";
+    }
     return dic[@"name"];
 }
 + (NSString *)userMobile
 {
     NSDictionary * dic = [self contentsOffile:@"userInfo.plist"];
+    if (!dic) {
+        return @"";
+    }
     return dic[@"mobile"];
 }
 
@@ -347,15 +356,24 @@
 + (NSString *)driName
 {
     NSDictionary * dic = [self contentsOffile:@"userInfo.plist"];
+    if (!dic) {
+        return @"";
+    }
     return dic[@"name"];
 }
 + (NSString *)mobileDri
 {
     NSDictionary * dic = [self contentsOffile:@"userInfo.plist"];
+    if (!dic) {
+        return @"";
+    }
     return dic[@"mobile"];
 }
 + (NSString *)token{
     NSDictionary * dic = [self contentsOffile:@"token.plist"];
+    if (!dic) {
+        return @"";
+    }
     return dic[@"token"];
 }
 + (NSString *)ConvertStrToTime:(NSString *)timeStr

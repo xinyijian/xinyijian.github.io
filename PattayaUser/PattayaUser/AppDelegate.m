@@ -16,7 +16,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
 #import "AccountSafeVC.h"
-#import "NSObject+LBLaunchImage.h"
+//#import "NSObject+LBLaunchImage.h"
 #import "AnimationViewController.h"
 //#import "DD_SpeechSynthesizer.h"
 NSString* APP_BASE_URL;
@@ -66,8 +66,8 @@ extern CFAbsoluteTime StartTime;
     application.applicationIconBadgeNumber = 0;
     [JPUSHService setBadge:0];
 //    APP_BASE_URL = APP_TEST_URL;
-    APP_BASE_URL = TANGNA;
-//    APP_BASE_URL = APP_PROD_URL;
+//    APP_BASE_URL = TANGNA;
+    APP_BASE_URL = APP_PROD_URL;
 //    APP_BASE_URL = APP_DEV_URL;
     _isAppOptons = YES;
     _isblureHeight = NO;

@@ -132,7 +132,7 @@
 
 - (UILabel *)distance {
     if (!_distance) {
-        _distance = [[UILabel alloc]initWithFrame:CGRectMake(self.width - IPhone_7_Scale_Width(50 + 14) ,self.nameLabel.YD_bottom+ IPhone_7_Scale_Width(7), IPhone_7_Scale_Width(50), IPhone_7_Scale_Width(14))];
+        _distance = [[UILabel alloc]initWithFrame:CGRectMake(self.width - IPhone_7_Scale_Width(80 + 14) ,self.nameLabel.YD_bottom+ IPhone_7_Scale_Width(7), IPhone_7_Scale_Width(80), IPhone_7_Scale_Width(14))];
         _distance.textColor = TextGrayColor;
         _distance.font = K_LABEL_SMALL_FONT_10;
         _distance.text = @"距离130m";

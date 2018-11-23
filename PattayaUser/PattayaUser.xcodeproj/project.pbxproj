@@ -1013,11 +1013,7 @@
 				95140EAB21708B46007380B6 /* PattayaUser.entitlements */,
 				95140EA721708B46007380B6 /* AppDelegate.h */,
 				95140EB321708B46007380B6 /* AppDelegate.m */,
-				92FE93DB218BF7EA00E02CB6 /* 开机页-2.gif */,
 				95140EAC21708B46007380B6 /* main.m */,
-				92FE93F02191B49F00E02CB6 /* map_history.png */,
-				92FE93E3218FEB5F00E02CB6 /* min.mp4 */,
-				9560D26C219929D30042CF89 /* 叮咚叫店APP协议20181026.html */,
 				95140D1C21708B46007380B6 /* Classses */,
 				95140E2321708B46007380B6 /* Tools */,
 				95140EA821708B46007380B6 /* Expands */,
@@ -1988,6 +1984,10 @@
 		95140EB421708B46007380B6 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				9560D26C219929D30042CF89 /* 叮咚叫店APP协议20181026.html */,
+				92FE93E3218FEB5F00E02CB6 /* min.mp4 */,
+				92FE93DB218BF7EA00E02CB6 /* 开机页-2.gif */,
+				92FE93F02191B49F00E02CB6 /* map_history.png */,
 				95140EB521708B46007380B6 /* LaunchScreen.strings */,
 				95140EB721708B46007380B6 /* AFNetworking.strings */,
 				95140EB921708B46007380B6 /* Main.strings */,
@@ -2802,6 +2802,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 66WQKNHF6H;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2858,6 +2859,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 66WQKNHF6H;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2881,6 +2883,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PattayaUser/PattayaUser.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: DeepBlue Technology(Shanghai)Co., Ltd (66WQKNHF6H)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 66WQKNHF6H;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2962,6 +2965,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.deepblueai.pattaya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2972,6 +2976,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PattayaUser/PattayaUser.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: DeepBlue Technology(Shanghai)Co., Ltd (66WQKNHF6H)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 66WQKNHF6H;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3053,6 +3058,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.deepblueai.pattaya.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSString <Optional>*updateTime;
 @property (nonatomic, strong) NSString <Optional>*gdsImagePath;
 @property (nonatomic, strong) NSString <Optional>*selectCount;
+@property (nonatomic, strong) NSString <Optional>*soldNum;
+
 
 @end
 
